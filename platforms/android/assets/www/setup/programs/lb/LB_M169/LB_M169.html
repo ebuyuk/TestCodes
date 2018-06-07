@@ -1,0 +1,200 @@
+<ion-view view-title="Materials" cache-view="true"> 
+	<ion-header-bar class="bar-light bar-subheader"> 
+        <div class="item-input-inset" style="width:90%">
+            <i class="icon-left ion-android-search"></i>
+            <input type="text" placeholder=" Search" ng-change="cancelSelect()" ng-model="searchCriteria" style="padding-left:15px;width:100%;text-transform: uppercase ;"/>
+        </div>
+        <!--  <i class="icon positive" ng-click="toggleSort()" ng-class="isASC ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="width:10%; font-size:25px;text-align:right; padding-top:5px;"></i>-->
+        <i class="icon-left ion-levels positive"   ng-click="popoverSort.show($event)" style="width:10%; font-size:25px;text-align:center; padding-top:5px;"></i>      
+    </ion-header-bar> 
+    <ion-content  has-header="true" style="background-color: #F4F4F4;">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <style>
+            .stable, a.stable{
+                color: lightgrey !important;
+            }
+        </style>
+        <ion-list>
+            <ion-item ng-hide="card.ID" style="padding:5px 16px 5px 16px; line-height:50px;">
+                <div class="item-input" style="padding: 0px">
+                				<i class="icon ion-document-text" style="padding-right:10px"></i> 
+                                <span style="padding-right:5px; width:60px;" class="input-label">Work Card:</span>
+                                <input type="text" id="workcard" ng-model="card.WORK_CARD_NUMBER" ng-blur="onblur()">
+                </div>
+            </ion-item>
+            <ion-item ng-show="card.ID" ng-click="toggle('showCard')" style="padding:5px 16px 5px 16px; line-height:50px;border-bottom: none;">
+                <div class="item-text-center item-text-wrap">
+                    <i class="icon ion-document-text" style="padding-right:10px"></i>
+                    <b>Work Card:</b> {{card.WORK_CARD_NUMBER}}
+                    <i class="icon ion-close-circled assertive" ng-click="clearCard()" style="float: right;padding-right: 10px;font-size: 32px; width:15%;text-align:right;"></i>
+                </div>                
+            </ion-item>
+            <ion-item class="item-accordion" ng-show="showCard" style="padding:0px;margin:0px; border-bottom:0px;"> 
+        		 <div class="row">
+                     <div class="col">
+                         <h4>
+                     	     <span style="font-size:18px"><b>{{card.PROJECT_NUMBER}}</b></span>
+                       	 </h4>
+                     </div>
+                 </div>    
+            	 <div class="row">
+                     <div class="col">
+                         <h4>
+                             <i>{{card.DESCRIPTION}}</i>
+                         </h4>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col">
+                         <h4>
+                             <b><i class="icon-left ion-clock"></i> Estimated </b> {{card.ESTIMATED_TIME}} - 
+                             <b><i class="icon-left ion-clock"></i> Applied </b> {{card.APPLIED_TIME}}
+                         </h4>
+                     </div>
+                 </div>
+            </ion-item>    
+        </ion-list>
+        <ion-list>
+            <ion-item ng-repeat="object in requisitions |filter:searchCriteria|orderBy: sortBy" ng-class="{'stable-bg':object.selected_flag}" on-hold="onHoldRequest(object)" style="padding:0; height:100px;">
+               <div class="list" style="padding-top:10px;padding-bottom:10px;">
+                   <div ng-click="toggleRequest(object)" style="border-radius: 50%; align:center;font-size: 40px; padding-top:4px; padding-left:15px;color: #fff; float: left; display: inline;  width: 42px; height: 74px; text-align: center; line-height: 74px; margin-right: 20px;">
+                               <i class="icon {{requestIcon(object)}}"style="font-size: 42px;"></i>
+                           </div>
+             <h2 style="text-align:left;" >
+                <span style="color: #2980b9; font-weight: bold; font-size: 18px; " > 
+                {{object.ORDER_NUMBER_LINE }}</span>
+                <span style="float:right; position: absolute; right: 15px; top: 10px; color:#2980b9;font-weight: bold; font-size: 14px;" > 
+                    {{object.DUE_DATE}}
+                </span>
+             </h2>
+             
+             <h3 style="text-align:left;margin-right:60px;white-space:normal;word-wrap: break-word;text-overflow: ellipsis;" >
+                 {{object.PART_NUMBER}}
+                <span ng-show="object.STATUS" ng-style="object.STATUS=='COMPLETED'?{'background': '#28a54c','border-color':'#28a54c'}:object.STATUS=='AWAITING'?{'background': '#e6b500','border-color':'#e6b500'}:object.STATUS=='CREATED'?{'background': '#11c1f3','border-color':'#11c1f3'}:object.STATUS=='PENDING'?{'background': '#886aea','border-color':'#886aea'}:{'background': 'gray','border-color':'gray'}" style="float:right; position: absolute; right: 15px; top: 27px; color:white; font-weight: bold; font-size: 14px;border: 1px solid;padding:2px;font-size: 14px;border-radius: 90px;" > 
+                    {{object.STATUS}}
+                </span>
+                    
+             </h3>
+               <h3 style="text-align: left;">
+                  <span style="border-radius: 90px; color:red;font-size:14px;padding:1px;" ng-style="setBorder(object.APPROVAL_STATUS)">{{object.APPROVAL_STATUS}}</span>
+                  <span ng-show="object.QUANTITY" style="float:right; position: absolute; right: 15px; top: 70px; color:#2980b9;font-weight: bold; font-size: 14px;border: 1px solid #2980b9;padding:2px;border-radius: 90px;" > 
+                      {{object.QUANTITY}}
+                  </span>
+                </h3>
+                 <h3 style="text-align: left;">
+                  <b><i class="icon-left ion-person"></i> {{object.EMPLOYEE_NUMBER}} </b> - {{object.EMPLOYEE_NAME}}
+                <span style="float:right; position: absolute; right: 15px; top: 52px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                    {{object.ORDER_CLASS}}
+                </span>
+               </h3>
+               <h3 style="text-align: left;margin-left:60px;padding-top:5px;">
+                   <!-- <span ng-click="openPopover($event,object.SERVER_FEEDBACK)" ng-show="object.MOBILE_RECORD_STATUS != 'LOADED'"style="position:absolute;float:right;border-radius: 10%; right: 150px; top:40px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;" ng-style="object.MOBILE_RECORD_STATUS=='REJECTED'?{'color':'red','border-color':'red'}:{'color':'green','border-color':'green'}"> 
+                       {{object.MOBILE_RECORD_STATUS}}
+                   </span>
+                   <span ng-show="object.MOBILE_RECORD_ACTION != ''" span style="position:absolute;float:right;border-radius: 10%; right: 250px; top:40px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;color:blue;border-color:blue;"> 
+                       {{object.MOBILE_RECORD_ACTION}}
+                   </span> -->
+                   <span ng-click="openPopover($event,object.SERVER_FEEDBACK)" ng-show="object.UNSYNC_REQUISITION_TEXT" style="float:right; position: absolute; right: 60px; top:60px; color:red; font-size:30px;">
+                       <i class="icon-left ion-alert-circled"></i>
+                   </span> 
+               </h3>
+               </div>
+           </ion-item>
+       </ion-list>
+    </ion-content>
+    <script id="templates/popoverTooltip.html" type="text/ng-template">
+        <ion-popover-view>
+            <ion-header-bar>
+                  <h1 class="title">Response Message</h1>
+            </ion-header-bar>
+            <ion-content>
+                <div style="padding:5px;width:100%;height:100%;">
+                    {{responseMessage}}
+                </div>
+            <ion-content>
+        </ion-popover-view>
+    </script>
+    <script id="templates/popoverSort.html" type="text/ng-template">
+		<ion-popover-view class="fit">
+        <ion-content scroll="false">
+            <div class="list">
+			<div class="row " style="margin-bottom:5px">
+     	       <div class="col col-25" ng-click="setSortBy('PART_NUMBER')">
+			       <i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>		
+		       </div>	
+		       <div class="col col-50">
+			       <a class="item" style ="padding:0">
+             	       <span style=" margin-left: 15px;line-height:30px">Part #</span>
+                   </a>
+		       </div>
+			   <div class="col col-25" style="text-align: right;" ng-click="setSortBy('-PART_NUMBER')">
+    			   <i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+			   </div>
+			</div>
+            <div class="row " style="margin-bottom:5px">
+  		    <div class="col col-25" ng-click="setSortBy('DUE_DATE')">
+				<i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>		
+			</div>	
+			<div class="col col-50">
+				<a class="item" style ="padding:0">
+              	    <span style=" margin-left: 15px;line-height:30px">Due Date</span>
+                </a>
+			</div>
+			<div class="col col-25" style="text-align: right;" ng-click="setSortBy('-DUE_DATE')">
+			    <i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+			</div>
+			</div>
+            <div class="row " style="margin-bottom:5px">
+			<div class="col col-25" ng-click="setSortBy('EMPLOYEE_NAME')">
+				<i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>		
+			</div>	
+			<div class="col col-50">
+				<a class="item" style ="padding:0">
+              	<span style=" margin-left: 15px;line-height:30px">Req. By</span>
+            </a>
+			</div>
+			<div class="col col-25" style="text-align: right;" ng-click="setSortBy('-EMPLOYEE_NAME')">
+			<i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+			</div>
+			</div>
+            <div class="row " style="margin-bottom:5px">
+			<div class="col col-25" ng-click="setSortBy('ORDER_CLASS')">
+				<i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>		
+			</div>	
+			<div class="col col-50">
+				<a class="item" style ="padding:0">
+              	<span style=" margin-left: 15px;line-height:30px"> Class</span>
+            </a>
+			</div>
+			<div class="col col-25" style="text-align: right;" ng-click="setSortBy('-ORDER_CLASS')">
+			<i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+			</div>
+			</div>
+            <div class="row " style="margin-bottom:5px">
+			<div class="col col-25" ng-click="setSortBy('STATUS')">
+				<i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>		
+			</div>	
+			<div class="col col-50">
+				<a class="item" style ="padding:0">
+              	<span style=" margin-left: 15px;line-height:30px"> Status</span>
+            </a>
+			</div>
+			<div class="col col-25" style="text-align: right;" ng-click="setSortBy('-STATUS')">
+			<i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+			</div>
+			</div>
+            </div>
+        </ion-content>
+      </ion-popover-view>
+    </script>
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-show="selectedRequest != '' && selectedRequest.CANCEL_ALLOWED == 'TRUE'" ng-click="cancelRequest()" class="button button-large buttonicon icon ion-close button-assertive">Cancel</button>
+            <button ng-show="selectedRequest != '' && selectedRequest.UNSYNC_REQUISITION_TEXT" ng-click="discard()" class="button button-large buttonicon icon ion-close button-assertive">Discard</button>
+            <button ng-hide="selectedRequest != ''" class="button button-large buttonicon icon ion-ios-barcode button-positive" ng-click="scanBarcode(scanObj)">Scan</button>
+            <button ng-show="selectedRequest == '' && (card.ID || card.MOBILE_RECORD_ID)" ng-click="newRequest()" class="button button-large icon ion-plus-round button-balanced buttonicon">New</button>
+            <button ng-show="selectedRequest != '' && !(selectedRequest.ORDER_LINE_ID) && selectedRequest.MOBILE_RECORD_STATUS == 'REJECTED'" ng-click="editRequest()" class="button button-large icon ion-compose button-energized buttonicon">Edit</button>
+        </div>
+    </ion-footer-bar> 
+ </ion-view>
+  

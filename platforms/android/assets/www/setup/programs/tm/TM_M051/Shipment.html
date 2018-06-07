@@ -1,0 +1,94 @@
+<ion-view view-title="Shipment">
+    <ion-content has-header="true">
+        <style>
+            .footable {
+                border-collapse: collapse;
+                width: 100%;
+            }
+        </style>
+        <h2 style="text-align: left; padding-left:16px !important; font-size: 18px;font-family:sans-serif;">
+            <b> {{shipmentDetail.from_station}} <i class="icon ion-arrow-right-c"style=" margin-left: 10px;"></i>
+            <span style=" margin-left: 10px;"> {{shipmentDetail.to_station}} </span></b>
+        </h2>
+        <div class="item " style="border: 0; border-top: 1px solid #efefef;">
+            <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                <i class="icon ion-shipment-plane positive"style="font-size: 42px;"></i>
+            </div>
+            <h4 style="text-align: left;">
+                <b>Shipment # : </b>{{shipmentDetail.shipment_number}}            
+            </h4>
+            <h4 style="text-align: left;">
+                <b>MAWB : </b> <span style="position:absolute; margin-left:8px;">&nbsp{{shipmentDetail.master_airwaybill}}</span>
+            </h4>
+            <h4 style="text-align: left;">
+               <b>HAWB &nbsp: </b> <span style="margin-left:8px;"> {{shipmentDetail.house_airwaybill}} </span>
+            </h4>
+            <!--  <h4 style="text-align:left; left:20px;" >
+                <b>date? : </b> sample date
+            </h4> -->
+        </div>
+        <ion-item class="item item-icon-right" ng-click="toggle('isDataShown')" ng-class="{active: isDataShown}">
+            <div class="item-text-center item-text-wrap"><i class="icon-left" ></i>    Shipment Lines</div>
+            <i class="icon" ng-class="isDataShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+        </ion-item>  
+        <ion-item class="item-accordion" ng-show="isDataShown" style="padding:0px;margin:0px;">
+            <table  class="footable">
+                <thead>
+                    <tr>
+                        <th>Part #</th>
+                        <th >Description</th>
+                        <th data-hide="phone">Quantity</th>
+                        <th data-hide="phone">Order #</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in parts">
+                        <td>{{item.part_number}}</td>
+                        <td>{{item.description}}</td>
+                        <td style="text-align: right;">{{item.quantity}}</td>
+                        <td>{{item.order_number}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </ion-item>
+        <ion-item class="item item-icon-right" ng-click="toggle('isAttachmentShown')" ng-class="{active: isAttachmentShown}" >
+	        <div class="item-text-center item-text-wrap"><i class="icon-left ion-images"style="padding-right:3px;" ></i>Attachments</div>
+	        <i class="icon" ng-class="isAttachmentShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+	    </ion-item>
+	    <ion-item class="item-accordion"  ng-show="isAttachmentShown" style="padding:0px;margin:0px;background-color: #F4F4F4;">
+	         <flex-slider style="max-height: 240px;" slide="item in SY_0002.savedFiles track by item" item-width="180" slideshow="true" control-nav="false" direction-Nav="false" animation="slide">
+	            <li>
+	                <img ng-src="{{item}}"/>
+	            </li>
+	         </flex-slider>   
+	    </ion-item>
+	     
+         <!--    
+            <flex-slider style="max-height: 240px;" slide="item in attachments track by item.FILE_LOCATION" item-width="180" slideshow="true" control-nav="false" direction-Nav="false" animation="slide">
+                 <li style="width: 180px;">
+                        <img ng-src="{{item.FILE_LOCATION}}" ng-click="loadImage(item)" err-src="./img/imgPlaceholder.png"/>
+                 </li>
+             </flex-slider>   -->
+             
+             
+<!--         <ion-item class="item item-icon-right" ng-click="toggle('isAttachmentShown')" ng-class="{active:isAttachmentShown}">
+            <div class="item-text-center item-text-wrap"><i class="icon-left ion-android-attach" ></i>    Attachments</div>
+            <i class="icon" ng-class="isAttachmentShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+        </ion-item>  
+        <ion-item ng-show="isAttachmentShown" style="padding:0px;" class="item item-icon-right" ng-click="toggle('isAttachmentShown')" ng-class="{active:isAttachmentShown}">
+            <flex-slider style="max-height: 240px;" slide="item in SY_0002.savedFiles track by item" item-width="180" slideshow="true" control-nav="false" direction-Nav="false" animation="slide">
+            <li>
+                <img ng-src="{{item}}"/>
+            </li>
+          </flex-slider>
+      </ion-item> -->
+    </ion-content>
+    <ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-click="AddAttachment()" class="button button-large buttonicon ion-camera button-positive"></button>
+            <button ng-click="deliverShipment(shipmentDetail.id)" class="button button-large buttonicon ion-checkmark button-balanced">
+                Deliver
+            </button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

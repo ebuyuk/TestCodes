@@ -1,0 +1,61 @@
+<ion-view view-title="Document View">
+<script id="my-popover.html" type="text/ng-template">
+<ion-popover-view>
+  <ion-content>
+    <div>
+      <button class="button button-icon ion-record"
+              ng-repeat="color in colors"
+              style="color: {{color.color}}; font-size: 36.5px"
+              ng-click="changeBrushColor(color.color)">
+      </button>
+    </div>
+
+  </ion-content>
+</ion-popover-view>
+
+</script>
+    <ion-content id="content" on-swipe="swiped($event)" ng-style="(isMaximized == true && isDrawingMode != true)?{'overflow-x':'scroll','overflow-y':'scroll'}:{'overflow-x':'hidden','overflow-y':'hidden'}">
+    <style> 
+    .canvas-container {
+	    position: absolute !important;
+	    z-index:20;
+    }
+    .formItems {
+    	position: absolute;
+    	background: transparent;
+    	z-index : 30;
+    }
+    input::-webkit-input-placeholder {
+		color: #848484 ; 
+	}
+	input:-moz-placeholder {
+	  	color:  #848484;
+	}
+	input:-ms-input-placeholder { /* IE10+ */
+		color: #848484;
+	}
+    </style>
+    <canvas id="c" class="canvas-container"></canvas>
+    <div id="backgroundImg" style="background-repeat: no-repeat; z-index: -1;height: 100%;width: 100%;position: absolute;overflow: visible;border: 0px solid transparent;background-size: contain;background-repeat: round;">
+    </div>
+    <div id="boardContainer" class="boardContainer" style="background-repeat: no-repeat;height: 100%;width: 100%;">
+        <wingscolumn ng-keydown="test($event)" ng-show="field.fileId == items[activePage].fileId" ng-repeat="field in formItems" />
+    </div>
+<i id="chevronLeft"  class="icon-left ion-chevron-left"  ng-click="previousPage()" ng-show="previousExists" style="font-size: 46px;top: 45%;position: absolute;padding:10px;z-index:30;"></i>
+<i id="chevronRight" class="icon-left ion-chevron-right" ng-click="nextPage()"     ng-show="nextExists"     style="font-size: 46px;top: 45%;position: absolute;right: 0;padding:10px;z-index:30;"></i>
+</ion-content>
+ <ion-footer-bar class="bar-stable" scroll="true">
+      <div style="overflow:auto;" class="title">
+        <button class="button button-clear" ng-click="textMode()" style="font: 21px bold" ng-style="isTextMode?{'color':'#2980b9'}:{'color':'#000000'}" ng-show="isDrawingMode==false">Aa</button>
+        <button class="button button-icon ion-edit" ng-style="isDrawingMode?{'color':'#2980b9'}:object.selected_flag==true?{'color':'#28a54c'}:{'color':'#000000'}" ng-click="drawingMode()"></button>
+        <select ng-model="brushsize" ng-change="changeBrushSize()" ng-show="isDrawingMode==true" style="border:0px;font-size:22px;background:whitesmoke;">
+            <option  ng-repeat="obj in penSize " ng-show="isDrawingMode==true">{{obj.size}}</option>
+        </select>
+        <button class="button button-icon ion-android-color-palette" ng-show="isDrawingMode==true" style="color: {{brushcolor}}" ng-click="openColorsPopover($event)"></button>
+        <button class="button button-icon ion-social-angular-outline" ng-style="isStampMode?{'color':'#2980b9'}:object.selected_flag==true?{'color':'#28a54c'}:{'color':'#000000'}" ng-class="isStampMode?' ion-checkmark-circled button-balanced' : 'ion-checkmark-circled'" ng-show="isDrawingMode==false" ng-click="stampMode()"></button>
+        <button class="button button-icon ion-android-checkbox-outline" style="color:green" ng-show="isDrawingMode==false" ng-click="saveAnnotations()"></button>
+        <button class="button button-icon ion-ios-undo" ng-show="isDrawingMode==true || isStampMode == true" ng-click="undoLastObject()"></button>
+        <button class="button button-icon ion-search" ng-click="maximize()"></button> 
+        <!--<button class="button button-icon ion-close " style="color:red" ng-show="elementSelected" ng-click="deleteViewById(activeViewId)"></button>-->
+ </ion-footer-bar> 
+</ion-view>

@@ -1,0 +1,37 @@
+<ion-view view-title="Digital Sign" cache-view="false">
+    <ion-content style="background:rgb(33,96,126);"> 
+        <div class="list card" style="background:rgb(33,96,126);top:25%;box-shadow:0 0 0 ;">
+            <div class="item item-body" style="background:rgb(33,96,126);top:25%;box-shadow:0 0 0 ;">
+            <div id="loginList" class="list" style="postion:absolute;margin-left:10%;margin-right:10%;background-color:rgba(0, 0, 0, 0);box-shadow:0 0 0 ;opacity:0.9;">
+                        <label class="item item-input" 
+                               style="border: none; 
+                                      margin-bottom: 10px;
+                                      box-shadow: 0 10px 6px -6px rgba(0,0,0,0.3),inset 0px -3px 0px 0px rgba(0,0,0,0.12);">
+                            <i class="icon ion-person placeholder-icon" style="color: #444"></i> 
+                            <input type="text" readonly ng-init="user.username=globals.currentUser.userId" ng-model="user.username" placeholder="Username" style="font-weight: bold;background: none;text-transform: uppercase;">
+                        </label>
+                        <label class="item item-input" style="border: none;  box-shadow: 0 10px 6px -6px rgba(0,0,0,0.3),inset 0px -3px 0px 0px rgba(0,0,0,0.12); ">
+                            <i class="icon ion-key placeholder-icon" style="color: #333; "></i>
+                            <input type="password" ng-init="user.password=''" ng-model="user.password" placeholder="Password" style="font-weight: bold;background: none; color: #333;">
+                        </label>
+                        <button id="loginButton" class="button button-block button-assertive" 
+                            style="box-shadow: inset 0px -3px 0px 0px rgba(0,0,0,0.12); 
+                                   font-weight: 400;
+                                   opacity:0.9;     
+                                   text-shadow: 1px 1px  rgba(0,0,0,0.32) !important;" 
+                            ng-click="cancel()">
+                        CANCEL
+                    </button>
+                        <button id="loginButton" class="button button-block button-positive" 
+                            style="box-shadow: inset 0px -3px 0px 0px rgba(0,0,0,0.12); 
+                                   font-weight: 400;
+                                   opacity:0.9;     
+                                   text-shadow: 1px 1px  rgba(0,0,0,0.32) !important;" 
+                            ng-click="signin()">
+                        OK
+                    </button>
+                    </div>
+		      </div>
+          </div>
+    </ion-content>
+</ion-view>

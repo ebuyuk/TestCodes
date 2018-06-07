@@ -1,0 +1,324 @@
+<ion-view view-title="Inventory Maintenance">
+    <ion-content  style="background-color:#F4F4F4;" scroll="false">
+        <style>
+            .tdPad {
+                padding-left:5px;
+            }
+        </style>
+    <ion-slides  options="options" slider="data.slider">
+        <ion-slide-page>
+            <div class="bar bar-header bar-stable" style="height:44px;">
+                    <h1 class="title" style="margin-top:0px;">Move</h1>
+                </div>
+                <div><br><br></div>
+            <div class="row" style="padding-top:10px;">
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-pricetag" style="padding-right:10px"></i> 
+                        <span style="padding-right:9px;width:60px;" class="input-label">Tag # &nbsp;&nbsp; :</span> 
+                        <input type="number" id="tag" ng-model="IC_M065.tag" ng-init="scanObj='tag'" ng-focus="setScanObj('tag')" ng-blur="pullAllocation()" >
+                    </ion-input>
+                </div>
+            </div>
+            <div ng-show="false" class="row" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-location" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;width:60px;" class="input-label">Location:</span> 
+                        <input type="text"  ng-model="IC_M065.locationId">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-location" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;width:60px;" class="input-label">Location:</span> 
+                        <input type="text"  style="text-transform: uppercase;" id="location" ng-model="IC_M065.location"  ng-focus="setScanObj('location')" ng-init="scanObj='location'">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="item item-divider" style="padding:0px;min-height:1px;border-bottom:0px;margin-left: 10px;margin-right: 10px;background-color:#e0e0e0;">
+            </div>
+            <div class="card" ng-show="allocation != undefined" style="padding:10px;margin: 9px;margin-top: 9px;" >
+                <TABLE style="font-family:sans-serif;font-size:16px;color:#444">
+                    <TR>
+                        <TD><b>Part #</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.part_number}}<br></TD>
+                    </TR>
+                    <TR ng-show="allocation.serial_number != ''">
+                        <TD><b>Serial #</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.serial_number}}<br></TD>
+                    </TR>
+                    <TR ng-show="allocation.lot_number != ''">
+                        <TD><b>Lot #</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.lot_number}}<br></TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Location</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.location}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Status</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.status}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Condition</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.condition_code}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Quantity</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.quantity}}  {{allocation.uom}}</TD> 
+                    </TR>
+                    <TR>
+                        <TD><b>Customer</TD>
+                        <TD>&nbsp;  :</b></TD>
+                        <TD class="tdPad">{{allocation.customer_name}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Receipt Date</TD>
+                        <TD>&nbsp;  :</b></TD>
+                        <TD class="tdPad">{{allocation.receipt_date}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Shelf Life</TD>
+                        <TD>&nbsp;  :</b></TD>
+                        <TD class="tdPad">{{allocation.shelf_life}}</TD>
+                    </TR>
+                    <TR ng-show="allocation.expiration_flag == 'Y'">
+                        <TD><b>Expire Date</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.expire_date}}</TD>
+                    </TR>
+                </TABLE>
+            </div>   
+        </ion-slide-page>
+        <ion-slide-page>
+            <div class="bar bar-header bar-stable" style="height:44px;">
+                    <h1 class="title" style="margin-top:0px;">Adjust</h1>
+                </div>
+                <div><br><br></div>
+            <div class="row" style="padding-top:10px;">
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-pricetag" style="padding-right:10px"></i> 
+                        <span style="padding-right:9px;width:60px;" class="input-label">Tag # &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> 
+                        <input type="number" id="tag" ng-model="IC_M065.tag" ng-blur="pullAllocation()" ng-init="scanObj='tag'" ng-focus="setScanObj('tag')">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="row responsive-sm" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-albums" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;width:60px;" class="input-label">Quantity&nbsp;&nbsp;:</span> 
+                        <input type="number" ng-model="IC_M065.quantity">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="row responsive-sm" >
+                 <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-android-textsms" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Comment&nbsp;:</span> 
+                        <input type="text" ng-model="IC_M065.comment" readonly style="text-transform: uppercase; ">
+                        <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;margin-top:-7px;" modal-select="" ng-model="IC_M065.comment" option-property="comment_text" options="IC_M065.comments" modal-title="Comments" has-search="true">
+                    <div class="option">
+                         <h2>{{option.comment_text}}</h2>
+                    </div>
+                    </button>
+                    </ion-input>
+                </div>
+            </div>
+            <div class="item item-divider" style="padding:0px;min-height:1px;border-bottom:0px;margin-left: 10px;margin-right: 10px;background-color:#e0e0e0;">
+            </div>
+            <div class="card" ng-show="allocation != undefined" style="padding:10px;margin: 9px;margin-top: 9px;" >
+                <TABLE style="font-family:sans-serif;font-size:16px;color:#444">
+                    <TR>
+                        <TD><b>Part #</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.part_number}}<br></TD>
+                    </TR>
+                    <TR ng-show="allocation.serial_number != ''">
+                        <TD><b>Serial #</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.serial_number}}<br></TD>
+                    </TR>
+                    <TR ng-show="allocation.lot_number != ''">
+                        <TD><b>Lot #</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.lot_number}}<br></TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Location</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.location}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Status</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.status}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Condition</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.condition_code}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Quantity</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.quantity}}  {{allocation.uom}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Customer</TD>
+                        <TD>&nbsp;  :</b></TD>
+                        <TD class="tdPad">{{allocation.customer_name}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Receipt Date</TD>
+                        <TD>&nbsp;  :</b></TD>
+                        <TD class="tdPad">{{allocation.receipt_date}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Shelf Life</TD>
+                        <TD>&nbsp;  :</b></TD>
+                        <TD class="tdPad">{{allocation.shelf_life}}</TD>
+                    </TR>
+                    <TR ng-show="allocation.expiration_flag == 'Y'">
+                        <TD><b>Expire Date</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.expire_date}}</TD>
+                    </TR>
+                </TABLE>
+            </div>
+        </ion-slide-page>
+        <!-- <ion-slide-page>
+            <div class="bar bar-header bar-stable" style="height:44px;">
+                    <h1 class="title" style="margin-top:0px;">Move & Adjust</h1>
+                </div>
+                <div><br><br></div>
+            <div class="row" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-pricetag" style="padding-right:10px"></i> 
+                        <span style="padding-right:9px;width:60px;" class="input-label">Tag # &nbsp;&nbsp; :</span> 
+                        <input type="number" id="tag" ng-model="IC_M065.tag" ng-blur="pullAllocation()" ng-init="scanObj='tag'" ng-focus="setScanObj('tag')">
+                    </ion-input>
+                </div>
+            </div>
+            <div ng-show="false" class="row" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-location" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;width:60px;" class="input-label">Location:</span> 
+                        <input type="text" ng-model="IC_M065.locationId">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-location" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;width:60px;" class="input-label">Location:</span> 
+                        <input type="text"  id="location" ng-model="IC_M065.location" ng-blur="getLocationByName()" ng-init="scanObj='location'" ng-focus="setScanObj('location')">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="row responsive-sm" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-albums" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;width:60px;" class="input-label">Quantity:</span> 
+                        <input type="number" ng-model="IC_M065.quantity">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="row responsive-sm" >
+                 <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-android-textsms" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Comment:</span> 
+                        <input type="text" ng-model="IC_M065.comment" readonly ng-focus="engin" style="text-transform: uppercase; ">
+                        <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="IC_M065.comment" option-property="comment_text" options="IC_M065.comments" modal-title="Comments" has-search="true">
+                    <div class="option">
+                         <h2>{{option.comment_text}}</h2>
+                    </div>
+                    </button>
+                    </ion-input>
+                </div>
+            </div>
+            <div class="item item-divider" style="padding:0px;min-height:10px;">
+            </div>
+            <div class="card" ng-show="allocation != undefined" style="padding:10px;margin:0px;" >
+                <TABLE style="font-family:sans-serif;font-size:16px;color:#444">
+                    <TR>
+                        <TD><b>Part #</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.part_number}}<br></TD>
+                    </TR>
+                    <TR ng-show="allocation.serial_number != ''">
+                        <TD><b>Serial #</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.serial_number}}<br></TD>
+                    </TR>
+                    <TR ng-show="allocation.lot_number != ''">
+                        <TD><b>Lot #</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.lot_number}}<br></TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Location</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.location}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Status</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.status}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Condition</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.condition_code}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Quantity</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.quantity}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Customer</TD>
+                        <TD>&nbsp;  :</b></TD>
+                        <TD class="tdPad">{{allocation.customer_name}}</TD>
+                    </TR>
+                    <TR ng-show="allocation.expiration_flag == 'Y'">
+                        <TD><b>Expire Date</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">{{allocation.expire_date}}</TD>
+                    </TR>
+                </TABLE>
+            </div>
+        </ion-slide-page> -->
+    </ion-slides>
+</ion-content>
+<ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+    <div class="button-bar">
+        <button ng-click="reset()" class="button button-large buttonicon ion-trash-b button-energized">
+            Clear
+        </button>
+        <button ng-click="scanBarcode(scanObj)" class="button button-large buttonicon ion-ios-barcode button-positive">
+           Scan
+        </button>
+        <button ng-click="pushAllocation()" class="button button-large buttonicon ion-checkmark button-balanced">
+            OK
+        </button>
+    </div>
+</ion-footer-bar> 
+</ion-view>

@@ -1,0 +1,84 @@
+<ion-view view-title="Edit Image">
+<script id="my-popover.html" type="text/ng-template">
+<ion-popover-view>
+  <ion-content>
+    <div>
+      <button class="button button-icon ion-record"
+              ng-repeat="color in colors"
+              style="color: {{color.color}}; font-size: 36.5px"
+              ng-click="changeBrushColor(color.color)">
+      </button>
+    </div>
+
+  </ion-content>
+</ion-popover-view>
+
+</script>
+    <ion-content scroll="false">
+    <style>
+/*      .flexslider {
+    width: 210px;
+    height: 210px;
+}
+
+.flexslider .slides img {
+    width: 210px;
+    height: 210px;
+}  */
+    </style>
+     
+<!--       <flex-slider slider-id="slider" flex-slide="image in items track by $index" animation="fade" animation-loop="false" sync="#carousel" slideshow="false" control-nav="false" init-delay="100">
+
+        <li>
+          <img ng-src="{{image.src}}">
+        </li>
+
+      </flex-slider>
+      <flex-slider slide="s in items track by $index">
+    <li>
+        <img ng-src="{{s.src}}">
+    </li>
+</flex-slider> -->
+<!-- 
+<div class="list">
+    <a class="item item-thumbnail-left" href="#">
+     <img ng-src="{{uri}}">
+        <h2>Pretty Hate Machine</h2>
+        <p>Nine Inch Nails</p>
+    </a>
+
+</div>
+<div class="item item-image">
+     <img ng-src="{{uri}}">
+  </div>
+  <div class="item item-body">
+    <img class="full-image" ng-src="{{uri}}">
+  </div> -->
+ 
+   <canvas id="c"></canvas>
+  
+   <div style="position: absolute; bottom: 0px; width: 100%;opacity:0.8;">
+          <div ng-click="toggle('slider')" class="item item-divider">
+        Images
+     </div>
+      <flex-slider style="height:152px;" ng-show="slider" slider-id="carousel" flex-slide="image in items track by image.src" animation="slide" 
+              animation-loop="false" item-width="90"  item-margin="5" as-nav-for="#slider" slideshow="false" control-nav="false" direction-Nav="false">
+        <li ng-click="selectImg(image.src)"  ng-style="image.active == 'Y' ? {'border': '2px solid yellow'} : {} ">
+          <img ng-src="{{image.src}}" height="140px;" hspace="2">
+        </li>
+      </flex-slider>    
+    </div> 
+</ion-content>
+  <ion-footer-bar class="bar-stable" scroll="true">
+      <div style="overflow:auto;" class="title">
+        <button class="button button-clear" ng-click="addText()">Aa</button>
+        <button class="button button-icon ion-paintbrush" ng-style="isDrawingMode==true ? {'color':'{{brushcolor}} '} : {}" ng-click="drawingMode()"></button>
+        <button class="button button-icon ion-android-color-palette" style="color: {{brushcolor}}" ng-click="openColorsPopover($event)"></button>
+        <button class="button button-icon ion-ios-undo" ng-click="undoLastObject()"></button>
+        <button class="button button-icon ion-android-checkbox-outline" ng-click="finishEditAndSave()"></button>
+        <button class="button button-icon ion-ios-trash-outline" ng-click="deleteImg()"></button>
+        <button class="button button-icon ion-camera" ng-click="takePhoto()"></button>
+        <button class="button button-icon ion-images" ng-click="getImages()"></button>
+      </div>
+    </ion-footer-bar>
+</ion-view>

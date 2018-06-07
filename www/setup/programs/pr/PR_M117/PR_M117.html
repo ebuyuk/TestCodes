@@ -1,0 +1,288 @@
+<ion-view view-title="Close" cache-view="true"> 
+    <style>
+        .item.active, item.activated {
+            background: #B1D9F7 !important;
+        }
+    </style>
+    <ion-content has-header="true" style="background-color: #F4F4F4;">
+        <ion-list>
+            <ion-item ng-hide="card.ID" style="padding:5px 16px 5px 16px; line-height:50px;">
+                <div class="item-input" style="padding: 0">
+    				<i class="icon ion-document-text" style="padding-right:10px"></i> 
+                    <span style="padding-right:5px; width:60px;" class="input-label">Work Card:</span>
+                    <input type="text" id="WORK_CARD_NUMBER" ng-model="card.WORK_CARD_NUMBER" ng-blur="onblur()">
+                </div>
+            </ion-item>
+            <ion-item ng-show="card.ID" ng-click="toggle('showCard')" style="padding:5px 16px 5px 16px; line-height:50px; border-bottom:0;">
+                <div class="item-text-center item-text-wrap">
+                    <i class="icon ion-document-text" style="padding-right:10px"></i>
+                    <b>Work Card:</b> {{card.WORK_CARD_NUMBER}}
+                    <i class="icon ion-close-circled assertive" ng-click="clearCard()" style="float: right;padding-right: 10px;font-size: 32px; width:15%;text-align:right;"></i>
+                </div>                
+            </ion-item>
+            <ion-item class="item-accordion" ng-show="showCard" style="padding:0px;margin:0px; border-bottom:0px;"> 
+		        <div class="row">
+                    <div class="col">
+                        <h4>
+             	            <span style="font-size:18px"><b>{{card.PROJECT_NUMBER}}</b></span>
+               	        </h4>
+                    </div>
+                </div>    
+    	        <div class="row">
+                    <div class="col">
+                        <h4>
+                            <i>{{card.DESCRIPTION}}</i>
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h4>
+                            <b><i class="icon-left ion-clock"></i> Estimated </b> {{card.ESTIMATED_TIME}} - 
+                            <b><i class="icon-left ion-clock"></i> Applied </b> {{card.APPLIED_TIME}}
+                        </h4>
+                    </div>
+                </div>
+            </ion-item>    
+        </ion-list>
+        <ion-list ng-show="card.ID">
+            <ion-item style="background-color: #F4F4F4;padding:10px 0 0 0;">
+                <div class="row" ng-show="card.OPEN_REQUISITION_COUNT > 0">
+                    <div class="col">
+                        <ion-item class="item item-icon-right" ng-click="toggle('isReqShown')" ng-class="{active: isReqShown}" style="padding:13px;">
+                            <div class="item-text-center item-text-wrap" style="font-weight:bold;"><i class="icon-left ion-settings" ></i>    Open Requisitions ({{card.OPEN_REQUISITION_COUNT}})</div>
+                            <i class="icon" ng-class="isReqShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                        </ion-item>
+                        <ion-item class="item-accordion"  ng-show="isReqShown" style="padding:0px;margin:0px;">
+                            <table class="footable"  data-paging="true" data-next-text="Next" data-previous-text="Previous">
+                                <thead>
+	                                <tr>
+	                                    <th>Order#</th>
+	                                    <th>Part#</th>
+	                                    <th>Status</th>
+	                                    <th data-hide="phone">Ordered By</th>
+	                                    <th data-hide="phone">Due Date</th>
+	                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in requisitions">
+                                        <td>{{item.order_number_line}}</td>
+                                        <td>{{item.part_number}}</td>
+                                        <td>{{item.status}}</td>
+                                        <td>{{item.ordered_by}}</td>
+                                        <td>{{item.due_date}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="hide-if-no-paging" style="text-align: center;">
+                                    <td colspan="5">
+                                        <div class="pagination">
+                                        </div>
+                                    </td>
+                                </tfoot>
+                            </table>
+                        </ion-item>
+                    </div>
+                </div>
+                <div class="row" ng-show="card.LABOR_COUNT > 0">
+                    <div class="col">
+                        <ion-item class="item item-icon-right" ng-click="toggle('isLaborShown')" ng-class="{active: isLaborShown}" style="padding:13px;">
+                            <div class="item-text-center item-text-wrap" style="font-weight:bold;"><i class="icon-left ion-settings" ></i>    Open Labor ({{card.LABOR_COUNT}})</div>
+                            <i class="icon" ng-class="isLaborShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                        </ion-item>
+                        <ion-item class="item-accordion"  ng-show="isLaborShown" style="padding:0px;margin:0px;">
+                            <table class="footable" data-paging="true" data-next-text="Next" data-previous-text="Previous">
+                                <thead>
+                                    <tr>
+                                        <th>Employee #</th>
+                                        <th>Employee Name</th>
+                                        <th>Clock In</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in labor">
+                                        <td>{{item.employee_number}}</td>
+                                        <td>{{item.employee_name}}</td>
+                                        <td>{{item.clock_in}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="hide-if-no-paging" style="text-align: center;">
+                                    <td colspan="5">
+                                        <div class="pagination">
+                                        </div>
+                                    </td>
+                                </tfoot>
+                            </table>
+                        </ion-item>
+                    </div>
+                </div>
+                <div class="row" ng-show="card.TOOL_COUNT > 0">
+                    <div class="col">
+                        <ion-item class="item item-icon-right" ng-click="toggle('isToolShown')" ng-class="{active: isToolShown}" style="padding:13px;">
+                            <div class="item-text-center item-text-wrap" style="font-weight:bold;"><i class="icon-left ion-settings" ></i>    Missing Tools ({{card.TOOL_COUNT}})</div>
+                            <i class="icon" ng-class="isToolShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                        </ion-item>
+                        <ion-item class="item-accordion"  ng-show="isToolShown" style="padding:0px;margin:0px;">
+                            <table class="footable" data-paging="true" data-next-text="Next" data-previous-text="Previous">
+                                <thead>
+                                    <tr>
+                                        <th>Item#</th>
+                                        <th>Description</th>
+                                        <th>Employee Name</th>
+                                        <th data-hide="phone">Tag#</th>
+                                        <th data-hide="phone">OEM Tool#</th>
+                                        <th data-hide="phone">Employee#</th>
+                                        <th data-hide="phone">Check Out Date</th>
+                                        <th data-hide="phone">Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in tools">
+                                        <td>{{item.item_number}}</td>
+                                        <td>{{item.description}}</td>
+                                        <td>{{item.employee_name}}</td>
+                                        <td>{{item.tag_number}}</td>
+                                        <td>{{item.oem_tool_number}}</td>
+                                        <td>{{item.employee_number}}</td>
+                                        <td>{{item.check_out_date}}</td>
+                                        <td>{{item.check_out_reason}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="hide-if-no-paging" style="text-align: center;">
+                                    <td colspan="5">
+                                        <div class="pagination">
+                                        </div>
+                                    </td>
+                                </tfoot>
+                            </table>
+                        </ion-item>
+                    </div>
+                </div>
+                <div class="row" ng-show="card.OPEN_CHILD_CARD_COUNT > 0">
+                    <div class="col">
+                        <ion-item class="item item-icon-right" ng-click="toggle('isChildShown')" ng-class="{active: isChildShown}" style="padding:13px;">
+                            <div class="item-text-center item-text-wrap" style="font-weight:bold;"><i class="icon-left ion-ios-paper" ></i>    Child Cards ({{card.OPEN_CHILD_CARD_COUNT}})</div>
+                            <i class="icon" ng-class="isChildShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                        </ion-item>
+                        <ion-item class="item-accordion" ng-show="isChildShown" style="padding:0px;margin:0px;">
+                            <table class="footable" data-paging="true" data-next-text="Next" data-previous-text="Previous">
+                                <thead>
+                                    <tr>
+                                        <th>Work Card</th>
+                                        <th>Status</th>
+                                        <th data-hide="phone">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in childCards">
+                                        <td>{{item.work_order_number +'.'+ item.zone_number +'.'+ item.item_number}}</td>
+                                        <td>{{item.card_status}}</td>
+                                        <td>{{item.description}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="hide-if-no-paging" style="text-align: center;">
+                                   <td colspan="5">
+                                       <div class="pagination">
+                                       </div>
+                                   </td>
+                                </tfoot>
+                            </table>
+                        </ion-item>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="item item-select" style="height:100%">
+                            <div class="input-label">Close Reason:</div>
+                            <select ng-disabled="closed" ng-model="card.STATUS_CODE" style="max-width: 100%" ng-options="i.REASON as (i.REASON) for i in statusCodes">
+                                <option value="" selected hidden></option>
+                            </select>
+                        </label>
+                    </div>
+                </div>   
+                <div class="row">
+                    <div class="col">
+                        <div style="width: 100%;">
+                            <p>
+                                <ion-label style="padding-top:0"> 
+                                    <span style="float: left;">Corrective Action:</span>
+                                </ion-label>
+                            </p>
+                            <ion-item>
+                                <textarea ng-readonly="closed" style="width: 100%;text-transform: uppercase;"rows="5" ng-model="card.CORRECTIVE_ACTION"></textarea>
+                            </ion-item>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label ng-show="isMultiple && !isSecondaryInspection" class="item item-select" style="height:100%">
+                            <div class="input-label">Stamp:</div>
+                            <select ng-disabled="isSecondaryInspection || closed" ng-model="card.INSPECTOR_STAMP_NUMBER" style="max-width: 100%" ng-options="i as (i) for i in stampNumbers">
+                                <option hidden></option>
+                            </select>
+                        </label>
+                        <div ng-show="!isMultiple || isSecondaryInspection" class="item" style="padding-top: 6px;padding-bottom: 6px;">
+                            <div style="display:inline-block;"class="input-label">Stamp: </div>
+                            <div ng-readonly="isSecondaryInspection || closed" style="display:inline-block; float:right;padding:6px 50px 6px 0px;">{{ card.INSPECTOR_STAMP_NUMBER}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="isSecondaryInspection">
+                    <div class="col">
+                        <label ng-show="isMultiple" class="item item-select" style="height:100%">
+                            <div class="input-label">2nd Stamp:</div>
+                                <select ng-model="card.OPS_INSPECTOR_STAMP_NUMBER" style="max-width: 100%" ng-options="i as (i) for i in stampNumbers">
+                                    <option hidden></option>
+                                </select>
+                        </label>
+                        <div ng-show="!isMultiple" class="item">
+                            <div style="display:inline-block;" class="input-label">2nd Stamp: </div>
+                            <div style="display:inline-block; float:right;padding:6px 50px 6px 0px;">{{ card.OPS_INSPECTOR_STAMP_NUMBER}}</div>
+                        </div>
+                    </div>
+                </div>  
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <script id="templates/digitalSign.html" type="text/ng-template">
+ <ion-modal-view  id="sign051" style="top:20%;width:70%;left:15%;height:60%; min-height:260px;    border: 1px solid black;box-shadow: 0px 0px 500px 10px black;overflow: hidden !important;">
+     <ion-header-bar class="bar bar-header bar-positive">
+         <h1 class="title" style="color:white">Digital Sign</h1>
+     </ion-header-bar>
+     <ion-content scroll="false" overflow-scroll="false" style="min-height:260px !important; overflow: hidden !important;">
+        <div class="list card" style="box-shadow:0 0 0 ;margin: 0px;padding-top: 7px; overflow: hidden !important;">
+            <div class="item item-body" style="box-shadow:0 0 0 ;padding:0px;overflow: hidden !important;">
+                <div id="loginList" class="list" style="postion:absolute;background-color:rgba(0, 0, 0, 0);box-shadow:0 0 0 ;opacity:0.9;overflow: hidden !important;">
+                    <label class="item item-input" style="border: none;margin-bottom: 10px;border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12);">
+                        <i class="icon ion-person placeholder-icon" style="color: #444"></i> 
+                        <input type="text" readonly ng-model="user.username" placeholder="Username" style="font-weight: bold;background: none;text-transform: uppercase;">
+                    </label>
+                    <label class="item item-input" style="border: none; border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12); ">
+                        <i class="icon ion-key placeholder-icon" style="color: #333; "></i>
+                        <input type="password" ng-model="user.password" placeholder="Password" style="font-weight: bold;background: none; color: #333;">
+                    </label>
+                    <div class="row" style="padding:0px">
+                        <div class="col" style="padding:0px">
+                            <canvas id="prm118" style="height:100%;width:100%;margin-top: 10px;" class="canvas-container"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+            <ion-footer-bar style="padding:0px">
+                <div class="button-bar">
+                    <button class="button button-large icon buttonicon ion-trash-b button-energized" ng-click="clearCanvas()">CLEAR</button>
+                    <button class="button button-large icon buttonicon ion-close button-assertive" ng-click="hide()">CANCEL</button>
+                    <button class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="signin()">OK</button>
+                </div>
+            </ion-footer-bar> 
+ </ion-modal-view>
+</script> 
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button class="button button-large buttonicon icon ion-ios-barcode button-positive" ng-click="scanBarcode(scanObj)">Scan</button>
+            <button ng-disabled="closed || !card.STAMP_NUMBERS" class="button button-large buttonicon icon ion-close button-assertive" ng-click="close()">Close</button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

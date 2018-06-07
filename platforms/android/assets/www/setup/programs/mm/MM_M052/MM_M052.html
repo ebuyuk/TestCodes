@@ -1,0 +1,234 @@
+<ion-view view-title="Technical Log">
+ <ion-header-bar class="bar-light bar-subheader" style="padding: 0;"> 
+        <div class="list" style="padding:0; margin: 0;width:100%;">
+            <label class="item item-input item-select" style="padding-bottom: 4px;padding-top: 4px;">
+                <div class="input-label">
+                    Stations
+                </div>
+                <select ng-model="selectedLocation" ng-change="getAircraftStatus()">
+                    <option  ng-repeat="obj in locationsLov ">{{obj.FLIGHT_LOCATION}}</option>
+                </select>
+            </label>
+        </div>
+    </ion-header-bar> 
+<!--         <ion-header-bar class="bar-light bar-subheader" style="margin-top: 45px;"> 
+        <div class="item-input-inset" style="width:100%;padding: 3px;">
+            <i class="icon-left ion-android-search" style="padding: 5px;margin-top: 5px;"></i>
+            <input type="text" placeholder=" Search" ng-model="searchCriteria" style="padding-left:15px;"/>
+        </div>
+    </ion-header-bar>  -->
+    <ion-content overflow-scroll=true>
+	<style>
+	    .responsive-sm .col {
+	        margin-bottom : 0px;
+	    }
+	</style>
+      <div ng-repeat="list in statusByStation" class="row responsive-sm" style="padding: 0px;padding-top: 5px;">
+          <div ng-repeat="item in list" class="col">
+           <div class="item item-divider" ng-show="item.TAIL_NUMBER != null"  style="background-color:#8593c6;border-top-left-radius: 20px;padding-top:13px;box-shadow: 1px 1px 5px 0 rgb(126,126,126);">
+	         <div class="row" style="padding: 0px;">
+                <div align="left" class="col" style="padding: 0px;">
+                    <span style="color: #ffffff; font-weight: bold; font-size: 22px;">{{item.TAIL_NUMBER}}</span>
+                </div>
+                <div align="right" class="col" style="padding: 0px;">
+                    <span style="color: #ffffff; font-weight: bold; font-size: 16px;">{{item.TO_FLIGHT_NUMBER}}</span>
+                </div>
+	        </div>
+	        </div>
+            <ion-item ng-show="item.TAIL_NUMBER != null" style="padding: 10px;height:150px;background: #fcfcfc;    border-bottom-right-radius: 25px;    box-shadow: 1px 1px 5px rgb(126,126,126);" ng-click="showDetail(item)">
+            <!-- 
+            </div> -->
+             <div class="row" style="padding: 0px;height:75px;">
+                <div class="col" style="padding: 0px;">
+                        <div style="font-size: 30px; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-left: 10px;margin-top:10px;">
+                            <i class="icon ion-shipment-plane" ng-style="{'color':item.AIRCRAFT_COLOR_CODE}" style="font-size: 50px;vertical-align:-webkit-baseline-middle;"></i>
+                        </div>
+                </div>
+                <div class="col" style="padding: 0px;">
+                     <div class="row" style="padding: 0px;padding-top: 7px;">
+                        <div align="center" class="col" style="padding: 0px;padding-right: 10px;">
+                             <span style="color: #2980b9; font-weight: bold; font-size: 22px;">{{item.ARRIVAL_TIME}}</span>
+                        </div>
+                        <div align="center" class="col" style="padding: 0px;margin-top: -3px;">|
+                        </div>
+                        <div align="center" class="col" style="padding: 0px;padding-left: 10px;">
+                            <span style="color: #2980b9; font-weight: bold; font-size: 22px;">{{item.DEPARTURE_TIME}}</span>
+                        </div>
+                     </div>
+                     <div class="row" style="padding: 0px;padding-top: 5px;">
+                        <div align="right" class="col" style="padding: 0px;">
+                             <span style="color:rgba(44, 44, 44, 1); font-weight: bold; font-size: 16px;">{{item.FROM_STATION}}</span>
+                        </div>
+                        <div align="center" class="col" style="padding: 0px;">
+                        </div>
+                        <div align="left" class="col" style="padding: 0px;">
+                            <span style="color: rgba(44, 44, 44, 1); font-weight: bold; font-size: 16px;">{{item.TO_STATION}}</span>
+                        </div>
+                     </div>
+                      <div class="row" style="padding: 0px;padding-top:10px;">
+                        <div align="center" class="col" style="padding: 0px;">
+                             <span style="color: #2980b9; font-weight: bold; font-size: 16px;"></span>
+                        </div>
+                        <div align="center" class="col" style="padding: 0px;">
+                             <span style="color: rgba(95, 99, 237); font-weight: bold; font-size: 20px;">{{item.GROUND_TIME}}</span>
+                        </div>
+                        <div align="right" class="col" style="padding: 0px;">
+                            <span style="color: #2980b9; font-weight: bold; font-size: 16px;"></span>
+                        </div>
+                     </div>
+                </div>
+            </div>
+            
+            <div class="row" style="padding: 0px;padding-top: 12px;">
+                <div align="center" class="col" style="padding: 0px;">
+					<span ng-style="{'color':item.FLIGHT_COLOR_CODE,'border-color':item.FLIGHT_COLOR_CODE}"
+						style="display: inline-block; 
+						       height: 40px; 
+						       padding: 10px; 
+						       padding-top: 8px; 
+						       border: 1px solid; 
+						       font: 16px Arial, sans-serif; 
+						       -webkit-transform: skew(20deg); 
+						       -moz-transform: skew(20deg); 
+						       -o-transform: skew(20deg); 
+						       transform: skew(-20deg); 
+						       border-top-left-radius: 25%;">Flight</span>
+				<span ng-style="{'color':item.DEFECT_COLOR_CODE,'border-color':item.DEFECT_COLOR_CODE}"
+				       style="display:inline-block;
+				             padding-top: 8px;
+				             padding-bottom:  5px;
+				             padding-left:  15px;
+				             padding-right:  15px;
+				             text-align: center;
+				             height: 40px;
+				             border: 1px solid;
+				             -webkit-transform: skew(20deg);
+				             -moz-transform: skew(20deg);
+				             -o-transform: skew(20deg);
+				             transform: skew(-20deg);">Defect</span>
+				<span ng-style="{'color':item.PACKAGE_COLOR_CODE,'border-color':item.PACKAGE_COLOR_CODE}" 
+				      style="display: inline-block;
+						     height: 40px;
+						     padding: 10px;
+						     padding-top: 8px;
+						     border: 1px solid rgb(33,150,243);
+						     color: rgb(33,150,243);
+						     -webkit-transform: skew(20deg);
+						     -moz-transform: skew(20deg);
+						     -o-transform: skew(20deg);
+						     transform: skew(-20deg);
+						     border-bottom-right-radius: 25%;">Package</span>
+ 
+                 </div>
+                 
+                 
+            </div>
+            
+            
+            
+            
+            
+         <!--    
+            
+            
+            <div class="row" style="padding: 0px;padding-top: 5px;">
+                <div align="center" class="col" style="padding: 0px;">
+                    <div style="
+                         border-radius: 60%;
+                         color: white;
+                         width: 46px;
+                         text-align: center;
+                         font-size: 24px;
+                         font-weight: bold;
+                         line-height: 46px;
+/*                          background: #808080; */
+                         " ng-style="{'background':item.FLIGHT_COLOR_CODE}">F</div>   
+                 </div>
+                 <div align="center" class="col" style="padding: 0px;">
+                    <div style="
+                         border-radius: 60%;
+                         color: white;
+                         width: 46px;
+                         text-align: center;
+                         font-size: 24px;
+                         font-weight: bold;
+                         line-height: 46px;
+/*                          background: #ff3b30; */
+                         " ng-style="{'background':item.DEFECT_COLOR_CODE}">D</div>                   
+                 </div>
+                 <div align="center" class="col" style="padding: 0px;">
+                    <div style="
+                         border-radius: 60%;
+                         color: white;
+                         width: 46px;
+                         font-size: 24px;
+                         font-weight: bold;
+                         text-align: center;
+                         line-height: 46px;
+/*                          background: #007aff; */
+                         " ng-style="{'background':item.PLANNED_WORK_COLOR_CODE}">P</div>                   
+                 </div>
+            </div> -->
+        </ion-item>
+    </div>
+        </div>
+    
+        
+   <!--  <div class="row">
+        <div class="col">
+            <ion-item style="padding-bottom: 30px;height:150px;" ng-click="showDetail(item)">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;margin-top:10px;">
+                            <i class="icon ion-shipment-plane" ng-class="item.STATUS == 'SCHEDULED'? 'positive' : item.STATUS == 'ACCEPTED' ? 'energized' : item.STATUS == 'CANCELLED' ? 'assertive' :'balanced' " style="font-size: 42px;vertical-align:-webkit-baseline-middle;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 5px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    {{tailNumbers[0]}}
+                                </span>
+                            </b>
+                        </h2>
+                    </ion-item>
+        </div>
+        <div class="col">
+                    <ion-item collection-item-height="100" style="padding-bottom: 30px;height:150px;" ng-click="showDetail(item)">
+                        <div class="row">
+                            <div class="col">
+	                             <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;margin-top:10px;">
+		                            <i class="icon ion-shipment-plane" ng-class="item.STATUS == 'SCHEDULED'? 'positive' : item.STATUS == 'ACCEPTED' ? 'energized' : item.STATUS == 'CANCELLED' ? 'assertive' :'balanced' " style="font-size: 42px;vertical-align:-webkit-baseline-middle;"></i>
+		                        </div>
+                            </div>
+                            <div class="col">
+                                <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    {{tailNumbers[1]}}
+                                </span>
+                            </div>
+                        </div>
+                       <div class="row">
+                            <div class="col">
+                       </div>
+                       </div>
+                    </ion-item>
+        </div>
+    
+    </div>
+                <ion-item ng-repeat="item in tailNumbers | filter :searchCriteria" collection-item-height="100" style="padding-bottom: 30px;height:150px;" ng-click="showDetail(item)">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;margin-top:10px;">
+                            <i class="icon ion-shipment-plane" ng-class="item.STATUS == 'SCHEDULED'? 'positive' : item.STATUS == 'ACCEPTED' ? 'energized' : item.STATUS == 'CANCELLED' ? 'assertive' :'balanced' " style="font-size: 42px;vertical-align:-webkit-baseline-middle;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 5px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    {{item}}
+                                </span>
+                            </b>
+                        </h2>
+                    </ion-item> -->
+    </ion-content>
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-click="refresh()" class="button button-large buttonicon ion-loop button-balanced">
+                Refresh
+            </button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

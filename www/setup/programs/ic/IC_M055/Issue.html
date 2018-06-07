@@ -1,0 +1,176 @@
+<ion-view view-title="Issue">
+<style>
+.item.activated {
+    background-color: rgba(255,255,255,0);
+}
+     
+</style>
+    <ion-header-bar class="bar-light bar-subheader" style="padding:0;">
+       <ion-input class="item item-input-inset" style="width:100%;padding:0;"> 
+           <i class="icon-left ion-android-search" style="padding:10px;"></i>
+           <input type="text" style="width:95%" id="issueTo" ng-model="search" placeholder="Search">
+           <i class="icon-left ion-levels" ng-class="(sort=='-ISSUE_FLAG')?'ion-levels positive':'ion-levels'" ng-init="sort='default'" ng-click="(sort=='default')?sort='-ISSUE_FLAG':sort='default'" style="padding:10px;font-size:24px;"></i>      
+         </ion-input>
+    </ion-header-bar>
+    <ion-content overflow-scroll=true style="background-color: #f4f4f4;">
+        <style>
+            .modal {
+                top: 0px !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+            }
+            .capitalize {
+			   text-transform: capitalize;
+			}
+        </style>
+        <ion-item  collection-repeat="tag in tagList | orderBy:sort | filter :search" style="padding: 6px;">
+        <div class="row" style="padding: 0px;">
+            <div class="col col-80" style="padding-left: 10px;">
+                <ion-item  item="item item-icon-left" ng-click="openModal(tag)" style="padding: 0px;border-width:0px;" ng-style="IC_M055.tags.REQUISITION != '' && IC_M055.tags.REQUISITION != tag.REQUISITION_NUMBER ? {'opacity': '0.4'} : {}"> 
+<!--                     <i ng-class="(tag.ISSUE_FLAG == true)?'icon-left ion-pricetag positive':'icon-left ion-pricetag energized'" style="font-size: 42px; position: absolute; padding-top: 7px;"></i> -->
+                    <div style="border-radius: 50%; font-size: 10px;  color: #fff; float: left; display: inline;  width: 44px; height: 44px; text-align: center; line-height: 46px; margin-right: 20px;margin-top:10px;
+                         background: {{tag.ISSUE_FLAG == true ?'#387ef5':'#ffc900'}}" >
+                         {{tag.STATUS | limitTo:1 | uppercase}}{{tag.STATUS.substr(1) | lowercase }}
+                     </div>
+                    <div class="item-text-center item-text-wrap" style="padding-left: 50px;">
+                        <h4 style="text-align: left; left: 20px; color: #2980b9; font-size: 14px;">
+                            <b>Tag : </b>{{tag.TAG_NUMBER}}
+                        </h4>
+                        <h4 style="text-align: left; left: 20px; color: #2980b9; font-size: 14px;">
+                            <b>Part : </b>{{tag.PART_NUMBER}}
+                        </h4>
+                        <h4 style="text-align: left; left: 20px; color: #2980b9; font-size: 14px;">
+                            <b>Qty : </b>{{tag.QUANTITY}} - <b>Issue Qty : </b> {{tag.ISSUE_QUANTITY}}
+                        </h4>
+                    </div>
+               </ion-item>
+            </div>
+            <div class="col col-20" style="padding-right: 10px; text-align: right;">
+                <label class="checkbox" style="padding-top: 12px;"> 
+                    <input ng-disabled="IC_M055.tags.REQUISITION != '' && IC_M055.tags.REQUISITION != tag.REQUISITION_NUMBER" ng-model="tag.ISSUE_FLAG" ng-change="onFlagChange(tag)" type="checkbox">
+                </label>
+            </div>
+        </div>
+        </ion-item>
+<!-- <table  class="footable">
+                <thead>
+                    <tr>
+                        <th>Tag</th>
+                        <th>Part</th>
+                        <th>Qty</th>
+                        <th>Active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>352165</td>
+                        <td>307</td>
+                        <td style="text-align: right;">1</td>
+                        <td><input type="checkbox" ng-model="IC_M055.workcard"/></td>
+                    </tr>
+                </tbody>
+            </table> -->
+    </ion-content>
+<script id="templates/edit.html" type="text/ng-template">
+      <ion-modal-view style="background-color: #f4f4f4;">
+          <ion-header-bar class="bar bar-header nav-green">
+              <h1 class="title" ng-hide="details.TYPE!='NEW'" style="color:white">Add Tag</h1>
+              <h1 class="title" ng-show="details.TYPE!='NEW'" style="color:white">Edit Tag</h1>
+          </ion-header-bar>
+          <ion-content>
+              <div class="row responsive-sm">
+                  <div class="col">
+                      <ion-input class="item item-input"> 
+                          <i class="icon-left ion-ios-pricetag" style="padding:10px;"></i>
+                          <span style="padding-right:9px;width:50px;" class="input-label">Tag #:</span> 
+                          <input type="number" id="tagNumber" ng-readonly="(details.TYPE!='NEW')" ng-model="details.TAG_NUMBER" ng-blur="populateTag()" ng-focus="setScanObj('tag')">
+                      </ion-input>
+                  </div>
+                <div class="col">
+                     <ion-input class="item item-input"> 
+                          <i class="icon-left ion-ios-albums" style="padding:10px;"></i>
+                          <span style="padding-right:9px;" class="input-label">Quantity:</span> 
+                          <input type="text" ng-readonly="(details.TYPE!='NEW')" ng-change="quantityControl()" id="quantity" ng-model="details.ISSUE_QUANTITY" >
+                      </ion-input>
+                  </div>
+              </div>
+              <div ng-show="details.PART_NUMBER != ''" class="item item-divider">
+                  Details
+              </div>
+              <div ng-show="details.PART_NUMBER != ''" class="card" ng-show="IC_M063.name != ''" style="padding:10px;margin:0px;box-shadow: 0 1px 3px #dddddd;" >
+                  <TABLE style="font-family:sans-serif;font-size:16px;color:#444">
+                      <TR>
+                          <TD><b>Part #</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{details.PART_NUMBER}}<br></TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Description</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{details.DESCRIPTION}}<br></TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Location</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{details.LOCATION}}<br></TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Status</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{details.STATUS}}</TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Condition</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{details.CONDITION_CODE}}</TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Serial #</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad" style="white-space: normal;">&nbsp;{{details.SERIAL_NUMBER}}</TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Lot #</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad" style="white-space: normal;">&nbsp;{{details.LOT_NUMBER}}</TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Exp. Date</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad" style="white-space: normal;">&nbsp;{{details.EXPIRE_DATE}}</TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Requisition</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad" style="white-space: normal;">&nbsp;{{details.REQUISITION_NUMBER}}</TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Available</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad" style="white-space: normal;">&nbsp;{{details.QUANTITY}}</TD>
+                      </TR>
+                  </TABLE>
+              </div>  
+          </ion-content>
+          <ion-footer-bar style="padding:0px">
+              <div class="button-bar">
+                  <button class="button button-large icon buttonicon ion-close button-assertive" ng-click="modal.hide()">Close</button>
+                  <button ng-show="details.DESCRIPTION==''" class="button button-large icon ion-ios-barcode buttonicon button-positive" ng-click="resetEditTag()">Scan</button>
+                  <button class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="closeModal()">OK</button>
+              </div>
+         </ion-footer-bar> 
+      </ion-modal-view>
+    </script>
+<ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+    <div class="button-bar">
+        <button  ng-click="openModal()" class="button button-large buttonicon ion-plus-round button-positive">
+            Add
+        </button>
+        <button ng-click="pushIssue()" class="button button-large buttonicon ion-checkmark button-balanced">
+            Issue
+        </button>
+    </div>
+</ion-footer-bar> 
+</ion-view>

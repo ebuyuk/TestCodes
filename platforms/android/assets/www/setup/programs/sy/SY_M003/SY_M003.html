@@ -1,0 +1,108 @@
+<ion-view view-title="Query Designer">
+    <ion-header-bar class="bar-light bar-subheader"> 
+        <i ng-show="mode == 'Basic'" class="icon-left ion-plus-circled balanced"   ng-click="addColumn()" style="position:absolute;right:0;width:10%; font-size:25px;text-align:center; padding-top:5px;"></i>      
+    </ion-header-bar> 
+    <ion-content> 
+        <ion-list>
+             <ion-item ng-show="mode == 'Basic'"style="background-color: #F4F4F4;padding:8px;" >
+                <div class="row">
+                <div class="col col-25" style="text-align:center;text-overflow:ellipsis; display:inline-block; overflow:hidden;"><label style="font-weight: bold;">Column </label></div>
+                <div class="col col-20" style="text-align:center;text-overflow:ellipsis; display:inline-block; overflow:hidden;"><label style="font-weight: bold;">Relational Op. </label></div>
+                <div class="col" style="text-align:center;text-overflow:ellipsis; display:inline-block; overflow:hidden;"> <label style="font-weight: bold;"> Condition </label></div>	
+                </div>
+                <div class="row" ng-repeat="object in columnList">
+                    <div class="col col-25" style="text-overflow:ellipsis; display:inline-block; overflow:hidden;">
+                        <label style="font-weight: bold;">{{object.Name}} </label>
+                    </div>
+                    <div class="col col-20">
+                    <div class="item item-input item-select" style="height:100%;">
+                                <select ng-model="object.RelationalOp" ng-options="i.NAME as (i.NAME) for i in opList">
+                                    <option  value="" selected hidden></option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="col">
+                    <input style="width:100%;text-transform: uppercase;"type="text" placeholder="Condition ..." ng-model="object.Condition">
+                    </div>
+                </div>
+                <div class="row" ng-repeat="object in tempColumns">
+                    <div class="col col-25" style="text-overflow:ellipsis; display:inline-block; overflow:hidden;">
+                        <div class="item item-input item-select" style="height:100%;">
+                                <select ng-model="object.Name" style="position: relative; max-width: 90%; padding: 0px; white-space: inherit; direction: ltr; text-overflow:ellipsis; left: -15px;font-weight: bold;"ng-options="i.Name as (i.Name) for i in columnList">
+                                    <option  value="" selected hidden></option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="col col-20">
+                    <div class="item item-input item-select" style="height:100%;">
+                                <select ng-model="object.RelationalOp" ng-options="i.NAME as (i.NAME) for i in opList">
+                                    <option  value="" selected hidden></option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="col">
+                    <input style="width:100%;text-transform: uppercase;"type="text" placeholder="Condition ..." ng-model="object.Condition">
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item ng-hide="mode == 'Basic'" style="background-color: #F4F4F4;padding:8px;" >
+						<div class="row">
+                        <div class="col" >
+                            <textarea id="advancedQuery" style="width: 100%;text-transform: uppercase;"rows="27" ng-model="advancedQuery"></textarea>
+                            
+                        </div>
+					    
+                        <div class="col" >
+					        <div class="row"> 
+						    <div class="col">    <button class="button {{buttonClass}} button-positive" style="padding:0;" ng-click="setLogic('AND'); logicButtons.AND = true;"ng-style="logicButtons.AND ? {} : {'background-color':'darkgray'}">AND</button></div>
+						    <div class="col">    <button class="button   {{buttonClass}} button-positive" style="padding:0;" ng-click="setLogic('OR'); logicButtons.OR = true;" ng-style="logicButtons.OR ? {} : {'background-color':'darkgray'}">OR</button></div>
+						    <div class="col">    <button class="button   {{buttonClass}} button-positive" style="padding:0;" ng-click="toggleNotButton();" ng-style="logicButtons.NOT ? {} : {'background-color':'darkgray'}">NOT</button></div>
+					        </div>
+                            
+                            <div class="item item-input item-select" style="height:50px;">
+                                <select id="primaryColumn" ng-model="primaryColumn" ng-options="i.Name as (i.Name) for i in columnList" style="width: 100% !important;max-width: 100% !important;">
+                                    <option  selected hidden></option>
+                                </select>
+                            </div>
+					 
+                            <div class="row"> 
+						 <div class="col">       <button class="button   {{buttonClass}} button-positive" style="padding:0;" ng-click="setRelation('='); relationButtons.EQUAL = true;" ng-style="relationButtons.EQUAL ? {} : {'background-color':'darkgray'}"><b> = </b></button></div>
+						 <div class="col">       <button class="button   {{buttonClass}} button-positive" style="padding:0;" ng-click="setRelation('!='); relationButtons.NOTEQUAL = true;" ng-style="relationButtons.NOTEQUAL ? {} : {'background-color':'darkgray'}"><b> != </b></button></div>
+						 <div class="col">       <button class="button   {{buttonClass}} button-positive" style="padding:0;" ng-click="setRelation('>'); relationButtons.GREATER = true;" ng-style="relationButtons.GREATER ? {} : {'background-color':'darkgray'}"><b> > </b></button></div>
+						 <div class="col">       <button class="button   {{buttonClass}} button-positive" style="padding:0;" ng-click="setRelation('IN'); relationButtons.IN = true;" ng-style="relationButtons.IN ? {} : {'background-color':'darkgray'}"><b> In </b></button></div>
+					        </div>
+
+         					<div class="row"> 
+						   <div class="col">     <button class="button  {{buttonClass}} button-positive" style="padding:0;" ng-click="setRelation('>='); relationButtons.GREATEROREQUAL = true;" ng-style="relationButtons.GREATEROREQUAL ? {} : {'background-color':'darkgray'}"><b> >= </b></button></div>
+						   <div class="col">     <button class="button  {{buttonClass}} button-positive" style="padding:0;" ng-click="setRelation('<='); relationButtons.LESSEROREQUAL = true;" ng-style="relationButtons.LESSEROREQUAL ? {} : {'background-color':'darkgray'}"><b> <= </b></button></div>
+						   <div class="col">    <button class="button  {{buttonClass}} button-positive"  style="padding:0;" ng-click="setRelation('<'); relationButtons.LESSER = true;" ng-style="relationButtons.LESSER ? {} : {'background-color':'darkgray'}"><b> < </b></button></div>
+						   <div class="col">    <button class="button  {{buttonClass}} button-positive"  style="padding:0;" ng-click="setRelation('LIKE'); relationButtons.LIKE = true;" ng-style="relationButtons.LIKE ? {} : {'background-color':'darkgray'}"><b> Like </b></button></div>
+					        </div>  
+					       
+                            <div>
+					            <textarea id="tempCon" style="width: 100%;text-transform: uppercase;"rows="5" ng-model="tempCondition"></textarea>
+                	        </div>
+
+                            <div class="item item-input item-select" style="height:50px;margin-top:10px;">
+                                <select id="secondaryColumn" ng-model="secondaryColumn"   ng-options="i.Name as (i.Name) for i in columnList" style="width: 100% !important;max-width: 100% !important;">
+                                   
+                                    <option  selected hidden></option>
+                                </select>
+                            </div>
+							
+                            <div style="margin-top:10px;">
+						        <button class="button  {{buttonClass}} button-positive" style="width:100%;padding:0;" ng-click="addCondition()"><b> << ADD </b></button>
+						    </div> 
+                        </div>
+</div>
+                    </ion-item>
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar>
+    <div class="button-bar">
+    <button  class="button button-large icon ion-checkmark button-balanced" ng-click="passQuery()">Search</button>
+    <button  class="button button-large button-positive" ng-click="changeMode()">{{nextMode+" Query"}} </button>
+    
+        </div>
+    </ion-footer-bar>
+</ion-view>

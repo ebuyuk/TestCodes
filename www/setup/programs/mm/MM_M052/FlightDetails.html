@@ -1,0 +1,607 @@
+<ion-view view-title="Flight"> 
+<ion-content  has-header="true" overflow-scroll=true style="margin-bottom: 20px;">
+<style>
+input[readonly] {
+      background-color: #ccddff;
+}
+.flightinfo {
+    background: #546e7a url('../www/img/cloud.jpg');
+    color: #fff !important;
+    background-size: cover;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.52) !important;
+}
+.fb {
+     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%,rgba(255, 255, 255, 0.35) 50%,
+        rgba(0, 0, 0, 0.1) 100%) !important; */
+}
+
+.flightinfo h1 {
+    color: #fff;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.32) !important;
+}
+.item.active, item.activated {
+    background: #B1D9F7 !important;
+}
+.tab-nav.tabs,tabs {
+    top:0px !important;
+}
+.item-input input{
+padding-right:0 !important;
+}
+</style>
+    <!--  <ion-tabs class="tabs-icon-top tabs-background-stable" style="top:0;height:44px;">
+         <ion-tab title="Flight" icon="ion-plane" ng-click="switchSlider(1)"></ion-tab>
+         <ion-tab title="Inspections" icon="ion-ios-person" ng-click="switchSlider(2)"></ion-tab>
+         <ion-tab title="Oil" icon="ion-funnel" ng-click="switchSlider(3)"></ion-tab>
+     </ion-tabs> -->
+ <!-- <ion-slides  options="options" slider="data.slider">
+ <ion-slide-page style="overflow:auto;"> -->
+        <div class="card" style="padding-bottom: 0px;background-color: #F4F4F4;margin-left: 0px;margin-right: 0px;margin-top: 10px;">
+            <div class="flightinfo">
+                <div class="fb" style="position: relative;">
+                    <div class="row" style="padding:0; margin: 0;">   
+                        <div class="row">
+                            <div  class="col"> 
+                                <h2 style="font-size: 18px; font-weight: bold; color: #e2e2e2; padding: 0; margin: 0; ">{{flight.tailNumber}} </h2>
+                            </div>
+                            <div class="col" align="right" ><h2 style="font-size: 18px; font-weight: bold; color: #e2e2e2; text-align: right; padding: 0; margin: 0; ">{{flight.flightNumber | uppercase}}</h2></div>
+                        </div>           
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h1>{{flight.actualFrom}}</h1>
+                            <p><b class="icon ion-clock"> Off Block : </b>{{flight.actualOffBlock | date : 'd MMM yyyy h:mm a'}}</p>
+                            <p><b class="icon ion-clock"> Take Off : </b> {{flight.actualTakeOff}}</p>
+                        </div>
+                        <div class="col col-12" align="center">
+                            <i class="ion-plane" style="font-size: 46px; color: #fff;display: inline-block;transform: rotate(90deg);"></i>
+                            <p></p>
+                            <p><b class="icon" ng-class="(flight.status == 'SCHEDULED') ? 'ion-checkmark-circled' : (flight.status == 'ACCEPTED') ? 'ion-paper-airplane' : 'ion-checkmark'"> Status : </b>{{flight.status}}</p>
+                        </div>
+                        <div class="col" style="text-align: right;">
+                            <h1>{{flight.actualTo}}</h1>
+                            <p><b class="icon ion-clock">&nbsp Landing&nbsp : </b> {{flight.actualLanding}}</p>
+                            <p><b class="icon ion-clock"> On Block : </b>{{flight.actualOnBlock}}</p>
+                       </div>
+                   </div>
+               </div>
+            </div>
+            <div class="item item-divider item-icon-right" >
+                    <i class="icon-left ion-ios-person" ></i> 
+                        PFC Performed
+                    <i class="badge-container"  style="position: absolute;top: 0;left: 200px;"><span style="padding-top: 2px;padding-bottom: 2px;" ng-show="hasInspection" class="badge badge-assertive">!</span></i>
+                    <div ng-hide="disabled" ><i class="icon left ion-checkmark balanced" ng-show="hasInspection!=''" style="font-size:24px;" ng-click="saveInspection()"></i>
+                    <i class="icon left ion-close assertive" ng-show="hasInspection==''" style="font-size:24px;" ng-click="deleteInspection()"></i></div>
+                </div>
+                <div class="row responsive-sm" style="padding-right:1px;padding-left:1px">
+                    <div class="col">
+                         <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Date:</span> 
+                            <input type="datetime-local" ng-readOnly="hasInspection==''" ng-change="saveInspection()" style="text-align: right;" ng-model="pfcinspection.date" required >
+                        </ion-input>
+                    </div>
+                    <div class="col">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Performed By:</span> 
+                            <input type="text" style="text-align: right;" ng-model="pfcinspection.name">
+                        </ion-input>
+                    </div>
+                </div>
+                <div class="item item-divider item-icon-right" >
+                    <i class="icon-left ion-funnel" ></i> 
+                        Consumptions
+                </div>
+                <div style="height:100%;width:100%;overflow:auto;margin-top: 0px;margin-bottom: 0px;padding-top: 0px;">
+                <ion-list>
+                    <ion-item ng-click="expand('fuel')" style="padding:13px;height:78px;">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                            <i class="icon ion-funnel positive"style="font-size: 42px;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 15px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    FUEL
+                                </span>
+                            </b>
+                        </h2>
+                        <h2 style="text-align:left;padding-top: 20px;" >
+                              <i ng-show="consumption.arrival != null && consumption.arrival != ''" class="icon ion-ios-download-outline"style="font-size: 24px;color: #154361;padding-right:5px;"></i>
+                                <b style="color: #154361;">
+                                   {{consumption.arrival}}
+                                </b>
+                                <i ng-show="consumption.added != null && consumption.added != ''" class="icon ion-plus-circled" style="color: #154361;"></i>
+                                <b style="color: #154361;">
+                                     {{consumption.added}} 
+                                </b>
+                        </h2>
+                    </ion-item>
+                    <ion-item  style="background-color: #F4F4F4;padding:3px;padding-left:0px;padding-right:0px;" ng-show="fuel">
+                        <div class="row responsive-sm">
+                            <div class="col">
+                                <ion-input class="item item-input" style="display: -webkit-box !important;"> 
+                                    <span style="padding-right:5px;max-width:200px;" class="input-label">Supplier:</span> 
+                                    <input type="text"  ng-model="consumption.vendor.vendorName" style="text-align: right;" >
+                                    <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:10px;" modal-select="" ng-model="consumption.vendor.vendorName" on-select="vendorOnselect(newValue,oldValue)"  options="suppliersLov" modal-title="Suppliers: " has-search="true">
+                                       <div class="option">
+                                           <h2>{{option.VENDOR_NAME}}</h2>
+                                       </div>
+                                    </button>
+                                </ion-input>
+                            </div>
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                   <span style="padding-right:5px;max-width:200px;" class="input-label">Remaning:</span> 
+                                   <input type="number" ng-model="consumption.remaining" style="text-align: right;"  ng-change="calcMass(); calcBurnOff(); calcDiff();">
+<!--                                   <span style="padding-right:5px;position:absolute;right:0;">KG</span> -->
+                               </ion-input>
+                           </div>
+                       </div>
+                       <div class="row responsive-sm">
+                           <div class="col">
+                                <ion-input class="item item-input"> 
+                                   <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Delivered:</span> 
+                                   <input type="number" ng-model="consumption.added" style="text-align: right;"  ng-change="calcMass(); calcBurnOff(); calcDiff();" >
+<!--                                   <span style="padding-right:5px;position:absolute;right:0;">L</span> -->
+                               </ion-input>
+                           </div>
+                           <div class="col col-50">
+                                <ion-input disabled class="item item-input"> 
+                                   <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Calc. Mass:</span> 
+                                   <input type="number" style="text-align: right;"  ng-model="consumption.uplift">
+<!--                                   <span  style="padding-right:5px;position:absolute;right:0;">KG</span> -->
+                               </ion-input>
+                           </div>
+                       </div>
+                       <div class="row responsive-sm">
+                           <div class="col">
+                                <ion-input class="item item-input"> 
+                                   <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Density:</span> 
+                                   <input type="number" style="text-align: right;"  ng-model="consumption.density" ng-change="calcMass();calcBurnOff(); calcDiff();">
+                               </ion-input>
+                           </div>
+                           <div class="col">
+                              <ion-input class="item item-input"> 
+                                   <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Calc.Uplift:</span> 
+                                   <input type="number" style="text-align: right;"  ng-model="consumption.calcFuel" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+<!--                                   <span style="padding-right:5px;position:absolute;right:0;">KG</span> -->
+                               </ion-input>
+                           </div>
+                       </div>
+                        <div class="row responsive-sm">
+                            <div class="col">
+                                 <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Date:</span> 
+                                    <input type="datetime-local" style="text-align: right;"  ng-model="consumption.date">
+                                </ion-input>
+                            </div>
+                            <div class="col">
+                               <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Block:</span> 
+                                    <input type="number"  style="text-align: right;"  ng-model="consumption.departure" ng-change="calcDiff()">
+<!--                                    <span style="padding-right:5px;position:absolute;right:0;">KG</span> -->
+                                </ion-input>
+                            </div>
+                        </div>
+                        <div class="row responsive-sm">
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:200px;" class="input-label">Arrival:</span> 
+                                    <input type="number" style="text-align: right;"  ng-change="calcBurnOff()"ng-model="consumption.arrival" >
+<!--                                    <span style="padding-right:5px;position:absolute;right:0;">KG</span> -->
+                                </ion-input>
+                            </div>
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Difference:</span> 
+                                    <input type="number" style="text-align: right;"  ng-model="consumption.difference">
+<!--                                    <span style="padding-right:5px;position:absolute; right:0;">KG</span> -->
+                                </ion-input>
+                            </div>
+                        </div>
+                        <div class="row responsive-sm">
+                            <div class="col col-50">
+                            </div>
+                            <div class="col col-50">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">F/P Burn Off:</span> 
+                                    <input type="number" style="text-align: right;"  ng-model="consumption.fpBurnOff" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+<!--                                    <span style="padding-right:5px;position:absolute;right:0;">KG</span> -->
+                                </ion-input>
+                            </div>
+                        </div>
+                    </ion-item>
+                    <ion-item ng-click="expand('eng1Oil')" style="padding:13px;height:78px;">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                            <i ng-class="((fuels.eng1.arrival != null || fuels.eng1.added != null) && (fuels.eng1.arrival != '' || fuels.eng1.added != '')) ? 'icon ion-soup-can positive' :'icon ion-soup-can-outline positive'" style="font-size: 42px;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 15px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 10px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    ENG #1 OIL
+                                </span>
+                                <div class="list" style="position:absolute;right:0px;top:0;">
+                                <ion-checkbox style="background-color:#ffffff;margin-top: 10px;" ng-model="fuels.eng1.requiredFlag" ng-init="">Not Required</ion-checkbox>
+                                </div>
+                            </b>
+                        </h2>
+                        <h2 style="text-align:left;padding-top: 20px;" >
+                                <i ng-show="fuels.eng1.arrival != null && fuels.eng1.arrival != ''" class="icon ion-ios-download-outline" style="font-size: 24px;color: #154361;padding-right:5px;"></i>
+                                <b style="color: #154361;">
+                                   {{fuels.eng1.arrival}} 
+                                </b>
+                                <i ng-show="fuels.eng1.added != null&& fuels.eng1.added != ''" class="icon ion-plus-circled" style="color: #154361;padding-left: 10px;"></i>
+                                <b style="color: #154361;">
+                                   {{fuels.eng1.added}} 
+                                </b>
+                        </h2>
+                    </ion-item>
+                     <ion-item  style="background-color: #F4F4F4;padding:3px;padding-left:0px;padding-right:0px;" ng-show="eng1Oil">
+                        <div class="row ">
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:120px;" class="input-label">Arrival :</span> 
+                                    <input  type="number" ng-model="fuels.eng1.arrival" >
+                                </ion-input>
+                            </div>
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:120px;" class="input-label">Added :</span> 
+                                    <input  type="number" ng-model="fuels.eng1.added" >
+                                </ion-input>
+                            </div>
+                        </div>
+                    </ion-item>
+                    <ion-item ng-click="expand('eng2Oil')" style="padding:13px;height:78px;">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                            <i ng-class="((fuels.eng2.arrival != null || fuels.eng2.added != null) && (fuels.eng2.arrival != '' || fuels.eng2.added != '')) ? 'icon ion-soup-can positive' :'icon ion-soup-can-outline positive'" style="font-size: 42px;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 15px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 10px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    ENG #2 OIL
+                                </span>
+                                 <div class="list" style="position:absolute;right:0px;top:0;">
+                                <ion-checkbox style="background-color:#ffffff;margin-top: 10px;" ng-model="fuels.eng2.requiredFlag" ng-init="">Not Required</ion-checkbox>
+                                </div>
+                            </b>
+                        </h2>
+                        <h2 style="text-align:left;padding-top: 20px;" >
+                              <i ng-show="fuels.eng2.arrival != null && fuels.eng2.arrival != ''" class="icon ion-ios-download-outline"style="font-size: 24px;color: #154361;padding-right:5px;"></i>
+                                <b style="color: #154361;">
+                                   {{fuels.eng2.arrival}} 
+                                </b>
+                                <i ng-show="fuels.eng2.added != null && fuels.eng2.added != ''" class="icon ion-plus-circled" style="color: #154361;padding-left: 10px;"></i>
+                                <b style="color: #154361;">
+                                   {{fuels.eng2.added}} 
+                                </b>
+                        </h2>
+                    </ion-item>
+                     <ion-item  style="background-color: #F4F4F4;padding:3px;padding-left:0px;padding-right:0px;"  ng-show="eng2Oil">
+                        <div class="row">
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:120px;" class="input-label">Arrival :</span> 
+                                    <input  type="number" ng-model="fuels.eng2.arrival" >
+                                </ion-input>
+                            </div>
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:120px;" class="input-label">Added :</span> 
+                                    <input  type="number" ng-model="fuels.eng2.added" >
+                                </ion-input>
+                            </div>
+                        </div>
+                    </ion-item>
+                    <ion-item ng-click="expand('apuOil')" style="padding:13px;height:78px;">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                            <i ng-class="((fuels.apu.arrival != null || fuels.apu.added != null) && (fuels.apu.arrival != '' || fuels.apu.added != '')) ? 'icon ion-soup-can positive' :'icon ion-soup-can-outline positive'" style="font-size: 42px;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 15px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 10px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    APU OIL
+                                </span>
+                                 <div class="list" style="position:absolute;right:0px;top:0;">
+                                <ion-checkbox style="background-color:#ffffff;margin-top: 10px;" ng-model="fuels.apu.requiredFlag" ng-init="">Not Required</ion-checkbox>
+                                </div>
+                            </b>
+                        </h2>
+                        <h2 style="text-align:left;padding-top: 20px;" >
+                                <i ng-show="fuels.apu.arrival != null && fuels.apu.arrival != ''" class="icon ion-ios-download-outline"style="font-size: 24px;color: #154361;padding-right:5px;"></i>
+                                <b style="color: #154361;">
+                                   {{fuels.apu.arrival}} 
+                                </b>
+                                <i ng-show="fuels.apu.added != null && fuels.apu.added != ''" class="icon ion-plus-circled" style="color: #154361;padding-left: 10px;"></i>
+                                <b style="color: #154361;">
+                                   {{fuels.apu.added}} 
+                                </b>
+                        </h2>
+                    </ion-item>
+                     <ion-item  style="background-color: #F4F4F4;padding:3px;padding-left:0px;padding-right:0px;" ng-show="apuOil">
+                        <div class="row">
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:120px;" class="input-label">Arrival :</span> 
+                                    <input  type="number" ng-model="fuels.apu.arrival" >
+                                </ion-input>
+                            </div>
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:120px;" class="input-label">Added :</span> 
+                                    <input  type="number" ng-model="fuels.apu.added" >
+                                </ion-input>
+                            </div>
+                        </div>
+                    </ion-item>
+                    <ion-item ng-click="expand('idg1')" style="padding:13px;height:78px;">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                            <i ng-class="(fuels.idg1.added != null && fuels.idg1.added != '' ) ? 'icon ion-soup-can positive' :'icon ion-soup-can-outline positive'" style="font-size: 42px;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 15px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 10px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    IDG#1
+                                </span>
+                                 <div class="list" style="position:absolute;right:0px;top:0;">
+                                <ion-checkbox style="background-color:#ffffff;margin-top: 10px;" ng-model="fuels.idg1.requiredFlag" ng-init="">Not Required</ion-checkbox>
+                                </div>
+                            </b>
+                        </h2>
+                        <h2 style="text-align:left;padding-top: 20px;" >
+                             <i ng-show="(fuels.idg1.added != null && fuels.idg1.added != '' )" class="icon ion-plus-circled" style="color: #154361;"></i>
+                             <b style="color: #154361;">
+                                {{fuels.idg1.added}} 
+                             </b>
+                        </h2>
+                    </ion-item>
+                     <ion-item  style="background-color: #F4F4F4;padding:3px;padding-left:0px;padding-right:0px;" ng-show="idg1">
+                        <div class="row">
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:120px;" class="input-label">Added :</span> 
+                                    <input  type="number" ng-model="fuels.idg1.added" >
+                                </ion-input>
+                            </div>
+                        </div>
+                    </ion-item>
+                    <ion-item ng-click="expand('idg2')" style="padding:13px;height:78px;">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                            <i ng-class="(fuels.idg2.added != null && fuels.idg2.added != '' ) ? 'icon ion-soup-can positive' :'icon ion-soup-can-outline positive'" style="font-size: 42px;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 15px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 10px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    IDG#2
+                                </span>
+                                 <div class="list" style="position:absolute;right:0px;top:0;">
+                                <ion-checkbox style="background-color:#ffffff;margin-top: 10px;" ng-model="fuels.idg2.requiredFlag" ng-init="">Not Required</ion-checkbox>
+                                </div>
+                            </b>
+                        </h2>
+                        <h2 style="text-align:left;padding-top: 20px;" >
+                             <i ng-show="(fuels.idg2.added != null && fuels.idg2.added != '' )" class="icon ion-plus-circled" style="color: #154361;"></i>
+                             <b style="color:#154361;">
+                                {{fuels.idg2.added}} 
+                             </b>
+                        </h2>
+                    </ion-item>
+                     <ion-item  style="background-color: #F4F4F4;padding:3px;padding-left:0px;padding-right:0px;" ng-show="idg2">
+                        <div class="row">
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="padding-right:5px;max-width:120px;" class="input-label">Added :</span> 
+                                    <input  type="number" ng-model="fuels.idg2.added" >
+                                </ion-input>
+                            </div>
+                        </div>
+                    </ion-item>
+                    <ion-item ng-click="expand('hyd')" style="padding:13px;height:78px;">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                            <i ng-class="((fuels.hyd.blue.added != null || fuels.hyd.green.added != null || fuels.hyd.yellow.added != null) && (fuels.hyd.blue.added != '' || fuels.hyd.green.added != '' || fuels.hyd.yellow.added != '')) ? 'icon ion-soup-can positive' :'icon ion-soup-can-outline positive'" style="font-size: 42px;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 15px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 10px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    HYD ADDED
+                                </span>
+                                 <div class="list" style="position:absolute;right:0px;top:0;">
+                                <ion-checkbox style="background-color:#ffffff;margin-top: 10px;" ng-model="fuels.hyd.requiredFlag" ng-init="">Not Required</ion-checkbox>
+                                </div>
+                            </b>
+                        </h2>
+                        <h2 style="text-align:left;padding-top: 20px;" >
+                                <i ng-show="fuels.hyd.blue.added != null && fuels.hyd.blue.added != ''" class="icon ion-plus-round positive"style="padding-right:5px;"></i>
+                                <b style="color: #154361;">
+                                   {{fuels.hyd.blue.added}} 
+                                </b>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <i ng-show="fuels.hyd.green.added != null && fuels.hyd.green.added !=''" class="icon ion-plus-round balanced"style="padding-right:5px;"></i>
+                                <b style="color: #154361;">
+                                   {{fuels.hyd.green.added}} 
+                                </b>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <i ng-show="fuels.hyd.yellow.added != null && fuels.hyd.yellow.added !=''" class="icon ion-plus-round energized"style="padding-right:5px;"></i>
+                                <b style="color: #154361;">
+                                   {{fuels.hyd.yellow.added}} 
+                                </b>
+                        </h2>
+                    </ion-item>
+                     <ion-item  style="background-color: #F4F4F4;padding:3px;padding-left:0px;padding-right:0px;" ng-show="hyd">
+                        <div class="row responsive-sm">
+                            <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="max-width:120px;" class="input-label">BLUE :</span> 
+                                    <input  type="number" ng-model="fuels.hyd.blue.added" >
+                                </ion-input>
+                            </div>
+                             <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="max-width:120px;" class="input-label">GREEN :</span> 
+                                    <input  type="number" ng-model="fuels.hyd.green.added" >
+                                </ion-input>
+                            </div>
+                             <div class="col">
+                                <ion-input class="item item-input"> 
+                                    <span style="max-width:120px;" class="input-label">YELLOW :</span> 
+                                    <input  type="number" ng-model="fuels.hyd.yellow.added" >
+                                </ion-input>
+                            </div>
+                        </div>
+                    </ion-item>
+                </ion-list>
+                </div>
+        </div>
+    <!-- </ion-slide-page>
+        
+   INSPECTION
+        <ion-slide-page style="overflow:auto;">
+            <ion-list>
+            <ion-item style="margin-top: 50px;" ng-click="expand('pfc')" >
+                <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                    <i class="icon ion-person positive" style="font-size: 42px;"></i>
+                </div>
+                <h2 style="text-align:left;top: 5px;" > 
+                    <b>
+                        <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                            PRE-FLIGHT INSPECTION
+                        </span>
+                    </b></h2>
+                     <span ng-show="pfcinspection.id" style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                        {{pfcinspection.date | date : 'd MMM yyyy h:mm a'}}
+                    </span>
+                    </h2>
+                    <h2 ng-show="pfcinspection.id" style="text-align: left;padding-top:10px;padding-bottom:20px;">
+                    <b> {{pfcinspection.name}}</b>
+                    </h2>
+                     <span style="float:right; position: absolute; right: 15px; top: 25px; color: #2980b9; font-weight: bold; font-size: 24px; " > 
+                        <i ng-show="pfcinspection.id" class="ion-trash-a assertive" style="font-size: 34px; padding-left:10%;" ng-click="deleteInspection(pfcinspection.id)"></i>
+                    </span>   
+                </ion-item>
+                <ion-item ng-show="pfc" style="background-color: #F4F4F4;padding:3px;padding-left:0px;padding-right:0px;">
+                <div class="row responsive-sm">
+                    <div class="col">
+                         <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Date:</span> 
+                            <input type="datetime-local" style="text-align: right;" ng-model="pfcinspection.date" required >
+                        </ion-input>
+                    </div>
+                    <div class="col">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Performed By:</span> 
+                            <input type="text" readonly style="text-align: right;padding-right:1px;" ng-model="pfcinspection.name">
+                        </ion-input>
+                    </div>
+                    <div class="col col-10" align="center" style="margin-top: 5px;">
+                        <i class="ion-checkmark-circled balanced" style="font-size: 34px;padding-right:10%;" ng-click="determineFunction(pfcinspection,'PFC')"></i>
+                    </div>
+                </div>
+                </ion-item>
+                <div ng-repeat="object in inspectionTypesLov" >
+	                <ion-item ng-click="expand('{{object.INSPECTION_TYPE.replace('-','')}}')">
+		                <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+		                    <i ng-class="'icon ion-person positive'" style="font-size: 42px;"></i>
+		                </div>
+		                <h2 style="text-align:left;top: 5px;" > 
+		                    <b>
+		                        <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+		                            {{object.INSPECTION_TYPE}} 
+		                        </span>
+		                    </b>
+		                    <span ng-show="object.values.id" style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+		                        {{object.values.date | date : 'd MMM yyyy h:mm a'}}
+		                    </span> 
+		                </h2>
+	                 <h2 ng-show="object.values.id" style="text-align: left;padding-top:10px;padding-bottom:20px;">
+	                    <b> {{object.values.name}}</b>
+	                </h2>
+	            </ion-item>
+	            <ion-item ng-show="{{object.INSPECTION_TYPE.replace('-','')}}" style="background-color: #F4F4F4;padding:3px;padding-left:0px;padding-right:0px;">
+	                <div class="row responsive-sm">
+	                    <div class="col">
+	                         <ion-input class="item item-input"> 
+	                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Date:</span> 
+	                            <input type="datetime-local" style="text-align: right;" ng-model="object.values.date" required >
+	                        </ion-input>
+	                    </div>
+	                    <div class="col">
+	                        <ion-input class="item item-input"> 
+	                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Performed By:</span> 
+	                            <input type="text" readonly style="text-align: right;padding-right:1px;" ng-model="object.values.name">
+	                        </ion-input>
+	                    </div>
+	                    <div class="col col-10" align="center" style="margin-top: 5px;">
+	                        <i class="ion-checkmark-circled balanced" style="font-size: 34px; padding-right:20%;" ng-click="determineFunction(object,object.INSPECTION_TYPE)"></i>
+                        </div>
+	                </div>
+	                </ion-item>
+            </div>
+            </ion-list>
+        </ion-slide-page>
+   OIL
+        <ion-slide-page style="overflow:auto;">
+            
+            
+        </ion-slide-page>
+    </ion-slides> -->
+</ion-content>
+<script id="templates/digitalSign.html" type="text/ng-template">
+ <ion-modal-view  id="sign051" style="top:20%;width:70%;left:15%;height:60%; min-height:260px;    border: 1px solid black;box-shadow: 0px 0px 500px 10px black;overflow: hidden !important;">
+     <ion-header-bar class="bar bar-header bar-positive">
+         <h1 class="title" style="color:white">Digital Sign</h1>
+     </ion-header-bar>
+     <ion-content scroll="false" overflow-scroll="false" style="min-height:260px !important; overflow: hidden !important;">
+        <div class="list card" style="box-shadow:0 0 0 ;margin: 0px;padding-top: 7px; overflow: hidden !important;">
+            <div class="item item-body" style="box-shadow:0 0 0 ;padding:0px;overflow: hidden !important;">
+                <div id="loginList" class="list" style="postion:absolute;background-color:rgba(0, 0, 0, 0);box-shadow:0 0 0 ;opacity:0.9;overflow: hidden !important;">
+                    <label class="item item-input" style="border: none;margin-bottom: 10px;border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12);">
+                        <i class="icon ion-person placeholder-icon" style="color: #444"></i> 
+                        <input type="text" readonly ng-model="user.username" placeholder="Username" style="font-weight: bold;background: none;text-transform: uppercase;">
+                    </label>
+                    <label class="item item-input" style="border: none; border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12); ">
+                        <i class="icon ion-key placeholder-icon" style="color: #333; "></i>
+                        <input type="password" ng-model="user.password" placeholder="Password" style="font-weight: bold;background: none; color: #333;">
+                    </label>
+                    <div class="row" style="padding:0px">
+                        <div class="col" style="padding:0px">
+                            <canvas id="m052fd" style="height:100%;width:100%;margin-top: 10px;" class="canvas-container"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+            <ion-footer-bar style="padding:0px">
+                <div class="button-bar">
+                    <button class="button button-large icon buttonicon ion-trash-b button-energized" ng-click="clearCanvas()">CLEAR</button>
+                    <button class="button button-large icon buttonicon ion-close button-assertive" ng-click="hide()">CANCEL</button>
+                    <button class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="signin()">OK</button>
+                </div>
+            </ion-footer-bar> 
+ </ion-modal-view>
+</script> 
+<ion-footer-bar style="height:50px;margin-top:-80px;position:inherit;padding: 0px;">
+     <div class="button-bar">
+        <button ng-disabled="disabled" ng-show="hasConsumption=='' && fuel" class="button button-large icon buttonicon ion-close button-assertive" ng-click="Delete()">Delete</button>
+        <button ng-disabled="disabled" ng-show="hasConsumption==''" class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="saveConsumptions()">Save</button>
+        <button ng-disabled="disabled" ng-show="hasConsumption!=''" class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="saveConsumptions()">Save</button> 
+    </div>
+</ion-footer-bar>
+<!-- <ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+ 	<div class="button-bar">
+        
+        Status Cancelled
+        <button ng-show="isCancel" ng-disabled="true" class="button button-large button-dark"></button>
+        <button ng-show="isCancel" ng-disabled="true" class="button button-large button-dark"></button>
+        <button ng-show="MM_M051_viewMode =='update'&& isCancel" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="RejectStatus()">Scheduled</button>
+        
+        Update Mode
+        <button ng-show="viewMode=='update' && !isCancel" class="button button-large icon ion-close button-assertive buttonicon" ng-click="Delete()">Cancel</button>
+        <button ng-show="MM_M051_viewMode =='update'" class="button button-large icon ion-close-round button-assertive buttonicon" ng-click="deleteFlight()">Delete</button>
+	    <button ng-show="MM_M051_viewMode =='update' && !isCancel" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="Save()">Save</button>
+	    
+        Insert Mode
+        <button ng-show="MM_M051_viewMode =='insert'" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="Save()">Save</button>
+	    
+    </div>
+</ion-footer-bar> --> 
+</ion-view>

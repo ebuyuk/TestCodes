@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+  <script type="text/javascript">
+        var pgapp = {
+            initialize: function () {
+                this.bindEvents();
+            },
+
+            // Bind any events that are required on startup. Common events are:
+            // 'load', 'deviceready', 'offline', and 'online'.
+            bindEvents: function () {
+                if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+                  document.addEventListener('deviceready', this.onDeviceReady, false);
+                } else {
+                  this.onDeviceReady(); // Browser!
+                }
+            },
+
+            onDeviceReady: function () {
+                if (window.device) {
+                    console.log('Running Cordova ' + window.device.cordova);
+                    /*var socket = io.connect('http://192.168.2.119:8008');
+                    socket.on('chat message', function(msg){
+                        console.log(msg);
+                      });
+                      socket.on('update progress', function(msg){
+                       console.log(msg);
+                      });
+                      socket.on('job ended', function(msg){
+                        //alert(msg.FilePath);
+                        });
+                      socket.on('connect_error', function () {
+                         alert("connect error");
+                       });*/
+                }
+
+                angular.element(document).ready(function() {
+                  angular.bootstrap(document, ['WingsMobileStarter']);
+                });
+            }
+        };
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="frame-src * gap://ready; default-src 'self' gap://ready file://* *; connect-src * blob: data:; style-src * 'unsafe-inline'; script-src * 'unsafe-eval' 'unsafe-inline'; img-src data: *">
+    
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>WingsMobile</title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    
+     <!-- IONICONS -->
+     <link href="lib/ionicons-2.0.1/css/ionicons.css" rel="stylesheet">
+    
+    <link href="css/style.css" rel="stylesheet">
+
+     <!-- FOOTABLE -->
+     <link href="lib/footable2/css/footable.core.css" rel="stylesheet" type="text/css">
+     <link href="lib/footable2/css/footable.standalone.css" rel="stylesheet" type="text/css">
+     
+<!--      <link href="lib/footable2/css/footable.metro.css" rel="stylesheet" type="text/css" /> -->
+      
+     <!-- FLOATING MENU -->
+     <link href="lib/ion-floating-menu/ion-floating-menu.css" rel="stylesheet" type="text/css">
+     <!-- MATERIAL INPUT-->
+     <link href="lib/ion-material-input/ion-md-input.css" rel="stylesheet" type="text/css">
+     <!-- VIS -->
+     <link href="lib/vis-4.9.0/vis.css" rel="stylesheet" type="text/css">
+      <!-- FLEX SLIDER -->
+     <link rel="stylesheet" type="text/css" href="lib/flexslider/flexslider.css">
+     
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+    
+    <!-- JQUERY -->
+    <script src="lib/jquery/jquery-2.1.4.js"></script>
+    
+    <!-- MOMENT -->
+    <script type="text/javascript" src="lib/moment/moment.js"></script>
+    
+      <!-- STACKTRACE -->
+    <script type="text/javascript" src="lib/stacktrace/stacktrace.min.js"></script>
+    
+     <!-- APP DATA -->
+   <!--  <script src="js/data/appData.js"></script> -->
+    
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic-cloud/ionic.cloud.min.js"></script>
+    
+    <script src="lib/ionic-pro/ionic-pro.module.min.js"></script>
+    
+    
+     <!-- ionic/angularjs js -->
+    <script src="lib/ionic_modal_select/ionic-modal-select.js"></script>
+    
+     <!-- FORMLY -->
+     <!-- apiCheck is used by formly to validate its api -->
+    <script src="lib/formly/api-check.js"></script>
+       <!-- This is the current state of master for formly core. -->
+    <script src="lib/formly/formly.js"></script>
+     <script src="lib/formly/angular-formly-templates-ionic.js"></script>
+    <!-- FORMLY -->
+    
+    <script src="lib/ngcordova/ng-cordova.js"></script>
+    
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+     <!-- FLEX SLIDER -->
+    <script src="lib/flexslider/jquery.flexslider-min.js"></script>
+    
+    
+    
+    <!-- ANGULAR RESOURCE -->
+    <script src="lib/ionic/js/angular/angular-resource.js"></script>
+      <!-- Ng STORAGE -->
+    <script src="lib/ngstorage/ngStorage.js"></script>
+     <!-- BASE 64 -->
+    <script src="lib/base64/angular-base64.js"></script>
+    
+    <!-- FLOATING MENU -->
+  	<script type="text/javascript" src="lib/ion-floating-menu/ion-floating-menu.js"></script>
+    
+    <!-- FOO TABLES -->
+    <script type="text/javascript" src="lib/footable2/js/footable.js"></script>
+    <script type="text/javascript" src="lib/footable2/js/footable.sort.js"></script>
+    <script type="text/javascript" src="lib/footable2/js/footable.filter.js"></script>
+    <script type="text/javascript" src="lib/footable2/js/footable.paginate.js"></script>
+    <script type="text/javascript" src="lib/footable2/js/footable.striping.js"></script>
+    
+    <!-- VIS  -->
+    <script type="text/javascript" src="lib/vis-4.9.0/vis.js"></script>
+    <!-- VIS  -->
+    <script type="text/javascript" src="lib/chartjs/Chart.js"></script>
+    
+    <!-- REST ANGULAR -->
+    <script type="text/javascript" src="lib/restangular/restangular.js"></script>
+   
+    <!-- LO DASH -->
+    <script type="text/javascript" src="lib/lodash/lodash.js"></script>
+     
+    <!-- MATERIAL INPUT-->
+    <script src="lib/ion-material-input/ion-md-input.js"></script> 
+    
+     <!-- POUCHDB-->
+    <script src="lib/pouchdb/pouchdb-6.1.0.js"></script>
+     <script src="lib/pouchdb/pouchdb.find-6.1.0.js"></script>
+    
+     <!--  
+    <script src="lib/socketio/socket.io-1.2.0.js"></script> -->
+     
+     <!-- SOCKET IO -->
+       <script src="lib/socketio/socket.io-1.4.5.js"></script> 
+    
+    <!-- MD5-->
+    <script src="lib/md5/angular-md5.min.js"></script>
+    
+    <!-- FACTORIES -->
+    <script type="text/javascript" src="js/factories/WingsDTO.js"></script>
+    
+    
+     <!-- MODULES -->
+    <script type="text/javascript" src="js/modules/GlobalsAndSession.js"></script> 
+    <script type="text/javascript" src="js/modules/Network.js"></script> 
+    <script type="text/javascript" src="js/modules/RemoteDb.js"></script>
+    <script type="text/javascript" src="js/modules/RemoteFile.js"></script>
+    <script type="text/javascript" src="js/modules/LocalFile.js"></script>
+    <script type="text/javascript" src="js/modules/ApplicationUpdate.js"></script>
+    <script type="text/javascript" src="js/modules/ContextMenu.js"></script>
+    <script type="text/javascript" src="js/modules/Socket.js"></script>
+    <script type="text/javascript" src="js/modules/PouchDBW.js"></script>
+    <script type="text/javascript" src="js/modules/WingsUtil.js"></script>
+    
+    <!-- MODULE SERVICES -->
+    <script type="text/javascript" src="setup/programs/pr/pr.js"></script>
+    <script type="text/javascript" src="setup/programs/sy/sy.js"></script>
+    <script type="text/javascript" src="setup/programs/lb/lb.js"></script>
+    
+     <!-- LOCAL DB MODULES -->
+    <script type="text/javascript" src="js/modules/ConfigurationDB.js"></script>
+    <script type="text/javascript" src="js/modules/TransactionDB.js"></script>
+    <script type="text/javascript" src="js/modules/SetupDB.js"></script>
+    
+    <script type="text/javascript" src="js/modules/LocalNotification.js"></script>
+    <script type="text/javascript" src="js/modules/Logging.js"></script>
+    <script type="text/javascript" src="js/modules/Interceptors.js"></script> 
+    <script type="text/javascript" src="js/modules/Auth.js"></script>
+    <script type="text/javascript" src="js/modules/Dialog.js"></script>
+    
+     <!-- CONTROLLERS -->
+   	<script type="text/javascript" src="js/controllers/SignInCtrl.js"></script>
+     
+     
+     <!-- DIRECTIVES -->
+     <script type="text/javascript" src="js/directives/footable2/angular-footable.js"></script>
+     
+     <!-- FILTERS -->
+    <script type="text/javascript" src="js/filters/WingsCustomeFilters.js"></script>
+             <script src="lib/flexslider/angular-flexslider.js"></script>
+    
+      <!-- FABRIC-->
+    <script type="text/javascript" src="lib/fabric/fabric.js"></script> 
+   	<script src="js/app.js"></script>
+   
+  </head>
+  <body>
+
+     <ion-nav-view></ion-nav-view>
+     
+      <script type="text/javascript">
+        pgapp.initialize();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<ion-view view-title="Discrepancy Inquiry"> 
+    <ion-header-bar class="bar-light bar-subheader" > 
+        <div class="item-input-inset" style="width:90%" ng-hide="isSearchActive">
+            <i class="icon-left ion-android-search"></i>
+            <input type="text" placeholder=" Search"  ng-model="searchCriteria" style="padding-left:15px;width:100%"/>
+        </div>        
+        <i class="icon-left ion-search balanced" ng-style="isCriteriaExists?{}:{'color':'#cccccc'}"  ng-hide="isSearchActive" ng-click="showModal(); onModal=true;" style="width:10%; font-size:25px;text-align:center; padding-top:5px;"></i>      
+    </ion-header-bar> 
+	<ion-content  has-header="true" >
+		<ion-list ng-hide="isSearchActive">
+        	<ion-item ng-repeat="object in discrepancies  | filter :searchCriteria | limitTo:numberOfDiscrepanciesToDisplay" ng-click="openDiscrepancy(object)">
+            	<i class="icon-left ion-alert-circled assertive" ng-hide="loop.server_feedback == '' || loop.server_feedback == null" style="float: left;"></i>
+                
+                <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 44px; height: 44px; text-align: center; line-height: 46px; margin-right: 20px;
+                            background: {{object.STATUS == 'OPEN' ? '#ffc900' : object.STATUS == 'CLOSED' ? '#33cd5f': object.STATUS == 'CANCELLED' ? '#b5b1b0' : '#e20303'}}" >
+                	{{object.STATUS == 'OPEN' ? 'O' : object.STATUS == 'CLOSED' ? 'C': 'D'}}
+                </div>
+                
+                <h2 style="text-align:left;top: 5px;" > 
+                    <b>
+                        <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                            {{object.DISCREPANCY_TYPE}} - {{object.ATA_CODE}}
+                        </span>
+                    </b>
+                    <span style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                        {{object.REPORT_DATE | date : 'd MMM yyyy h:mm a'}}
+                    </span>
+                </h2>
+                <h2 style="text-align: left;padding-top:10px;">
+                    <b> {{object.DISCREPANCY}} </b>
+                    <span style="float:right; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                        {{object.STATUS}}
+                    </span>
+                </h2>
+            </ion-item>
+            
+        </ion-list>
+        <ion-infinite-scroll on-infinite="addMoreDiscrepancies()" distance="5%"></ion-infinite-scroll>
+    </ion-content>
+    <script id="templates/search.html" type="text/ng-template">
+        <ion-modal-view style="top:10%;bottom:10%;width:80%;left:10%;">
+          <ion-header-bar class="bar bar-header nav-green">
+              <h1 class="title" style="color:white">Search</h1>
+          </ion-header-bar>
+      <ion-content style="min-height:600px !important;">
+<ion-list>
+	    <ion-item style="border-bottom: 0px;">
+	    <div class="row">
+        <div class="col">
+            <label class="item item-input item-select" style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Tail #
+                </div>
+                <select id="tailNumber"ng-model="discrepancy.tailNumber" ng-change="getFlightList()">
+                    <option value="" selected></option>
+                    <option  ng-repeat="obj in aircraftsLov ">{{obj.TAIL_NUMBER}}</option>
+                </select>
+            </label>
+        </div>
+        </div>	    
+        <!--  log no -->
+        <div class="row">
+<div class="col">
+        <label class="item item-input " style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Log #
+                </div>
+                <input type="text" ng-model="discrepancy.logNumber" style="text-align:right;padding-right: 48px;text-transform: uppercase;">
+                </input>
+            </label>
+        </div>
+        </div>
+        <div class="row">
+<div class="col">
+            <label class="item item-input item-select" style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Type
+                </div>
+                <select id="type"ng-model="discrepancy.type" ng-change="getFlightList()">
+                    <option value="" selected></option>
+                    <option  ng-repeat="obj in  discrepancyTypes ">{{obj.DISCREPANCY_TYPE}}</option>
+                </select>
+            </label>
+        </div>	
+</div>
+        <!-- status -->
+         
+	        <div class="item range" style="display:grid;margin: -2px 10px -2px 10px;">
+			   <div class="input-label">
+                    Status
+                </div>
+			    <input type="range" name="volume" min="0" max="3" id="rangeSlider" ng-model="rangeValue"ng-change="setStatus()">
+
+			    <div class="row">
+			<div ng-click="setStatus(0,'OPEN')" class="col col-17" style="text-align: left; color: #ffc900">OPEN </div>
+			
+			<div ng-click="setStatus(1,'DEFERRED')" class="col col-33" style="text-align: center; color: #e20303">DEFERRED </div>
+			
+			<div ng-click="setStatus(2,'CLOSED')" class="col col-33" style="text-align: center; color: #33cd5f">CLOSED</div>
+			
+			<div ng-click="setStatus(3,'CANCELLED')" class="col col-17" style="text-align: right; color :#b5b1b0">CANCELLED</div>
+			</div>
+			</div>
+			</div>
+</div>
+        <!-- status -->
+        <div class="row">
+<div class="col">
+            <label class="item item-input item-select" style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Station
+                </div>
+                <select id="station"ng-model="discrepancy.station" ng-change="getFlightList()">
+                	<option value="" selected></option>
+                    <option  ng-repeat="obj in stations ">{{obj.DESCRIPTION}}</option>
+                </select>
+            </label>
+        </div>	
+</div>
+        <div class="row">
+<div class="col">
+            <label class="item item-input item-select" style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Ata Code
+                </div>
+                <select id="ataCode"ng-model="discrepancy.ataCode" ng-change="getFlightList()">
+                    <option value="" selected></option>
+                    <option  ng-repeat="obj in ataCodes ">{{obj.ATA_CODE}}</option>
+                </select>
+            </label>
+        </div>	
+</div>
+        <div class="row">
+<div class="col">
+            <label class="item item-input item-select" style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Reported By 
+                </div>
+                <select id="reportedBy"ng-model="discrepancy.reportedBy" ng-change="getFlightList()">
+                    <option value="" selected></option>
+                    <option  ng-repeat="obj in employees ">{{obj.EMPLOYEE_NAME}}</option>
+                </select>
+            </label>
+        </div>	
+        <!-- date  -->
+</div>
+        <div class="row">
+<div class="col">
+        <ion-input class="item item-input" style="width:100%;"> 
+			 	<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Report Date</span> 
+			    <input type="date" ng-model="discrepancy.reportDate" style="text-align:right; padding-right: 10px;">
+        </div>
+	    </div>
+	    </ion-item>
+	    </ion-list>
+	  </ion-content>
+<ion-footer-bar style="background-color:rgba(0,0,0,0.3) !important;padding:0px;">
+    <div class="button-bar">
+        <button class="button button-large buttonicon icon ion-close button-assertive" ng-click="hide()">CANCEL</button>
+ 	    <button class="button button-large buttonicon icon ion-trash-b button-energized" ng-click="clearCriterias()">CLEAR</button>
+ 	    <button class="button button-large icon ion-search button-balanced"  ng-click="hide(); getDiscrepancies()">SEARCH</button>
+	</div>
+</ion-footer-bar>
+  </ion-modal-view>
+  </script>    
+</ion-view>

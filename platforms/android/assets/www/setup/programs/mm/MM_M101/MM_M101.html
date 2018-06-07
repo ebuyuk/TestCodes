@@ -1,0 +1,113 @@
+<ion-view view-title="Flight"> 
+<ion-content padding="true" has-header="true">
+<style>
+input[readonly] {
+      background-color: #ccddff;
+}
+
+</style>
+    <div class="row responsive-sm">
+		<div class="col col-50">
+			 <ion-input class="item item-input"> 
+			    <span style="padding-right:5px;max-width:120px;" class="input-label">Tail #:</span> 
+			    <input type="text" id = "tailNumber" ng-model="flight.tail.tailNumber">
+            <button ng-hide="isReadOnly" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;" modal-select="" ng-model="flight.tail" options="tailNumbers"  modal-title="Tail Numbers" has-search="true">
+	            <div class="option">
+	                 <h2>{{option.tailNumber}}</h2>
+<!--                       <p>{{option.serial}}</p> -->
+                </div>
+	        </ion-input>
+		</div>
+		<div class="col col-50">
+		    <ion-input class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:120px;" class="input-label">Serial #:</span> 
+			    <input type="text" ng-model="flight.tail.serialNumber" >
+	        </ion-input>
+		</div>
+	</div>
+	<div class="row responsive-sm">
+	    <div class="col">
+		    <ion-input class="item item-input"> 
+			    <span style="padding-right:5px;max-width:120px;" class="input-label">Date:</span> 
+			    <input type="date" id = "date" ng-model="flight.actualDate">
+	        </ion-input>
+	    </div>
+		<div class="col responsive-sm">
+			 <ion-input class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:120px;" class="input-label">Flight #:</span> 
+			    <input type="text" id = "flightNumber" style="text-transform: uppercase;" ng-model="flight.flightNumber">
+	        </ion-input>
+		</div>
+	</div>
+    <div class="row responsive-sm">
+		<div class="col">
+			 <ion-input class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:120px;" class="input-label">From:</span> 
+			    <input type="text" id = "flightNumber" style="text-transform: uppercase;padding-right:0px;" ng-model="flight.actualFrom">
+			    <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;margin-left:-100px;border:0px;min-height:0px;height:34px;" modal-select="" ng-model="flight.actualFrom" option-property="FLIGHT_LOCATION" options="stations" modal-title="Stations" has-search="true">
+	            <div class="option">
+	                 <h2>{{option.FLIGHT_LOCATION}}</h2>
+                </div>
+	        </ion-input>
+		</div>
+		<div class="col">
+		    <ion-input class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:120px;" class="input-label">To:</span> 
+			    <input type="text" id = "flightNumber" style="text-transform: uppercase;padding-right:0px;" ng-model="flight.actualTo">
+			    <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;margin-left:-100px;border:0px;min-height:0px;height:34px;" modal-select="" ng-model="flight.actualTo" option-property="FLIGHT_LOCATION" options="stations" modal-title="Stations" has-search="true">
+	            <div class="option">
+	                 <h2>{{option.FLIGHT_LOCATION}}</h2>
+                </div>
+	        </ion-input>
+		</div>
+	</div>
+	<div class="row responsive-sm" ng-show ="isAccept">
+		<div class="col">
+			 <span class="input-label" style="padding-right:5px;width: 100%;">Off Block:</span>
+			 <ion-input class="item item-input"> 
+			    <input type="time" ng-model="flight.actualOffBlock" >
+	        </ion-input>
+		</div>
+		<div class="col">
+            <span class="input-label" style="padding-right:5px;width: 100%;">Take Off:</span> 
+		    <ion-input class="item item-input"> 
+			    <input type="time" ng-model="flight.actualTakeOff">
+	        </ion-input>
+		</div>
+		<div class="col">
+            <span class="input-label" style="padding-right:5px;width: 100%;">Landing:</span> 
+		    <ion-input class="item item-input"> 
+			    <input type="time" ng-model="flight.actualLanding">
+	        </ion-input>
+		</div>
+		<div class="col">
+            <span class="input-label" style="padding-right:5px;width: 100%;">On Block:</span> 
+		    <ion-input class="item item-input"> 
+			    <input type="time" ng-model="flight.actualOnBlock">
+	        </ion-input>
+		</div>
+	</div>
+</ion-content>
+<ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+ 	<div class="button-bar">
+        
+        <!-- Status Cancelled-->
+        <button ng-show="isCancel" ng-disabled="true" class="button button-large button-dark"></button>
+        <button ng-show="isCancel" ng-disabled="true" class="button button-large button-dark"></button>
+        <button ng-show="viewMode=='update'&& isCancel" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="RejectStatus()">Scheduled</button>
+        
+        <!-- Update Mode -->
+        <button ng-show="viewMode=='update'&& !isAccept && !isCancel" ng-disabled="true" class="button button-large button-dark"></button>
+        <button ng-show="viewMode=='update'&& !isAccept && !isCancel" ng-disabled="true" class="button button-large button-dark"></button>
+<!--         <button ng-show="viewMode=='update' && !isCancel" class="button button-large icon ion-close button-assertive buttonicon" ng-click="Delete()">Cancel</button> -->
+        <button ng-show="viewMode=='update' && isAccept" class="button button-large icon ion-reply button-energized buttonicon" ng-click="RejectStatus()">Reject</button>
+	    <button ng-show="viewMode=='update' && !isCancel" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="Update()">Save</button>
+	    
+        <!-- Insert Mode -->
+        <button ng-show="viewMode=='insert'" ng-disabled="true" class="button button-large button-dark"></button>
+        <button ng-show="viewMode=='insert'" ng-disabled="true" class="button button-large button-dark"></button>
+        <button ng-show="viewMode=='insert'" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="Save()">Save</button>
+	    
+    </div>
+</ion-footer-bar> 
+</ion-view>

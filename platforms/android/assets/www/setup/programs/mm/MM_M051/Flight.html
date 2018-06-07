@@ -1,0 +1,428 @@
+<ion-view view-title="Flight"> 
+<ion-content padding="true" has-header="true" style="background-color: #F4F4F4">
+<style>
+input[readonly] {
+      background-color: #ccddff;
+}
+
+</style>
+    <div class="card-box">
+       <div class="item item-divider" style="background-color: #e0e0e6;">
+            Flight
+       </div>
+    <div class="row responsive-sm">
+        <div class="col">
+             <ion-input class="item item-input"> 
+                <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Tail #:</span> 
+                <input readonly type="text" id="tailNumber" style="text-align: right;text-transform: uppercase; " ng-model="flight.tailNumber">
+                <button class="button icon ion-arrow-down-b" ng-hide="isCompleted || isAccept" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;"  modal-select="" on-select="onselect(newValue,oldValue)" ng-model="flight.tailNumber" options="aircraftsLov" modal-title="Aircrafts" has-search="true">
+                    <div class="option">
+                        <div class="row">
+                            <div class="col">
+                                <h2>{{option.TAIL_NUMBER}}</h2>
+                            </div>
+                            <div class="col"> 
+                                <h2>{{option.SERIAL_NUMBER}}</h2>
+                            </div>
+                            <div class="col"> 
+                                <h2>{{option.AIRCRAFT_TYPE}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+            </ion-input>
+        </div>
+         <div class="col">
+             <ion-input class="item item-input"> 
+                 <span style="padding-right:5px;max-width:120px;" class="input-label">Flight #:</span> 
+                <input type="text" ng-readonly="isCompleted || isAccept" id = "flightNumber" style="text-transform: uppercase;text-align: right;" ng-model="flight.flightNumber">
+            </ion-input>
+        </div>
+        <div class="col">
+             <ion-input class="item item-input"> 
+                <span style="padding-right:5px;max-width:120px;" class="input-label">Log #:</span> 
+                <input type="text" ng-readonly="isCompleted || isAccept" id="logNumber" style="text-transform: uppercase;text-align: right;" ng-model="flight.logNumber">
+            </ion-input>
+        </div>
+    </div>
+    </div>
+    
+    <div style="margin-top:15px;" class="card-box">
+          <div class="item item-divider" style="background-color: #e0e0e6;">
+        Schedule
+      </div>
+        <div class="row responsive-sm">
+	        <div class="col">
+	            <ion-input class="item item-input"> 
+	                <span style="padding-right:5px;max-width:120px;" class="input-label">Date:</span> 
+	                <input type="date" id = "date" ng-readonly="isCompleted || isAccept" style="text-align: right;" ng-model="flight.scheduleDate">
+	            </ion-input>
+	        </div>
+        <div class="col">
+             <ion-input class="item item-input"> 
+                <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label"> From:</span> 
+                <input type="text" ng-readonly="isCompleted || isAccept" style="text-transform: uppercase;text-align: right;padding-right:0px;" ng-model="flight.scheduledFrom">
+                <button class="button icon ion-arrow-down-b" ng-hide="isCompleted || isAccept" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="flight.scheduledFrom" option-property="FLIGHT_LOCATION" options="locationsLov" modal-title="Locations" has-search="true">
+                <div class="option">
+                    <div class="row">
+                        <div class="col col-20">
+                            <h2>{{option.FLIGHT_LOCATION}}</h2>
+                        </div>
+                        <div class="col"> 
+                            <h2>{{option.DESCRIPTION}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            </ion-input>
+        </div>
+        <div class="col">
+            <ion-input class="item item-input"> 
+                <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">To:</span> 
+                <input type="text" ng-readonly="isCompleted || isAccept" style="text-transform: uppercase;text-align: right;" ng-model="flight.scheduledTo">
+                <button class="button icon ion-arrow-down-b" ng-hide="isCompleted || isAccept" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="flight.scheduledTo" option-property="FLIGHT_LOCATION" options="locationsLov" modal-title="Locations" has-search="true">
+                <div class="option">
+                    <div class="row">
+                        <div class="col col-20">
+                            <h2>{{option.FLIGHT_LOCATION}}</h2>
+                        </div>
+                        <div class="col"> 
+                            <h2>{{option.DESCRIPTION}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            </ion-input>
+        </div>
+        </div>
+        <div class="row responsive-sm">
+	        <div class="col">
+	             <ion-input class="item item-input"> 
+	                <span style="padding-right:5px;max-width:120px;" class="input-label">Off Block:</span> 
+	                <input type="time" ng-readonly="isCompleted || isAccept" style="text-align: right;" placeholder="HH:mm:ss" ng-model="flight.scheduledOffBlock" >
+	            </ion-input>
+	        </div>
+	        <div class="col">
+	            <ion-input class="item item-input"> 
+	                <span style="padding-right:5px;max-width:120px;" class="input-label">On Block:</span> 
+	                <input type="time"  ng-readonly="isCompleted || isAccept" style="text-align: right;" ng-model="flight.scheduledOnBlock">
+	            </ion-input>
+	        </div>
+        </div>  
+    </div>
+    <div ng-show="isAccept||isCompleted" style="margin-top:15px;" class="card-box">
+      <div class="item item-divider" style="background-color: #e0e0e6;">
+	    Actual
+	  </div>
+        <div class="row responsive-sm">
+           <div class="col">
+	            <ion-input class="item item-input"> 
+	                <span style="padding-right:5px;max-width:120px;" class="input-label">Date:</span> 
+	                <input type="date" ng-readonly="isCompleted" id = "date" style="text-align: right;" ng-model="flight.actualDate">
+	            </ion-input>
+            </div>
+            <div class="col">
+                <ion-input class="item item-input"> 
+	                <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">From:</span> 
+	                <input type="text" ng-readonly="isCompleted" style="text-transform: uppercase;text-align: right;padding-right:0px;" ng-model="flight.actualFrom">
+	                <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="flight.actualFrom" option-property="FLIGHT_LOCATION" options="locationsLov" modal-title="Locations" has-search="true">
+		                <div class="option">
+		                    <div class="row">
+		                        <div class="col col-20">
+		                            <h2>{{option.FLIGHT_LOCATION}}</h2>
+		                        </div>
+		                        <div class="col"> 
+		                            <h2>{{option.DESCRIPTION}}</h2>
+		                        </div>
+		                    </div>
+		                </div>
+	               </button>
+                </ion-input>
+            </div>
+            <div class="col">
+	            <ion-input class="item item-input"> 
+	                <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">To:</span> 
+	                <input type="text" ng-readonly="isCompleted" style="text-transform: uppercase;text-align: right;" ng-model="flight.actualTo">
+	                <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="flight.actualTo" option-property="FLIGHT_LOCATION" options="locationsLov" modal-title="Locations" has-search="true">
+		                <div class="option">
+		                    <div class="row">
+		                        <div class="col col-20">
+		                            <h2>{{option.FLIGHT_LOCATION}}</h2>
+		                        </div>
+		                        <div class="col"> 
+		                            <h2>{{option.DESCRIPTION}}</h2>
+		                        </div>
+		                    </div>
+		                </div>
+		            </button>
+	            </ion-input>
+            </div>
+        </div>
+        <div class="row responsive-sm">
+	        <div class="col">
+	             <ion-input class="item item-input"> 
+                    <span style="padding-right:5px;max-width:120px;" class="input-label">Off Block:</span> 
+	                <input type="time" ng-readonly="isCompleted" ng-change="calculateTimes()" style="text-align: right;" placeholder="HH:mm:ss" ng-model="flight.actualOffBlock" >
+	            </ion-input>
+	        </div>
+	        <div class="col">
+	            <ion-input class="item item-input"> 
+	                <span style="padding-right:5px;max-width:120px;" class="input-label">Take Off:</span> 
+	                <input type="time" ng-readonly="isCompleted" ng-change="calculateTimes()" style="text-align: right;" ng-model="flight.actualTakeOff">
+	            </ion-input>
+	        </div>
+        </div>
+        <div class="row responsive-sm">
+	        <div class="col">
+	            <ion-input class="item item-input"> 
+                    <span style="padding-right:5px;max-width:120px;" class="input-label">Landing:</span> 
+	                <input type="time" ng-readonly="isCompleted" ng-change="calculateTimes()" style="text-align: right;" ng-model="flight.actualLanding">
+	            </ion-input>
+	        </div>
+	        <div class="col">
+	            <ion-input class="item item-input"> 
+	                <span style="padding-right:5px;max-width:120px;" class="input-label">On Block:</span> 
+	                <input type="time" ng-readonly="isCompleted" ng-change="calculateTimes()" style="text-align: right;" ng-model="flight.actualOnBlock">
+	            </ion-input>
+	        </div>
+        </div>
+        <div class="row responsive-sm">
+            <div class="col">
+                 <ion-input class="item item-input"> 
+                    <span style="padding-right:5px;max-width:120px;" class="input-label">Block Time:</span> 
+                    <input type="text" ng-readonly="isCompleted" ng-model="flight.blockHour" style="text-align: right;" readonly/>
+                </ion-input>
+            </div>
+            <div class="col">
+                <ion-input class="item item-input"> 
+                     <span style="padding-right:5px;max-width:120px;" class="input-label">Flight Time:</span> 
+                    <input type="text" ng-readonly="isCompleted" ng-model="flight.flightHour" style="text-align: right;" readonly/>
+                </ion-input>
+            </div>
+        </div>
+    </div>
+    <div ng-show="isAccept" style="margin-top:15px;" class="card-box">
+        <div class="item item-divider" style="background-color: #e0e0e6;">
+            Completed
+        </div>
+        <div class="row responsive-sm">
+	        <div class="col">
+	             <ion-input class="item item-input"> 
+	                 <span style="padding-right:5px;max-width:120px;" class="input-label">Arrival Fuel:</span> 
+	                <input type="text" ng-readonly="isCompleted" style="text-transform: uppercase;text-align: right;" ng-model="flight.arrivalFuel">
+	            </ion-input>
+	        </div>
+	        <div class="col">
+	            <ion-checkbox ng-model="flight.noDefectFlag" ng-hide="flight.hasDefect" style="border:0px;margin-top: -5px;" ng-init="flight.noDefectFlag=false">No Defect Found</ion-checkbox>
+	        </div>
+        </div>
+    </div>
+
+
+
+
+  <!--   <div class="col">
+            <ion-input class="item item-input"> 
+                <span style="padding-right:5px;max-width:120px;" class="input-label">Date:</span> 
+                <input type="date" id = "date" style="text-align: right;" ng-model="flight.actualDate">
+            </ion-input>
+        </div>
+    <div class="row responsive-sm">
+        <div ng-hide="MM_M051_viewMode =='logInsert' || MM_M051_viewMode =='logUpdate'" class="col">
+             <ion-input class="item item-input"> 
+                 <span style="padding-right:5px;max-width:120px;" class="input-label">Flight #:</span> 
+                <input type="text" id = "flightNumber" style="text-transform: uppercase;text-align: right;" ng-model="flight.flightNumber">
+            </ion-input>
+        </div>
+        <div class="col">
+             <ion-input class="item item-input"> 
+                <span style="padding-right:5px;max-width:120px;" class="input-label">Log #:</span> 
+                <input type="text" id = "logNumber" style="text-transform: uppercase;text-align: right;" ng-model="flight.logNumber">
+            </ion-input>
+        </div>
+    </div>
+    <div class="row responsive-sm">
+        <div class="col col-40">
+             <ion-input class="item item-input"> 
+                <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Actual From:</span> 
+                <input type="text" style="text-transform: uppercase;text-align: right;padding-right:0px;" ng-model="flight.actualFrom">
+                <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="flight.actualFrom" option-property="FLIGHT_LOCATION" options="locationsLov" modal-title="Locations" has-search="true">
+                <div class="option">
+                    <div class="row">
+                        <div class="col col-20">
+                            <h2>{{option.FLIGHT_LOCATION}}</h2>
+                        </div>
+                        <div class="col"> 
+                            <h2>{{option.DESCRIPTION}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            </ion-input>
+        </div>
+        <div class="col">
+            <ion-input class="item item-input"> 
+                <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Actual To:</span> 
+                <input type="text" style="text-transform: uppercase;text-align: right;" ng-model="flight.actualTo">
+                <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="flight.actualTo" option-property="FLIGHT_LOCATION" options="locationsLov" modal-title="Locations" has-search="true">
+                <div class="option">
+                    <div class="row">
+                        <div class="col col-20">
+                            <h2>{{option.FLIGHT_LOCATION}}</h2>
+                        </div>
+                        <div class="col"> 
+                            <h2>{{option.DESCRIPTION}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            </ion-input>
+        </div>
+        <div class="col col-30">
+            <div class="item item-input item-select">
+                <div class="input-label">
+                    Diversion:
+                </div>
+                <select ng-model="flight.diversion">
+                    <option selected>N</option>
+                    <option>Y</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row responsive-sm">
+        <div class="col">
+             <span class="input-label" style="padding-right:5px;width: 100%;">Off Block:</span>
+             <ion-input class="item item-input"> 
+                <input type="time" ng-change="calculateTimes()" style="text-align: right;" placeholder="HH:mm:ss" ng-model="flight.actualOffBlock" >
+            </ion-input>
+        </div>
+        <div class="col">
+            <span class="input-label" style="padding-right:5px;width: 100%;">Take Off:</span> 
+            <ion-input class="item item-input"> 
+                <input type="time" ng-change="calculateTimes()" style="text-align: right;" ng-model="flight.actualTakeOff">
+            </ion-input>
+        </div>
+        <div class="col">
+            <span class="input-label" style="padding-right:5px;width: 100%;">Landing:</span> 
+            <ion-input class="item item-input"> 
+                <input type="time" ng-change="calculateTimes()" style="text-align: right;" ng-model="flight.actualLanding">
+            </ion-input>
+        </div>
+        <div class="col">
+            <span class="input-label" style="padding-right:5px;width: 100%;">On Block:</span> 
+            <ion-input class="item item-input"> 
+                <input type="time" ng-change="calculateTimes()" style="text-align: right;" ng-model="flight.actualOnBlock">
+            </ion-input>
+        </div>
+    </div>
+    <div class="card-box" ng-show ="MM_M051_viewMode =='update' ">
+	    <div class="row responsive-sm">
+	        <div class="col">
+	             <span class="input-label" style="padding-right:5px;width: 100%;" >Block Time:</span>
+	             <ion-input class="item item-input"> 
+	                <input type="text" ng-model="flight.blockTime" style="text-align: right;" readonly/>
+	            </ion-input>
+	        </div>
+	        <div class="col">
+	             <span class="input-label" style="padding-right:5px;width: 100%;" >Block Hour:</span>
+	             <ion-input class="item item-input"> 
+	                <input type="text" ng-model="flight.blockHour" style="text-align: right;" readonly/>
+	            </ion-input>
+	        </div>
+	        <div class="col">
+	            <span class="input-label" style="padding-right:5px;width: 100%;">Flight Time:</span> 
+	            <ion-input class="item item-input"> 
+	                <input type="text" ng-model="flight.flightTime" style="text-align: right;" readonly/>
+	            </ion-input>
+	        </div>
+	        <div class="col">
+	             <span class="input-label" style="padding-right:5px;width: 100%;" >Flight Hour:</span>
+	             <ion-input class="item item-input"> 
+	                <input type="text" ng-model="flight.flightHour" style="text-align: right;" readonly/>
+	            </ion-input>
+	        </div>
+	    </div>
+    </div>
+     <div class="row responsive-sm" ng-show ="isAccept || isCompleted">
+        <div class="col">
+             <span class="input-label" style="padding-right:5px;width: 100%;">Arrival Fuel:</span>
+             <ion-input class="item item-input"> 
+                <input type="text" ng-model="flight.arrivalFuel"/>
+            </ion-input>
+        </div>
+        <div class="col">
+          <ion-checkbox ng-model="flight.noDefectFlag" ng-hide="flight.hasDefect" ng-init="flight.noDefectFlag=false">No Defect Found</ion-checkbox>
+        </div>
+    </div> -->
+<!-- 
+    <div class="row responsive-sm" ng-show ="isAccept || isCompleted">
+        <div class="col">
+             <span class="input-label" style="padding-right:5px;width: 100%;">Delay Code:</span>
+             <ion-input class="item item-input"> 
+                <input type="text" ng-model="flight.delayCode"/>
+            </ion-input>
+        </div>
+        <div class="col">
+            <span class="input-label" style="padding-right:5px;width: 100%;">Delay Time:</span> 
+            <ion-input class="item item-input"> 
+                <input type="text" ng-model="flight.delayTime"/>
+            </ion-input>
+        </div>
+    </div> -->
+    
+</ion-content>
+<ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+     <div class="button-bar">
+        <button ng-show="isCompleted && MM_M051_viewMode =='update'" ng-disabled="true" class="button button-large button-dark"></button>
+        <!-- Status Cancelled-->
+        <button ng-show="MM_M051_viewMode =='update' && (isAccept || isCancel) && !isCompleted" class="button button-large icon ion-checkmark button-positive buttonicon" ng-click="RejectStatus()">Scheduled</button>
+        
+        <!-- Update Mode -->
+        <button ng-show="MM_M051_viewMode =='update' && !isAccept && !isCancel && !isCompleted" class="button button-large icon ion-close button-assertive buttonicon" ng-click="CancelFlight()">Cancel</button>
+        <button ng-show="MM_M051_viewMode =='update' && isCancel" class="button button-large icon ion-close-round button-assertive buttonicon" ng-click="deleteFlight()">Delete</button>
+        <button ng-show="MM_M051_viewMode =='complete' && isAccept && !isCompleted" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="CompleteFlight()">Complete</button>
+        <button ng-show="MM_M051_viewMode =='update' && !isCompleted" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="Save()">Save</button>
+        
+        <!-- Insert Mode -->
+        <button ng-show="MM_M051_viewMode =='insert'" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="Save()">Save</button>
+        <!-- Log Flight Insert -->
+        <button ng-disabled="disabled" ng-show="MM_M051_viewMode =='logInsert' || MM_M051_viewMode =='logUpdate'" class="button button-large icon ion-checkmark button-balanced buttonicon" ng-click="saveLogFlight()">Save</button>
+    </div>
+</ion-footer-bar>
+<script id="templates/digitalSign.html" type="text/ng-template">
+ <ion-modal-view style="top:20%;width:70%;left:15%;height:60%; min-height:260px;    border: 1px solid black;box-shadow: 0px 0px 500px 10px black;overflow: hidden !important;">
+     <ion-header-bar class="bar bar-header bar-positive">
+         <h1 class="title" style="color:white">Digital Sign</h1>
+     </ion-header-bar>
+     <ion-content scroll="false" overflow-scroll="false" style="min-height:260px !important; overflow: hidden !important;">
+        <div class="list card" style="box-shadow:0 0 0 ;margin: 0px;padding-top: 7px; overflow: hidden !important;">
+            <div class="item item-body" style="box-shadow:0 0 0 ;padding:0px;overflow: hidden !important;">
+                <div id="loginList" class="list" style="postion:absolute;background-color:rgba(0, 0, 0, 0);box-shadow:0 0 0 ;opacity:0.9;overflow: hidden !important;">
+                    <label class="item item-input" style="border: none;margin-bottom: 10px;border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12);">
+                        <i class="icon ion-person placeholder-icon" style="color: #444"></i> 
+                        <input type="text" readonly ng-model="user.username" placeholder="Username" style="font-weight: bold;background: none;text-transform: uppercase;">
+                    </label>
+                    <label class="item item-input" style="border: none; border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12); ">
+                        <i class="icon ion-key placeholder-icon" style="color: #333; "></i>
+                        <input type="password" ng-model="user.password" placeholder="Password" style="font-weight: bold;background: none; color: #333;">
+                    </label>
+                    <div class="row" style="padding:0px">
+                        <div class="col" style="padding:0px">
+                            <canvas id="f" style="height:100%;width:100%;margin-top: 10px;" class="canvas-container"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+            <ion-footer-bar style="padding:0px">
+                <div class="button-bar">
+                    <button class="button button-large icon buttonicon ion-trash-b button-energized" ng-click="clearCanvas()">CLEAR</button>
+                    <button class="button button-large icon buttonicon ion-close button-assertive" ng-click="hide()">CANCEL</button>
+                    <button class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="signin()">OK</button>
+                </div>
+            </ion-footer-bar> 
+ </ion-modal-view>
+</script> 
+</ion-view>

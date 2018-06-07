@@ -1,0 +1,296 @@
+<ion-view view-title=""> 
+<script id="add-or-edit-birthday.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title">{{ action }} Birthday</h1> 
+        <div class="buttons">
+        <button ng-hide="isAdd" ng-click="deleteBirthday()" class="button button-icon icon ion-trash-a"></button>
+        </div>
+      </ion-header-bar>
+      <ion-content>
+        <div class="list list-inset">
+          <label class="item item-input">
+          <input type="text" placeholder="Name" ng-model="birthday.Name">
+          </label>
+          <label class="item item-input">
+          <input type="date" placeholder="Birthday" ng-model="birthday.Date">
+          </label>
+        </div>
+        <div class="padding">
+          <button ng-click="saveBirthday()" class="button button-block button-positive activated">Save</button>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+<ion-nav-bar class="nav-green">
+</ion-nav-bar> 
+<ion-content style="background: linear-gradient(180deg, #e3e4e5, rgba(0,128,128,1));">
+<style>
+	.programs {
+		display: table !important;
+        list-style: none;
+        width: 100%;
+	}
+	
+} 
+.nav-green {
+    background-color:#1195c7;
+}
+.scroll-bg {
+    background: linear-gradient(180deg, #e3e4e5, rgba(0,128,128,1));
+    background-size: cover !important;
+} 
+
+.programs {
+	display: none;
+	list-style: none;
+	width: 100%;
+}
+
+.programs li {
+	display: table-cell;
+	text-align: center;
+}
+
+.ptable {
+	list-style: none;
+	display: grid	;
+	width: 100%;
+/*     padding:20px; */
+}
+
+.ptable li {
+	display: table-cell;
+	text-align: center;
+}
+
+.programs button.active, .programs button.activated, .ptable button.active,
+	.ptable button.activated {
+	/*box-shadow: inset 0px -5px 0px 0px #2185d0 !important;*/
+}
+.programIcon:active {
+    opacity: 0.5;
+}
+</style>
+<!-- <div class="row" >
+     <div class="col col-20"> <button class="button" ng-click="ListTablesTransaction()">EXPORT DB JSON</button>  </div>
+      <div class="col col-20"> <button class="button" ng-click="exportDbSQL()">EXPORT DB SQL</button>  </div>
+      <div class="col col-20"> <button class="button" ng-click="initP()">INIT POUCH</button>  </div>
+      <div class="col col-20"> <button class="button" ng-click="printInfo()">PRINT INFO</button>  </div>
+      </div> -->
+
+ <!--  <div class="row" >
+     <div class="col col-20"> <button class="button" ng-click="exportDbJSON()">EXPORT DB JSON</button>  </div>
+      <div class="col col-20"> <button class="button" ng-click="exportDbSQL()">EXPORT DB SQL</button>  </div>
+      <div class="col col-20"> <button class="button" ng-click="initP()">INIT POUCH</button>  </div>
+      <div class="col col-20"> <button class="button" ng-click="printInfo()">PRINT INFO</button>  </div>
+      
+       <div class="col col-20">
+          <button ng-click="showAddBirthdayModal()" class="button button-icon icon ion-plus"></button>
+        </div>
+      
+       <div class="col col-40">
+          <ion-list>
+           <ion-item ng-repeat="b in birthdays track by $index" ng-click="showEditBirthdayModal(b)">
+             <div style="float: left">{{ b.Name }}</div>
+             <div style="float: right">{{ b.Date}}</div>
+           </ion-item>
+         </ion-list>  
+         </div>
+         </div> -->
+         
+	<!-- Dynamic assest img sample
+    <div class="row" >
+      <div class="col col-50">
+          <img wings-static-assests-picture name="{{img1Path}}" directory="" engin="birinci"></img>
+      </div>
+      <div class="col col-50">
+          <img wings-static-assests-picture name="main.png" directory="" engin="ikinci"></img>
+           <img wings-static-assests-picture name="icon.png" directory="icon" engin="icon"></img>
+      </div>
+    </div> -->
+    
+        <!-- Dynamic assest img sample
+            <div class="row" >
+                 <div class="col col-20"> <button class="button" ng-click="readBinaryFile()">CHANGEREAD BINARY FILE</button>  </div> -->
+<!--        </div> -->
+<!-- <div class="row" >
+      	<div class="col col-20"> <button class="button" ng-click="DirectoryList()">Directory List</button> 	</div>
+      	<div class="col col-20">   <button class="button" ng-click="LoadDB()">LOAD DB</button>	</div>
+      	<div class="col col-20">   <button class="button" ng-click="ListTables()">LIST TABLES - Wings Setup DB</button>	</div>
+      	<div class="col col-20">   <button class="button" ng-click="ListTablesTransaction()">LIST TABLES - Wings Transaction DB</button>	</div>
+      	<div class="col col-20">  <button class="button" ng-click="insert()">INSERT </button>	</div>
+      	<div class="col col-20">  <button class="button" ng-click="select()">SELECT </button>	</div>
+     </div> --> <!--   <div class="row" ng-repeat="row in globals.currentUser.rolePrograms| inSlicesOf:5 ">
+	        <div class="col col-20" ng-repeat="item in row ">
+                <div style="text-align: center;color: white;">
+                    <a ng-if="item.action != ''" ui-sref="{{item.sref}}">
+					    <img ng-src="./img/icon/{{item.program_id}}.png" align="middle">
+				    </a>
+					<a ng-if="item.action == ''" href="#">
+					    <img ng-src="./img/linux-logo.png" align="middle">
+				    </a>
+				    <br>
+     			    <span style="color:DimGray">{{item.title}}</span> 
+                </div>
+ 	       </div>  
+        </div>
+        <hr> --> <br>
+
+<!-- <ul class="ptable" ng-repeat="row in globals.currentUser.rolePrograms| inSlicesOf:5 " style="padding-top:10px;display:table;">
+    <li ng-repeat="item in row ">
+        <button ng-if="item.action != ''" ui-sref="{{item.sref}}" style="text-align: center; color: #333; padding: 5px 0; border-radius: 5px; border: 0 !important; background: #efefef; width: 100px; height: 136px; box-shadow: inset 0px -5px 0px 0px rgba(0, 0, 0, 0.12);">
+            <div style="display: inline;">
+                <img wings-static-assests-picture filename="{{item.program_id}}.png" directory="icon" align="middle" style="border-radius: 50%; background: #fff; border: 3px solid rgba(255, 255, 255, 0.24); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);"></img>
+            </div>
+            <a ng-if="item.action == ''" href="#">
+                <img ng-src="./img/linux-logo.png" align="middle"></img>
+            </a> 
+            <span style="color: #444; text-shadow: 1px 1px rgba(250, 250, 250, 0.52) !important; display: block; width: auto; margin-top: 0px; text-align: center; border-radius: 3px; padding: 5px;">{{item.title}}
+            </span>
+        </button>
+    </li>
+</ul> -->
+<ul class="programs" ng-repeat="row in globals.currentUser.rolePrograms " style="padding-top:10px;">
+    <li ng-repeat="item in row ">
+        <button ng-if="item.action != ''" ui-sref="{{item.sref}}" style="text-align: center; color: #333; padding: 5px 0; border-radius: 5px; border: 0 !important; background: rgba(255,255,255,0); width: 100px; height: 136px;">
+            <div class="programIcon" style="display: inline;">
+                <img ng-src="./img/icon/{{item.program_id}}.svg" directory="icon" align="middle" ng-style="{'background-color':getColorCodes(item.program_id)}" style="border-radius: 20%;  height:64px;padding: 3px;border: 3px solid rgba(255, 255, 255, 0.24); box-shadow: 2px 0px 2px 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);"></img>
+            </div>
+            <a ng-if="item.action == ''" href="#">
+                <img ng-src="./img/linux-logo.png" align="middle"></img>
+            </a> 
+            <span style="color: #444; text-shadow: 1px 1px rgba(250, 250, 250, 0.52) !important; display: block; width: auto; margin-top: 0px; text-align: center; border-radius: 3px; padding: 5px;">{{item.title}}
+            </span>
+        </button>
+    </li>
+</ul>
+<!-- <ul class="programs" style="padding-top:10px;display:table;">
+    <li ng-repeat="item in globals.currentUser.rolePrograms ">
+        <button clas="btpr" ng-if="item.action != ''" ui-sref="{{item.sref}}" style="text-align: center; color: #333; padding: 5px 0; border-radius: 5px; border: 0 !important; background: #efefef; width: 100px; height: 136px; box-shadow: inset 0px -5px 0px 0px rgba(0, 0, 0, 0.12);">
+            <div style="display: inline;">
+                 <img wings-static-assests-picture filename="{{item.program_id}}.png" directory="icon" align="middle" style="border-radius: 50%; background: #fff; border: 3px solid rgba(255, 255, 255, 0.24); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);"></img>
+            </div>
+            <a ng-if="item.action == ''" href="#"> <img
+                ng-src="./img/linux-logo.png" align="middle">
+            </a> <span
+                style="color: #444; text-shadow: 1px 1px rgba(250, 250, 250, 0.52) !important; display: block; width: auto; margin-top: 0px; text-align: center; border-radius: 3px; padding: 5px;">{{item.title}}
+            </span>
+        </button>
+    </li>
+</ul> -->
+<!--  <ul class="programs" ng-repeat="row in globals.currentUser.rolePrograms| inSlicesOf:3 " style="padding-top:10px;display: table ;">
+    <li ng-repeat="item in row ">
+        <button ng-if="item.action != ''" 
+                ui-sref="{{item.sref}}" 
+                style="text-align: center; 
+                       color: #333; 
+                       padding: 5px 0; 
+                       border-radius: 5px; 
+                       border: 0 !important; 
+                       background: #efefef; 
+                       width: 100px; 
+                       height: 136px; 
+                       box-shadow: inset 0px -5px 0px 0px rgba(0, 0, 0, 0.12);">
+            <div style="display: inline;">
+                <img wings-static-assests-picture 
+                     filename="{{item.program_id}}.png" 
+                     directory="icon" 
+                     align="middle" 
+                     style="border-radius: 50%; 
+                            background: #fff; 
+                            border: 3px solid rgba(255, 255, 255, 0.24); 
+                            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);">
+            </div>
+            <span style="color: #444; text-shadow: 1px 1px rgba(250, 250, 250, 0.52) !important; display: block; width: auto; margin-top: 0px; text-align: center; border-radius: 3px; padding: 5px;">
+            pop{{item.title}}
+            </span>
+        </button>
+    </li>
+</ul>  -->
+<!-- <div class="row"  ng-repeat="row in globals.currentUser.rolePrograms| inSlicesOf:5 " style="padding-top:10px;">
+    <div class="col" align="center" ng-repeat="item in row ">
+        <button ng-if="item.action != ''" ui-sref="{{item.sref}}" style="text-align: center; color: #333; padding: 5px 0; border-radius: 5px; border: 0 !important; background: #efefef; width: 100px; height: 136px; box-shadow: inset 0px -5px 0px 0px rgba(0, 0, 0, 0.12);">
+            <div style="display: inline;">
+                <img ng-src="./img/icon/{{item.program_id}}.png" align="middle" style="border-radius: 50%; background: #fff; border: 3px solid rgba(255, 255, 255, 0.24); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);">
+            </div>
+            <a ng-if="item.action == ''" href="#">
+                <img ng-src="./img/linux-logo.png" align="middle">
+            </a> 
+            <span style="color: #444; text-shadow: 1px 1px rgba(250, 250, 250, 0.52) !important; display: block; width: auto; margin-top: 0px; text-align: center; border-radius: 3px; padding: 5px;">{{item.title}}
+            </span>
+        </button>
+    </div>
+</div> -->
+
+
+
+
+
+
+
+    <!--       <li ng-repeat="item in globals.currentUser.rolePrograms " > <button clas="btpr" ng-if="item.action != ''" ui-sref="{{item.sref}}" style="text-align: center;color: #333;  padding: 5px 0; 
+        border-radius: 5px; border: 0 !important;margin-left: 5px; margin-right: 5px; background: #efefef;   width: 100px; height: 136px; box-shadow: inset 0px -5px 0px 0px rgba(0,0,0,0.12);
+        ">
+                    <div  style="display: inline;">
+					    <img ng-src="./img/icon/{{item.program_id}}.png" align="middle" style="border-radius: 50%; background: #fff; border: 3px solid rgba(255,255,255,0.24); box-shadow:  0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+				    </div>
+					<a ng-if="item.action == ''" href="#">
+					    <img ng-src="./img/linux-logo.png" align="middle">
+				    </a>
+				  
+     			    <span style="color:#444;     text-shadow: 1px 1px  rgba(250,250,250,0.52) !important;
+     			     display: block; width: auto; margin-top: 0px;    text-align: center;
+     			      border-radius: 3px;  padding: 5px;
+      
+     			    ">{{item.title}} Test </span> 
+                </button></li>
+                                      <li ng-repeat="item in globals.currentUser.rolePrograms " > <button clas="btpr" ng-if="item.action != ''" ui-sref="{{item.sref}}" style="text-align: center;color: #333;  padding: 5px 0; 
+        border-radius: 5px; border: 0 !important;margin-left: 5px; margin-right: 5px; background: #efefef;   width: 100px; height: 136px; box-shadow: inset 0px -5px 0px 0px rgba(0,0,0,0.12);
+        ">
+                    <div  style="display: inline;">
+					    <img ng-src="./img/icon/{{item.program_id}}.png" align="middle" style="border-radius: 50%; background: #fff; border: 3px solid rgba(255,255,255,0.24); box-shadow:  0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+				    </div>
+					<a ng-if="item.action == ''" href="#">
+					    <img ng-src="./img/linux-logo.png" align="middle">
+				    </a>
+				  
+     			    <span style="color:#444;     text-shadow: 1px 1px  rgba(250,250,250,0.52) !important;
+     			     display: block; width: auto; margin-top: 0px;    text-align: center;
+     			      border-radius: 3px;  padding: 5px;
+      
+     			    ">{{item.title}} Test </span> 
+                </button></li>
+                              <li ng-repeat="item in globals.currentUser.rolePrograms " > <button clas="btpr" ng-if="item.action != ''" ui-sref="{{item.sref}}" style="text-align: center;color: #333;  padding: 5px 0; 
+        border-radius: 5px; border: 0 !important;margin-left: 5px; margin-right: 5px; background: #efefef;   width: 100px; height: 136px; box-shadow: inset 0px -5px 0px 0px rgba(0,0,0,0.12);
+        ">
+                    <div  style="display: inline;">
+					    <img ng-src="./img/icon/{{item.program_id}}.png" align="middle" style="border-radius: 50%; background: #fff; border: 3px solid rgba(255,255,255,0.24); box-shadow:  0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+				    </div>
+					<a ng-if="item.action == ''" href="#">
+					    <img ng-src="./img/linux-logo.png" align="middle">
+				    </a>
+				  
+     			    <span style="color:#444;     text-shadow: 1px 1px  rgba(250,250,250,0.52) !important;
+     			     display: block; width: auto; margin-top: 0px;    text-align: center;
+     			      border-radius: 3px;  padding: 5px;
+      
+     			    ">{{item.title}} Test </span> 
+                </button></li>
+                                      <li ng-repeat="item in globals.currentUser.rolePrograms " > <button clas="btpr" ng-if="item.action != ''" ui-sref="{{item.sref}}" style="text-align: center;color: #333;  padding: 5px 0; 
+        border-radius: 5px; border: 0 !important;margin-left: 5px; margin-right: 5px; background: #efefef;   width: 100px; height: 136px; box-shadow: inset 0px -5px 0px 0px rgba(0,0,0,0.12);
+        ">
+                    <div  style="display: inline;">
+					    <img ng-src="./img/icon/{{item.program_id}}.png" align="middle" style="border-radius: 50%; background: #fff; border: 3px solid rgba(255,255,255,0.24); box-shadow:  0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+				    </div>
+					<a ng-if="item.action == ''" href="#">
+					    <img ng-src="./img/linux-logo.png" align="middle">
+				    </a>
+				  
+     			    <span style="color:#444;     text-shadow: 1px 1px  rgba(250,250,250,0.52) !important;
+     			     display: block; width: auto; margin-top: 0px;    text-align: center;
+     			      border-radius: 3px;  padding: 5px;
+      
+     			    ">{{item.title}} Test </span> 
+                </button></li>  -->
+</ion-content> </ion-view>

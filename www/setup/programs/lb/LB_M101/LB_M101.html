@@ -1,0 +1,96 @@
+<ion-view view-title="Clock Out" cache-view="true"> 
+	<ion-content  has-header="true" style="background-color: #F4F4F4">
+	    <!-- <div class="row" ng-show="!isLogout">
+	        <div class="col">
+	            <ion-input class="item item-input"> 
+				    <i class="icon ion-person" style="padding-right:10px"></i> 
+				    <span style="padding-right:5px;width:60px;" class="input-label">Badge</span> 
+				    <input type="number" id = "badge" ng-model="clock.BADGE"  ng-focus="setScanObj('Badge')">
+		        </ion-input>
+		    </div>
+		</div>
+	    <div class="row" ng-show="isLogout">
+	        <div class="col">
+		         <ion-input class="item item-input" ng-readonly="true" ng-show="clock.NAME && isLogout"> 
+		  	    <i class="icon ion-person" style="padding-right:10px"></i> 
+			  	<input type="text" ng-model="clock.NAME"/>
+			  	<i class="icon ion-checkmark-circled balanced " style="padding-right:10px"></i> 
+		       </ion-input>
+			</div>
+		</div>-->
+        <div class="card-box" style="background-color:#ffffff;margin-top:5px;">
+        <div class="row">
+        <div class="col col-20">
+        <div class="row" style="display:table;font-size:10vmin;height:100%;text-align:center;">
+        <i class="icon ion-person" style="display:table-cell;vertical-align:middle;"></i> 
+        </div>
+        </div>
+        <div class="col col-80">
+        <div class="row" ng-show="!isLogout">
+            <div class="col">
+                <ion-input class="item item-input" style="border:none;border-bottom: solid 1px;"> 
+                    <span style="padding-right:5px;width:60px;" class="input-label">Badge:</span> 
+                    <input ng-readonly="isReadOnly" type="text" id = "badge" ng-model="clock.BADGE" ng-init="scanObj='Badge'" ng-focus="setScanObj('Badge')">
+                </ion-input>
+            </div>
+        </div>
+        <div class="row" ng-show="isLogout">
+             <div class="col">
+                <ion-input class="item item-input" style="border:none;border-bottom: solid 1px;" ng-readonly="true" ng-show="clock.NAME && isLogout"> 
+                    <input ng-readonly="isLogon" type="text" ng-model="clock.NAME"/>
+                    <i class="icon ion-checkmark-circled balanced " style="padding-right:10px"></i> 
+                </ion-input>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="card-box" style="background-color:#ffffff;margin-top:5px;" ng-show="clock.DAILY || clock.WEEKLY">
+		<div class="row responsive-sm" >
+	        <div class="col" ng-show="clock.DAILY">
+	            <ion-input class="item item-input" style="border:none;border-bottom: solid 1px;"ng-readonly="true"> 
+			  	    <i class="icon ion-clock" style="padding-right:10px"></i>
+			  	     <span style="padding-right:5px;">Daily:</span> 
+			  		<input readonly type="text" ng-model="clock.DAILY"/>
+		  	    </ion-input>
+                </div>
+	        <div class="col" ng-show="clock.WEEKLY">
+	            <ion-input class="item item-input" style="border:none;border-bottom: solid 1px;"ng-readonly="true"> 
+			  	    <i class="icon ion-clock" style="padding-right:10px"></i>
+			  	     <span style="padding-right:5px;">Weekly:</span> 
+			  		<input readonly type="text" ng-model="clock.WEEKLY"/>
+		  	    </ion-input>
+            </div>
+            </div>
+            </div>
+            <ion-list>
+            <ion-item ng-repeat="object in clocks" ng-class="{'stable-bg':object.selected_flag}" on-hold="onHoldClock(object)" style="padding:0">
+                <div class="row" ng-click="toggleClock(object)">
+                    <div class="col col-10" style="padding:0px;border-radius: 50%; font-size: 40px;  color: #fff; float: left; display: inline;  width: 42px; height: 60px; text-align: center; line-height: 60px; margin-right: 20px;">
+                        <i class="icon {{clockIcon(object)}}"style="font-size: 42px;"></i>
+                    </div>
+                    <div class="col col-90">
+                        <h2 style="text-align: left;">
+                            <b>Badge : </b>{{object.BADGE}}
+                        </h2>
+                        <h4 style="text-align:left;left:20px;white-space:initial;height:20px;" >
+                            <b>Clock Time : </b>{{object.CLOCK_TIME}}
+                        </h4>
+                        <h4 ng-hide="object.MECHANIC_EMPLOYEE_NUMBER == ''" style="text-align: left;left:20px">
+                            <span style="color:red;"><b>Server Feedback : </b>{{object.SERVER_FEEDBACK}}</span>
+                        </h4>
+
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+	</ion-content>
+	<ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+	    <div class="button-bar">
+	        <button class="button button-large buttonicon icon ion-ios-barcode button-positive" ng-click="scanBarcode(scanObj)">SCAN</button>
+            <button ng-show="selectedClock && selectedClock.selected_flag" ng-click="discard()" class="button button-large buttonicon icon ion-close button-assertive">Discard</button>
+	        <button ng-disabled="clock.BADGE=='' || isLogout" class="button button-large buttonicon icon ion-checkmark button-balanced" ng-click="logout()">CLOCK OUT</button>
+	    </div>
+	</ion-footer-bar> 
+</ion-view>
+  

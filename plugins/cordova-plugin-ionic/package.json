@@ -1,0 +1,44 @@
+{
+  "name": "cordova-plugin-ionic",
+  "version": "2.0.3",
+  "cordova": {
+    "id": "cordova-plugin-ionic",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "description": "Ionic Cordova SDK",
+  "engines": {
+    "cordovaDependencies": {
+      "2.0.3": {
+        "cordova-plugin-splashscreen": ">=4.0.0"
+      }
+    }
+  },
+  "repository": "https://github.com/ionic-team/cordova-plugin-ionic.git",
+  "issue": "https://github.com/ionic-team/cordova-plugin-ionic/issues",
+  "keywords": [
+    "ionic",
+    "cordova",
+    "deploy",
+    "liveupdates",
+    "mobile",
+    "hybrid",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "dependencies": {
+    "mkpath": ">=1.0.0",
+    "xml2js": ">=0.4",
+    "node-version-compare": ">=1.0.1",
+    "plist": ">=1.2.0"
+  },
+  "author": "Ionic",
+  "contributors": [
+    {"name": "Max Lynch", "email": "max@ionic.io"},
+    {"name": "William Pelrine", "email": "rudy@ionic.io"}
+  ],
+  "license": "MIT"
+}

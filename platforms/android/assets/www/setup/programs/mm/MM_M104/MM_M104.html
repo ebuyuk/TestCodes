@@ -1,0 +1,56 @@
+<ion-view view-title="Preflight-Check"> 
+<ion-content padding="true" has-header="true">
+    <ion-item class="item item-icon-right" ng-click="toggle('isLpfcShown')" ng-class="{active: isLpfcShown}" >
+        <div class="item-text-center item-text-wrap"><i class="icon-left ion-ios-person" ></i>Last Preflight-Check</div>
+        <i class="icon" ng-class="isLpfcShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+    </ion-item>
+    <ion-item class="item-accordion"  ng-show="isLpfcShown" style="padding:0px;margin:-1px;">
+	    <table class="footable" >
+		    <thead>
+		        <tr>
+		        	<th>Date</th>
+		            <th>Performed By</th>
+		        </tr>
+		    </thead>
+    		<tbody>
+		        <tr>
+		            <td>{{lastInspection.Inspection_Date}}</td>
+		            <td>{{lastInspection.Employee_Name}}</td>
+		        </tr>
+		    </tbody>
+	   </table>
+    </ion-item>
+	<br>
+    <ion-item class="item item-icon-right" ng-click="toggle('isPfcShown')" ng-class="{active: isPfcShown}" >
+        <div class="item-text-center item-text-wrap"><i class="icon-left ion-ios-person" ></i>PFC Performed by Crew</div>
+        <i class="icon" ng-class="isPfcShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+    </ion-item>
+    <ion-item class="item-accordion"  ng-show="isPfcShown" style="padding:0px;margin:-1px;">
+        <div class="row">
+        	<div class="col">
+    			 <ion-input class="item item-input"> 
+    			    <span style="padding-right:5px;max-width:120px;" class="input-label">Date:</span> 
+    			    <input type="datetime-local" ng-model="inspection.date" required >
+    	        </ion-input>
+    	    </div>
+    	</div>
+    	<div class="row">
+    		<div class="col">
+    		    <ion-input class="item item-input"> 
+    			 	<span style="padding-right:5px;max-width:120px;" class="input-label">Performed By:</span> 
+    			    <input type="text" ng-model="inspection.name">
+    	        </ion-input>
+    	    </div>
+    	</div>
+    </ion-item>
+</ion-content>
+<ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+    <div class="button-bar">
+ 	    <button ng-disabled="true" class="button button-large button-dark"></button>
+ 	    <button ng-show="viewMode=='insert'" ng-disabled="true" class="button button-large button-dark"></button>
+	    <button ng-show="viewMode=='update'" class="button button-large buttonicon icon ion-close button-assertive" ng-click="Delete()">Delete</button>
+	    <button ng-show="viewMode=='update'" class="button button-large buttonicon icon ion-checkmark button-balanced" ng-click="Update()">Save</button>
+	    <button ng-show="viewMode=='insert'" class="button button-large buttonicon icon ion-checkmark button-balanced" ng-click="Save()">Save</button>
+   </div>
+</ion-footer-bar> 
+</ion-view>

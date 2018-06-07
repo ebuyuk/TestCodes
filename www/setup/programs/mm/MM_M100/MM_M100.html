@@ -1,0 +1,636 @@
+<ion-view view-title=""> 
+<ion-content padding="true" has-header="true">
+<style>
+ion-content {
+	/* background: #fafafa !important; */
+	
+}
+
+.bs {
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+button {
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.32) !important;
+}
+
+.buttonicon {
+	 font-weight: bold !important;
+	text-transform: uppercase !important;
+	border-radius: 0 !important;
+	box-shadow: inset 0px -3px 0px 0px rgba(0, 0, 0, 0.22); 
+}
+
+.buttonicon:before {
+	font-size: 16px !important;
+	margin-right: 3px;
+	margin-top: -2px;
+}
+
+.buttonicon2 {
+	 font-weight: bold !important;
+	text-transform: uppercase !important;
+	border-radius: 0 !important;
+	box-shadow: inset 0px -3px 0px 0px rgba(0, 0, 0, 0.12); 
+}
+
+.buttonicon2:before {
+	font-size: 16px !important;
+	margin-right: 3px;
+	margin-top: -2px;
+	text-align: center;
+}
+customicon:before {
+	font-size: 18px !important;
+	margin-right: 5px;
+}
+
+.customicon {
+	font-weight: bold !important;
+	text-transform: uppercase !important;
+	border-right: 1px rgba(255, 255, 255, 0.25) solid !important;
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.32);
+	font-size: 14px !important;
+        box-shadow: inset 0px 0px 0px 0px rgba(0, 0, 0, 0.1); 
+    
+}
+
+.customicon:last-child {
+	border-left: 1px rgba(0, 0, 0, 0.25) solid !important;
+	border-right: none !important;
+}
+
+.bggreen {
+	background: #43A047 !important;
+}
+
+.bgred {
+	background: #da2d2d !important;
+}
+
+.bgblue {
+	background: #2185d0 !important;
+}
+
+.bgyellow {
+	background: #FDD835 !important;
+}
+
+.bgdblue {
+	background: #01579B !important;
+}
+
+.bggreyb {
+	background: #546e7a !important;
+}
+
+.flightinfo {
+	background: #546e7a url('../www/img/cloud.jpg');
+	color: #fff !important;
+	background-size: cover;
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.52) !important;
+}
+
+
+.fb {
+	 background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%,rgba(255, 255, 255, 0.35) 50%,
+		rgba(0, 0, 0, 0.1) 100%) !important; */
+}
+
+.flightinfo h1 {
+	color: #fff;
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.32) !important;
+}
+
+.footable {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.footable th {
+	color: #333 !important;
+	background: #ECF2F7 !important;
+	font-weight: bold !important;
+	border: none !important;
+	text-shadow: 1px 1px rgba(255, 255, 255, 0.12) !important;
+	/* border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important; */
+	box-shadow: inset 0px -3px 0px 0px rgba(0, 0, 0, 0.12) !important;
+}
+
+.footable tr {
+	border: none !important;
+}
+
+.footable th, .footable td {
+	text-align: left !important;
+	padding: 12px !important;
+	border: none !important;
+}
+
+.footable tr:nth-child(even) {
+	background-color: #f2f2f2 !important
+}
+
+.item.active, item.activated {
+	background: #B1D9F7 !important;
+}
+
+.button-stable {
+	text-shadow: 0px 0px rgba(0, 0, 0, 0.32) !important;
+	/*background: #546e7a !important;*/
+	font-weight: bold !important;
+	text-transform: uppercase !important;
+	/*box-shadow: inset 0px -3px 0px 0px rgba(0,0,0,0.12);*/
+	/*color: #fff !important;*/
+}
+.button-small:before
+{
+	font-size: 16px !important;
+	margin-right: 3px;
+	margin-top: -3px !important;
+	text-align: center;
+}
+ion-popover-view.fit {
+  height: auto;
+}
+
+ion-popover-view.fit ion-content {
+  position: relative;
+}
+
+.platform-android ion-popover-view.fit {
+  margin-top: 10px;
+}
+
+.platform-ios ion-popover-view.fit {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+</style>    
+ <!--    <div class="bar bar-header bar-dark	 bs" style="background: #0277BD;padding-bottom:0px;">
+        <div class="button-bar">
+            <a class="button button-icon icon ion-settings customicon" ng-click="OpenD()" >New Discrepancy</a>
+            <button ng-hide="technician || cabin" class="button button-icon icon ion-ios-list customicon"  ng-click="lof()" modal-select="" ng-model="flight.id" on-select="getFlightInformation()" options="flights"  modal-title="List of Flights" has-search="true" option-property="MOBILE_RECORD_ID">Flight List
+            <div class="option">
+                <div class="row">
+                
+                    <div  class="col" align="left"> 
+                        <h2 style=" font-weight: bold; padding: 0; margin: 0; ">{{option.TAIL_NUMBER}} </h2>
+                    </div>
+                    <div class="col"  style="padding: 0; margin: 0; "><h2>{{option.FLIGHT_NUMBER}}</h2></div>
+                    <div  class="col" align="right"> 
+	                    <h2>{{option.ACTUAL_DATE}}</h2>
+                    </div>
+                </div>   
+                <div class="row">
+                    <div  class="col" align="left"> 
+	                    <h2>{{option.ACTUAL_FROM}}</h2>
+                    </div>
+                    <div  class="col" > 
+                        <h2>{{option.STATUS}}</h2>
+                    </div>
+                    <div  class="col" align="right"> 
+                        <h2>{{option.ACTUAL_TO}}</h2>
+                    </div>
+                </div>          
+            </div>
+        </div>
+    </div> -->
+    
+    <!-- Technician Mode -->
+    <div ng-show="technician">
+    <table class="footable">
+    <br>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in records">
+                            <td>
+                                <div class="col col-top">
+                                    <h5><i class="icon-left ion-arrow-down-c"></i> Arrival Time : {{item.Arrival_Time}}</h5>
+                                    <h5><i class="icon-left ion-arrow-down-c"></i> Arrival Station : {{item.Arrival_Station}} </h5>
+                                    <h5><i class="icon-left ion-ios-home"></i> Ground Station : {{item.Ground_Station}}</h5>
+                               </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <h5><i class="icon-left ion-arrow-right-c"></i> Departure Time : {{item.Departure_Time}} {{item.ACTUAL_DATE}}</h5>
+                                    <h5><i class="icon-left ion-arrow-right-c"></i> Departure Station : {{item.Departure_Station}}</h5>
+                                    <h5><i class="icon-left ion-ios-home"></i> Ground Time : {{item.Ground_Time}}</h5>
+                                    <h5><i class="icon-left ion-ios-home"></i> Remaining Time : {{item.Remaining_Time}}</h5>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        <br>
+    </div>
+    <div style="padding-top: 0px; position: relative;">
+<!--     <i class="icon ion-compose" ng-click="EditFlight()" style="font-size: 26px; float:right; color: #333;position: absolute; top:16px;; right: 7px;"></i> -->
+        <div class="card" ng-hide="technician || cabin">
+    <!--         <div class="item item-divider item-icon-right"> -->
+    <!--             <i class="icon-left ion-plane" ></i> -->
+    <!--                 Flight -->
+    <!--             <i class="icon ion-compose" ng-click="EditFlight()"></i> -->
+    <!--         </div> -->
+            <div class="flightinfo">
+                <div class="fb" style="position: relative;">
+     
+                    <div class="row" style="padding:0; margin: 0;">	  
+                        <div class="row">
+                            <div  class="col"> 
+                                <h2 style="font-size: 18px; font-weight: bold; color: #e2e2e2; padding: 0; margin: 0; ">{{flight.tailNumber}} </h2>
+                            </div>
+                            <div class="col" align="right" ><h2 style="font-size: 18px; font-weight: bold; color: #e2e2e2; text-align: right; padding: 0; margin: 0; ">{{flight.flightNumber | uppercase}}</h2></div>
+                        </div>           
+                    </div>
+        	        <div class="row">
+                        <div class="col">
+        	                <h1>{{flight.actualFrom}}</h1>
+         	                <p><b class="icon ion-clock"> Off Block : </b>{{flight.offBlock}}</p>
+        	                <p><b class="icon ion-clock"> Take Off : </b> {{flight.takeOff}}</p>
+         	            </div>
+                        <div class="col col-12" align="center">
+                            <i class="ion-plane" style="font-size: 46px; color: #fff;display: inline-block;transform: rotate(90deg);"></i>
+                            <p></p>
+                            <p><b class="icon" ng-class="(flight.status == 'SCHEDULED') ? 'ion-checkmark-circled' : (flight.status == 'ACCEPTED') ? 'ion-paper-airplane' : 'ion-checkmark'"> Status : </b>{{flight.status}}</p>
+                        </div>
+                        <div class="col" style="text-align: right;">
+           	                <h1>{{flight.actualTo}}</h1>
+           	                <p><b class="icon ion-clock"> Landing : </b> {{flight.landing}}</p>
+        	                <p><b class="icon ion-clock"> On Block : </b>{{flight.onBlock}}</p>
+                       </div>
+                   </div>
+               </div>
+                <div class="button-bar">
+                    <button class="button button-small icon ion-checkmark button-balanced buttonicon" ng-disabled="isFlightAcceptable" ng-show="flight.status == 'SCHEDULED'" style="background: #43A047; height: 40px !important; padding-top: 3px;font-size: 14px;" ng-click="AcceptAircraft()">Accept Aircraft</button>
+             	    <button class="button button-small icon ion-checkmark button-balanced buttonicon" ng-show="flight.status == 'ACCEPTED'" style="background: #43A047; height: 40px !important; padding-top: 3px;font-size: 14px;" ng-click="EditFlight()">Complete Flight</button>
+                </div>           
+            </div>
+            <div style="margin-top:1px" ng-show="flight.id != ''">
+                <div style="float: left; padding: 15px;font-size: 24px; position: relative;" ng-hide="hasInspection" ng-click="OpenI()">+
+                    <span ng-hide="hasInspection" class="badge badge-assertive" style="transform: scale(.5); position: absolute; top: 5px; right: 5px;">!</span>
+                </div>
+        	    <ion-item class="item item-icon-right" ng-click="toggle('isInsShown')"  ng-class="{active: isInsShown}" >
+        	        <div class="item-text-center item-text-wrap"><i class="icon-left ion-ios-person" ng-class="{icongreen :hasInspection}"></i>    Inspection       
+         	        </div>
+        	        <i class="icon" ng-class="isInsShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+        	    </ion-item>
+        	    <ion-item class="item-accordion" ng-show="isInsShown" style="padding:0px;margin:0px;">
+        	        <table class="footable">
+        		        <thead>
+        				    <tr>
+        					    <th>Date</th>
+        					    <th>Inspections Type</th>
+        					    <th data-hide="phone">Performed By</th>
+        					</tr>
+        				</thead>
+                        <tbody>
+        				    <tr ng-click="EditInspection()">
+        					    <td>{{flight.inspection.date}}</td>
+        					    <td>{{flight.inspection.type}}</td>
+        					    <td>{{flight.inspection.name}}</td>
+        					</tr>
+                       </tbody>
+                   </table>
+         	   </ion-item>
+            </div>
+            <div  ng-show="flight.id != ''">
+                <div style="float: left; padding: 15px;   font-size: 24px;  position: relative;  border-top: 1px solid #ddd ; z-index: 100;" ng-hide="hasConsumption" ng-click="OpenC()">+
+                    <span ng-hide="hasConsumption" class="badge badge-assertive" style="transform: scale(.5); position: absolute; top: 5px; right: 5px;">!</span>
+                </div>
+        	    <ion-item class="item item-icon-right" ng-click="toggle('isConsShown')"  ng-class="{active: isConsShown}">
+        	        <div class="item-text-center item-text-wrap"><i class="icon-left ion-funnel" ng-class="{icongreen :hasConsumption}" ></i>    Consumption</div>
+        	        <i class="icon" ng-class="isConsShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+        	    </ion-item>
+                <ion-item class="item-accordion" ng-show="isConsShown" style="padding:0px;margin:0px;">
+                     <table class="footable" >
+         			    <thead style="display:none;">
+        			        <tr>
+        			            <th>Consumption</th>
+        			        </tr>
+        			    </thead>
+            			<tbody>
+        			        <tr ng-click="EditConsumption()">
+        			            <td>                        
+                                    <div ng-bind-html="flight.consumption.description"></div>
+                                </td>
+        			        </tr>
+        			    </tbody>
+        		    </table> 
+        	    </ion-item>
+            </div>
+        </div> 
+    </div>
+    <div class="card">
+        <div style="padding-top: 0px; position: relative;">
+            <div style="float: left; padding: 15px;   font-size: 24px;  position: absolute;  border-top: 1px solid #ddd ; z-index: 100;"  ng-click="OpenD()"><i class="icon ion-android-create positive"></i></div>
+            <ion-item  style="margin-left:48px;" class="item item-icon-right" ng-click="toggle('isDiscShown')" ng-class="{active: isDiscShown}">
+                <div class="item-text-center item-text-wrap">
+                    <div class="item-text-center item-text-wrap">
+                        <i class="icon-left ion-settings"></i>    
+                        Discrepancies 
+                    </div>
+                    <i class="icon" ng-class="isDiscShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                </div>
+            </ion-item>
+        </div>
+        <ion-item class="item-accordion" ng-show="isDiscShown" style="padding:0px;margin-left:0px;">
+            <ion-checkbox ng-hide="cabin" ng-model="flight.isShowCabinItems" ng-click="ShowCabinItems()">Show Cabin Items</ion-checkbox>
+             <ion-list>
+                <div>
+                   <ion-item ng-hide="technician || cabin" class="item item-icon-right" ng-click="toggle('isAccShown')" ng-class="{active: isAccShown}">
+                        <div class="item-text-center item-text-wrap">
+                            <i class="icon-left" ng-class="isAcceptanceWarning ? 'ion-alert-circled assertive' : 'ion-checkmark-circled balanced'" ></i>
+                            Awaiting for Acceptence </div>
+                            
+                        <i class="icon" ng-class="isAccShown? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                    </ion-item>
+            
+                    <ion-item ng-hide="technician || cabin" class="item-accordion" ng-show="isAccShown" style="padding:0px;margin:0px;">
+                        <table class="footable">
+                            <thead style="display:none;">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th data-hide="phone"></th>
+                                    <th data-hide="phone"></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in accDisc">
+                                    <td style="max-width: 100px;">
+                                        <div class="col col-top">
+                                            <h3>{{item.DISCREPANCY_TYPE}} - {{item.ATA_CODE}}</h3>
+                                            <h3>{{item.DISCREPANCY}}</h3>
+                                       </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <h3><i class="icon-left ion-document"></i> {{item.REPORT_DATE}}</h3>
+                                            <h3><i class="icon-left ion-arrow-right-c"></i>{{item.HOLD_REFERENCE_NUMBER}} ({{item.CATEGORY}})</h3>
+                                            <h3> <i class="icon-left ion-android-calendar"></i> {{item.Due_Date}}</h3>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h3>{{item.employeeName[0]}}</h3>
+                                        <h3>{{item.HOLD_DOCUMENT_NUMBER}}</h3>
+                                        <h3>{{item.HOLD_TASK_NUMBER}}</h3>
+                                    </td>
+                                    <td width="10%" style="vertical-align: middle;"><i class="icon ion-checkmark balanced" style="font-size:48px;" ng-click="AcceptDiscrepancy(item.MOBILE_RECORD_ID)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ion-item>
+                </div>
+            </ion-list>
+            <ion-list>
+                <div>
+                   <ion-item class="item item-icon-right" ng-click="toggle('isDefShown')" ng-class="{active: isDefShown}">
+                        <div class="item-text-center item-text-wrap"><i class="icon-left ion-ios-clock" ></i>    Deferred Defects</div>
+                        <i class="icon" ng-class="isDefShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                    </ion-item>
+                    <ion-item class="item-accordion" ng-show='isDefShown' style="padding:0px;margin:0px;">
+                        <table class="footable">
+                            <thead style="display:none;">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th data-hide="phone"></th>
+                                    <th data-hide="phone"></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in defDisc">
+                                    <td align="center" style="width:20px;vertical-align: middle;" ng-hide="technician || cabin">
+                                        <i style="font-size: 20px;" ng-class="item.Acceptence_Status=='true'? 'ion-checkmark-circled balanced' : 'ion-alert-circled assertive'"></i>
+                                    </td>
+                                    <td style="max-width: 100px;">
+                                       <div class="col col-top">
+                                            <h3>{{item.DISCREPANCY_TYPE}} - {{item.ATA_CODE}}</h3>
+                                            <h3>{{item.DISCREPANCY}}</h3>
+                                       </div>                           
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <h3><i class="icon-left ion-document"></i> {{item.REPORT_DATE}}</h3> 
+                                            <h3><i class="icon-left ion-arrow-right-c"></i> {{item.HOLD_REFERENCE_NUMBER}} ({{item.CATEGORY}})</h3> 
+                                            <h3><i class="icon-left ion-android-calendar"></i> {{item.Due_Date}}</h3></div>
+                                    </td>
+                                    <td>
+                                        <h3>{{item.employeeName[0]}}</h3>
+                                        <h3>{{item.HOLD_DOCUMENT_NUMBER}}</h3>
+                                        <h3>{{item.HOLD_TASK_NUMBER}}</h3>
+                                    </td>
+                                    <td width="10%" style="vertical-align: middle;"><i class="icon ion-compose energized" style="font-size:48px;" ng-click="EditDiscrepancy(item.MOBILE_RECORD_ID)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ion-item>
+                </div>
+        
+            </ion-list>
+            <ion-list>
+                <div>
+                   <ion-item class="item item-icon-right" ng-click="toggle('isOPShown')" ng-class="{active: isOPShown}">
+                        <div class="item-text-center item-text-wrap"><i class="icon-left ion-folder" ></i>    Open Defects</div>
+                        <i class="icon" ng-class="isOPShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                    </ion-item>
+            
+                    <ion-item class="item-accordion"  ng-show="isOPShown" style="padding:0px;margin:0px;">
+                        <table class="footable">
+                            <thead style="display:none;">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th data-hide="phone"></th>
+                                    <th data-hide="phone"></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in openDisc">
+                                    <td style="max-width: 100px;">
+                                        <div class="col col-top">
+                                            <h3>{{item.DISCREPANCY_TYPE}} - {{item.ATA_CODE}}</h3>
+                                            <h3>{{item.DISCREPANCY}}</h3>
+                                       </div>
+                                    </td>
+                                    <td>
+                                         <div></div>
+                                    </td>
+                                     <td>
+                                        <h3>{{item.REPORT_DATE}}</h3>
+                                        <h3>{{item.employeeName[0]}}</h3>
+                                    </td>
+                                    <td width="10%" style="vertical-align: middle;"><i class="icon ion-compose energized" style="font-size:48px;" ng-click="EditDiscrepancy(item.MOBILE_RECORD_ID)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ion-item>
+                </div>
+        
+            </ion-list>
+            <ion-list>
+                <div>
+                   <ion-item class="item item-icon-right" ng-click="toggle('isCloShown')" ng-class="{active: isCloShown}">
+                        <div class="item-text-center item-text-wrap"><i class="icon-left ion-ios-close" ></i>    Recently Closed</div>
+                        <i class="icon" ng-class="isCloShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                    </ion-item>
+            
+                    <ion-item class="item-accordion"  ng-show="isCloShown" style="padding:0px;margin:0px;">
+                        <table class="footable">
+                            <thead style="display:none;">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th data-hide="phone"></th>
+                                    <th data-hide="phone"></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in closedDisc">
+                                    <td style="max-width: 100px;">
+                                        <div class="col col-top">
+                                            <h3>{{item.DISCREPANCY_TYPE}} - {{item.ATA_CODE}}</h3>
+                                            <h3>{{item.DISCREPANCY}}</h3>
+                                            <h3><b>Closed: </b>{{item.RECTIFICATION_DATE}} - {{item.rectEmployeeName[0]}}</h3>
+                                       </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <h3><i class="icon-left ion-document"></i> {{item.REPORT_DATE}}</h3> 
+                                            <h3><i class="icon-left ion-arrow-right-c"></i> {{item.HOLD_DOCUMENT_NUMBER}} {{item.HOLD_TASK_NUMBER}} {{item.HOLD_REFERENCE_NUMBER}} {{item.CATEGORY}}</h3>
+                                            <h3><i class="icon-left ion-android-calendar"></i> {{item.Due_Date}}</h3>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h3>{{item.employeeName[0]}}</h3>
+                                        <h3>{{item.HOLD_DOCUMENT_NUMBER}}</h3>
+                                        <h3>{{item.HOLD_TASK_NUMBER}}</h3>
+                                    </td>
+                                    <td width="10%" style="vertical-align: middle;"><i class="icon ion-compose energized" style="font-size:48px;" ng-click="EditDiscrepancy(item.MOBILE_RECORD_ID)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ion-item>
+                </div>
+            </ion-list>
+        </ion-item> 
+    </div>
+    <br>
+</ion-content>
+<script id="templates/popover.html" type="text/ng-template">
+      <ion-popover-view class="fit">
+        <ion-content>
+           <button ng-click="lof()" modal-select="" ng-model="flight.id" on-select="getFlightInformation()" options="flights"  modal-title="List of Flights" has-search="true" option-property="MOBILE_RECORD_ID" class="button button-full icon ion-ios-list button-royal">
+			<div class="option">
+                <div class="row">
+                    <div  class="col" align="left"> 
+                        <h2 style=" font-weight: bold; padding: 0; margin: 0; ">{{option.TAIL_NUMBER}} </h2>
+                    </div>
+                    <div class="col"  style="padding: 0; margin: 0; "><h2>{{option.FLIGHT_NUMBER}}</h2></div>
+                    <div  class="col" align="right"> 
+                        <h2>{{option.ACTUAL_DATE}}</h2>
+                    </div>
+                </div>   
+                <div class="row">
+                    <div  class="col" align="left"> 
+                        <h2>{{option.ACTUAL_FROM}}</h2>
+                    </div>
+                    <div  class="col" > 
+                        <h2>{{option.STATUS}}</h2>
+                    </div>
+                    <div  class="col" align="right"> 
+                        <h2>{{option.ACTUAL_TO}}</h2>
+                    </div>
+                </div>          
+            	</div>            
+              <span style="font-size:14px;color: #fff; text-shadow: 1px 1px rgba(250, 250, 250, 0.52) !important; margin-top: 0px; text-align: center; border-radius: 3px; padding: 5px;">FLIGHT LIST
+             </span>
+        </button>
+        <button ng-disabled="flight.id == ''" ng-click="EditFlight()" class="button button-full icon ion-compose button-energized" style="text-align: center;">
+			 <span style="font-size:14px;color: #fff; text-shadow: 1px 1px rgba(250, 250, 250, 0.52) !important; margin-top: 0px; text-align: center; border-radius: 3px; padding: 5px;">EDIT FLIGHT
+             </span>             
+        </button>
+
+         <button ng-click="New()" class="button button-full icon ion-android-create button-positive">
+              <span style="font-size:14px;color: #fff; text-shadow: 1px 1px rgba(250, 250, 250, 0.52) !important; margin-top: 0px; text-align: center; border-radius: 3px; padding: 5px;">NEW FLIGHT
+             </span>
+        </button>
+
+            <!--<button ng-hide="technician || cabin" class="button button-full icon ion-ios-list button-royal buttonicon"  ng-click="lof()" modal-select="" ng-model="flight.id" on-select="getFlightInformation()" options="flights"  modal-title="List of Flights" has-search="true" option-property="MOBILE_RECORD_ID"> Flight List
+			<div class="option">
+                <div class="row">
+                
+                    <div  class="col" align="left"> 
+                        <h2 style=" font-weight: bold; padding: 0; margin: 0; ">{{option.TAIL_NUMBER}} </h2>
+                    </div>
+                    <div class="col"  style="padding: 0; margin: 0; "><h2>{{option.FLIGHT_NUMBER}}</h2></div>
+                    <div  class="col" align="right"> 
+                        <h2>{{option.ACTUAL_DATE}}</h2>
+                    </div>
+                </div>   
+                <div class="row">
+                    <div  class="col" align="left"> 
+                        <h2>{{option.ACTUAL_FROM}}</h2>
+                    </div>
+                    <div  class="col" > 
+                        <h2>{{option.STATUS}}</h2>
+                    </div>
+                    <div  class="col" align="right"> 
+                        <h2>{{option.ACTUAL_TO}}</h2>
+                    </div>
+                </div>          
+            	</div>
+			</button>
+ 			<button class="button button-full icon ion-compose button-energized buttonicon" ng-disabled="flight.id == ''" ng-click="EditFlight()"> Edit Flight</button>
+	  		<button class="button button-full icon ion-android-create button-positive buttonicon"  ng-click="New()"> New Flight</button> -->
+
+        </ion-content>
+      </ion-popover-view>
+    </script>
+ <ion-footer-bar ng-hide="technician || cabin" style="background-color:rgba(0,0,0,0.1) !important;padding:0px;">
+    <div class="button-bar">
+	   <!--  <button ng-hide="technician || cabin" class="button button-large icon ion-ios-list  button-royal buttonicon"  ng-click="lof()" modal-select="" ng-model="flight.id" on-select="getFlightInformation()" options="flights"  modal-title="List of Flights" has-search="true" option-property="MOBILE_RECORD_ID">Flight List<div class="option">
+                <div class="row">
+                
+                    <div  class="col" align="left"> 
+                        <h2 style=" font-weight: bold; padding: 0; margin: 0; ">{{option.TAIL_NUMBER}} </h2>
+                    </div>
+                    <div class="col"  style="padding: 0; margin: 0; "><h2>{{option.FLIGHT_NUMBER}}</h2></div>
+                    <div  class="col" align="right"> 
+                        <h2>{{option.ACTUAL_DATE}}</h2>
+                    </div>
+                </div>   
+                <div class="row">
+                    <div  class="col" align="left"> 
+                        <h2>{{option.ACTUAL_FROM}}</h2>
+                    </div>
+                    <div  class="col" > 
+                        <h2>{{option.STATUS}}</h2>
+                    </div>
+                    <div  class="col" align="right"> 
+                        <h2>{{option.ACTUAL_TO}}</h2>
+                    </div>
+                </div>          
+            </div></button>
+	    <button ng-hide="technician || cabin" class="button button-large icon ion-android-create button-energized buttonicon"  ng-click="EditFlight()">Edit Flight</button>
+	    <button ng-hide="technician || cabin" class="button button-large icon ion-android-create button-positive buttonicon"  ng-click="New()">New Flight</button> -->
+        
+        <button class="button button-large icon ion-close button-assertive buttonicon " ng-hide="flight.status == 'CANCELLED'" ng-disabled="flight.id == ''" ng-click="Delete()">Cancel Flight</button>
+        <button class="button button-icon ion-more buttonicon" ng-click="popover.show($event)"></button>
+        
+        <button class="button button-large icon ion-checkmark button-balanced buttonicon"  ng-show="flight.status == 'ACCEPTED'" ng-disabled="flight.status == 'CANCELLED'" ng-click="EditFlight()">COMPLETE FLIGHT</button>
+        <button ng-hide="flight.status == 'ACCEPTED' || flight.status == 'CANCELLED'" class="button button-large icon ion-checkmark button-balanced buttonicon"  ng-show="flight.status == 'ACCEPTED'" ng-disabled="isFlightAcceptable || isAccepted || flight.status == 'COMPLETED' || flight.id == ''" ng-click="AcceptAircraft()">Accept Aircraft</button>
+        
+	</div>
+</ion-footer-bar>
+</ion-view>

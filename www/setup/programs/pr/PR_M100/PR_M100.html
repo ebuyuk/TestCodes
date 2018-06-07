@@ -1,0 +1,195 @@
+<ion-view view-title="Evaluate" cache-view="true"> 
+    <ion-content  has-header="true" style="background-color: #F4F4F4;">
+     <style>
+    ::-webkit-input-placeholder {
+   		 text-transform: none;
+	}
+	:-moz-placeholder {
+   		  text-transform: none;
+	}
+	::-moz-placeholder {
+   		 text-transform: none;
+	}
+	:-ms-input-placeholder {  
+   		  text-transform: none;
+	}
+	textarea[readonly] {
+      background-color: #ffffff !important;
+} 
+.item-input{
+	padding:11px 0 5px 16px;
+}
+    </style>
+        <ion-list>
+    <ion-item ng-hide="card.ID" style="padding:5px 16px 5px 16px; line-height:50px;">
+    <!--   <ion-input class="item item-input"> -->
+    <div class="item-input" style="padding: 0px">
+    				<i class="icon ion-document-text" style="padding-right:10px"></i> 
+                    <span style="padding-right:5px; width:60px;" class="input-label">Work Card:</span>
+                    <input type="text" id="workcard" ng-model="card.WORK_CARD_NUMBER" ng-blur="onblur()">
+                <!--</ion-input> -->
+    </div>
+    </ion-item>
+    <ion-item ng-show="card.ID" ng-click="toggle('showCard')" style="padding:5px 16px 5px 16px; line-height:50px;border-bottom:0;">
+    <div class="item-text-center item-text-wrap">
+    <i class="icon ion-document-text" style="padding-right:10px"></i>
+    <b>Work Card:</b> {{card.WORK_CARD_NUMBER}}
+    <i class="icon ion-close-circled assertive" ng-click="clearCard()" style="float: right;padding-right: 10px;font-size: 32px; width:15%;text-align:right;"></i>
+    </div>                
+    </ion-item>
+    <ion-item class="item-accordion" ng-show="showCard" style="padding:0px;margin:0px; border-bottom:0px;"> 
+		 <div class="row">
+             <div class="col">
+                 <h4>
+             	     <span style="font-size:18px"><b>{{card.PROJECT_NUMBER}}</b></span>
+               	 </h4>
+             </div>
+         </div>    
+    	 <div class="row">
+             <div class="col">
+                 <h4>
+                     <i>{{card.DESCRIPTION}}</i>
+                 </h4>
+             </div>
+         </div>
+         <div class="row">
+             <div class="col">
+                 <h4>
+                     <b><i class="icon-left ion-clock"></i> Estimated </b> {{card.ESTIMATED_TIME}} - 
+                     <b><i class="icon-left ion-clock"></i> Applied </b> {{card.APPLIED_TIME}}
+                 </h4>
+             </div>
+         </div>
+    </ion-item>
+    
+    </ion-list>
+    <ion-list ng-show="card.ID">
+    <ion-item style="background-color: #F4F4F4;padding:0;">
+        
+        <div class="row">
+            <div class="col">
+                <ion-item class="item-accordion" style="padding:0px;margin:0px;">
+                    <div class="row">
+                        <div class="col col-50">
+                           <h2 style="text-align:center; " >
+                               <b>Skill Code</b>
+                           </h2>
+                        </div>
+                        <div class="col col-40">
+                           <h2 style="text-align:center; " >
+                               <b>Time</b>
+                           </h2>
+                        </div>
+                    </div>
+                     <div class="row" on-swipe-right="addNewSkill(object.id+1)"on-swipe-left="activateDelete(object)" ng-repeat="object in skillsTimesArr" style="border-top: 1px solid #efefef;">
+                        <div class="col col-40" style="position:relative">
+                            <label class="item item-select" style="position:absolute;margin-top:4px;margin-bottom:4px;top:0;left:0;right:0;bottom:0;">
+                                <select ng-disabled="evaluated" ng-model="object.skillCode" ng-options="i.SKILL_CODE as (i.SKILL_CODE) for i in skillCodes">
+                                    <option value="" selected hidden></option>
+                                </select>   
+                            </label>
+                        </div>
+                        <div class="col col-40">
+                            <ion-input class="item item-input">
+                                <input ng-readonly="evaluated" type="number" ng-model="object.estimatedTime">
+                            </ion-input>
+                        </div>
+                        <div ng-hide="evaluated" class="col col-10" style="padding-top:11px;padding-left:1px">
+                            <i class="icon ion-plus-circled balanced" style="font-size:32px;" ng-show="skillIndex == object.id" ng-click="addNewSkill(object.id+1)"></i>
+                        </div>
+                        <div ng-hide="evaluated" class="col col-10" style="padding-top:11px;padding-left:1px">
+                        <i class="icon ion-close-circled assertive" style="font-size:32px;" ng-show="object.showDelete" ng-click="removeSkill(object)"></i>
+                    </div>
+                    </div>
+                </ion-item>
+            </div>
+        </div>
+        <div class="row responsive-sm">
+            <div class="col col-50">
+                <label class="item item-input item-select">
+                    <div class="input-label">Contract</div>
+                    <select ng-model="card.CONTRACT_GROUP" id="contractGroupy" ng-options="i.CONTRACT_GROUP as (i.DESCRIPTION) for i in contractGroups">
+                        <option value="" selected hidden></option>
+                    </select>
+                </label>
+            </div>
+            <div class="col col-50">
+                <label class="item item-input item-select">
+                    <div class="input-label">Milestone:</div>
+                    <select ng-disabled="evaluated" ng-model="card.MILESTONE" id="milestone" ng-options="i.milestone as (i.description) for i in milestones">
+                        <option value="" selected hidden></option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="row responsive-sm">
+            <div class="col">
+                <ion-input class="item item-input" multiple="true" modal-select="" ng-model="card.FLAGS" option-property="FLAG" options="flags" modal-title="Flags" has-search="true"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Flags:</span> 
+                            <input readonly type="text" ng-model="card.FLAGS" style="text-align: right;text-transform: uppercase; ">
+                            <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;margin-top:-11px">
+                                <div class="option">
+                                    <div class="row">
+                                        <div class="col"> 
+                                            <h2>{{option.DESCRIPTION}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </ion-input>
+            </div>
+        </div>
+        
+        <div class="row responsive-sm">
+            <div class="col">
+                <ion-item class="item item-icon-right">
+                    <div class="item-text-center item-text-wrap" style="font-weight:bold;"><i class="icon-left ion-settings" ></i>    Required Parts</div>
+                </ion-item>
+                <ion-item ng-show="parts.length>0"class="item-accordion" style="padding:0px;margin:-1px;">
+                  <table class="footable" data-paging="true" data-next-text="Next" data-previous-text="Previous">
+                     <thead>
+                      <tr>
+                       <th>Part #</th>
+                       <th data-sort-ignore="true">Qty</th>
+                       <th>Desc.</th>
+                       <th data-sort-ignore="true"></th>
+                      </tr>
+                     </thead>
+                     <tbody>
+                      <tr ng-repeat="item in parts">
+                       <td>{{item.part_number}}</td>
+                       <td>{{item.quantity}}</td>
+                       <td>{{item.description}}</td>
+                       <td><i ng-hide="evaluated" class="icon ion-close-circled assertive" style="font-size:32px;" ng-click="removePart(item)"></i></td>
+                      </tr>
+                     </tbody>
+                      <tfoot class="hide-if-no-paging" style="text-align: center;">
+                                    <td colspan="5">
+                                        <div class="pagination">
+                                        </div>
+                                    </td>
+                                </tfoot>
+                   </table>
+                </ion-item>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <ion-item>
+                    <textarea ng-readonly="evaluated" placeholder="Estimator Comments ..." style="  text-transform: uppercase ; width: 100%"rows="8" ng-model="card.ESTIMATOR_COMMENT"></textarea>
+                </ion-item>
+            </div>
+        </div>
+    </ion-item>
+    </ion-list>
+    </ion-content>
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-disabled="evaluated" ng-show="card.ID || card.MOBILE_RECORD_ID" class="button button-large buttonicon icon ion-settings button-energized" ng-click="newPart()">Add Part</button>
+            <button class="button button-large buttonicon icon ion-ios-barcode button-positive" ng-click="scanBarcode(scanObj)">Scan</button>
+            <button ng-disabled="evaluated || card.ID == ''" class="button button-large buttonicon icon ion-clock button-balanced" ng-click="evaluate()">Evaluate</button>
+        </div>
+    </ion-footer-bar> 
+ </ion-view>
+     

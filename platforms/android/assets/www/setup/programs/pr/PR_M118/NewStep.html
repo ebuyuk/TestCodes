@@ -1,0 +1,42 @@
+<ion-view view-title="{{action == 'MODIFY' ? 'Modify' : 'Create'}} Step" cache-view="true"> 
+    <ion-content  has-header="true" style="background-color: #F4F4F4;>
+    <style>
+    textarea[readonly] {
+      background-color: #ffffff !important;
+}
+    </style>
+    <ion-list>
+    <ion-item style="background-color: #F4F4F4;padding:0;">
+        <div class="row responsive-sm">
+            <div class="col" >
+                <ion-input class="item item-input"> 
+                    <span  class="input-label">Step # :</span> 
+                    <input ng-readonly="action == 'MODIFY' || created" id="stepNumber" style="text-transform: uppercase;" type="text" ng-model="step.STEP_NUMBER" >
+                </ion-input>
+            </div>
+        </div>
+        <div class="row responsive-sm">
+            <div class="col" >
+                <div style="width: 100%;">
+                    <p>
+                        <ion-label > 
+                            <span style="float: left;">Description:</span>
+                        </ion-label>
+                    </p>
+                    <ion-item >
+                        <textarea ng-readonly="created && action == 'CREATE'" style="width: 100%;text-transform: uppercase; "rows="10" ng-model="step.DESCRIPTION"></textarea>
+                    </ion-item>
+                </div>
+            </div>
+        </div>
+    </ion-item>
+    </ion-list>
+    </ion-content>
+
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-hide="created && action == 'CREATE'" ng-disabled="step.DESCRIPTION == ''" ng-click="doStep()" class="button button-large icon buttonicon ion-checkmark button-balanced">Save</button>
+        </div>
+    </ion-footer-bar> 
+ </ion-view>
+  

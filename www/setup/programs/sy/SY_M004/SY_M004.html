@@ -1,0 +1,52 @@
+<ion-view>
+<ion-content>
+ <div class="bar bar-header bar-energized" style="height:44px;">
+                    <h1 class="title" style="margin-top:0px;">Environment</h1>
+                </div>
+                <div><br><br></div>
+                <div class="list">
+                    <div class="row responsive-sm"> 
+                        <div class="col col-50">
+                            <ion-input class="item item-input">
+                                <i class="icon ion-android-plane"></i>
+                                <ion-label>Tail Number :</ion-label>
+                                <input type="text" placeholder="Tail Number" ng-model="environment.tailNumber" style="text-transform: uppercase;">
+                            </ion-input>
+                        </div>
+                        <div class="col col-50">
+                            <ion-input class="item item-input">
+                                <i class="icon ion-home"></i>
+                                <ion-label>Station :</ion-label>
+                                <input type="text" placeholder="Station" ng-model="environment.station" style="text-transform: uppercase;">
+                            </ion-input>
+                        </div>
+                    </div>
+                   <!--  <div class="row responsive-sm"> 
+                        <div class="col col-50">
+                            <ion-input class="item item-input">
+                                <i class="icon ion-person placeholder-icon"></i> 
+                                <ion-label>User Id :</ion-label>
+                                <input type="text"  placeholder="User Id" ng-model="application_config.userId" style="text-transform: uppercase;">
+                            </ion-input>
+                        </div>
+                        <div class="col col-50">
+                            <ion-input class="item item-input">
+                                <i class="icon ion-key placeholder-icon"></i>
+                                <ion-label>Password :</ion-label>
+                                <input type="password"  placeholder="Password" ng-model="application_config.password">
+                            </ion-input>
+                        </div>
+                    </div> -->
+                </div>
+</ion-content>
+<ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+    <div class="button-bar">
+        <button ng-click="cancelSettings()" class="button button-large buttonicon icon-left ion-close button-assertive">
+            Close
+        </button>
+        <button ng-click="setEnvironmentValues()" class="button button-large buttonicon icon-left ion-checkmark button-balanced">
+            Save
+        </button>
+    </div>
+    </ion-footer-bar> 
+</ion-view>

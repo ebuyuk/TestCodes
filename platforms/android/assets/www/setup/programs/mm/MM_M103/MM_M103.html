@@ -1,0 +1,139 @@
+<ion-view view-title="Consumption"> 
+<ion-content padding="true" has-header="true" >
+
+    <ion-item class="item item-icon-right" ng-click="toggle('isConsShown')" ng-class="{active: isConsShown}" >
+        <div class="item-text-center item-text-wrap"><i class="icon-left ion-funnel" ></i>    Last Consumptions</div>
+        <i class="icon" ng-class="isConsShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+    </ion-item>
+    <ion-item class="item-accordion"  ng-show="isConsShown" style="padding:0px;margin:-1px;">
+    		  <table  class="footable" >
+    			 <thead>
+    			  <tr>
+    			   <th>Date</th>
+    			   <th>Description</th>
+    			   <th>Amount</th>
+    			  </tr>
+    			 </thead>
+    			 <tbody>
+    			  <tr ng-repeat="item in lastConsumption">
+    			   <td>{{item.Consumption_Date}}</td>
+    			   <td>{{item.Description}}</td>
+    			   <td>{{item.Amount}}</td>
+    			  </tr>
+    			 </tbody>
+    		   </table>
+    </ion-item>
+  <br>
+  <ion-checkbox ng-model="consumption.noRefuellingFlag" ng-init="consumption.noRefuellingFlag=false">No Refuelling</ion-checkbox>
+    <div ng-hide="consumption.noRefuellingFlag" style="background-color:white;margin-top:5px;">
+    <div class="card-box">
+    <div class="row responsive-sm">
+		<div class="col">
+			 <ion-input class="item item-input"> 
+			    <span style="padding-right:5px;max-width:200px;" class="input-label">Supplier:</span> 
+			    <input type="text" ng-model="consumption.vendor.vendorName">
+			    <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;font-size:5px;border:0px;margin-top:-3px;margin-bottom:-4px;margin-left:-100px;min-height:100%;" modal-select="" ng-model="consumption.vendor" options="suppliers" modal-title="Suppliers: " has-search="true">
+	            <div class="option">
+	                 <h2>{{option.vendorName}}</h2>
+                </div>
+	        </ion-input>
+		</div>
+		<div class="col">
+		    <ion-input class="item item-input"> 
+		    	<span style="padding-right:5px;max-width:120px;" class="input-label">Fuel Type:</span> 
+			    <input type="text" ng-model="consumption.fuelType">
+			    <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-left:-100px;" modal-select="" ng-model="consumption.fuelType" options="fuelTypes" modal-title="Fuel Types" has-search="true">
+	            <div class="option">
+	                 <h2>{{option}}</h2>
+                </div>
+	        </ion-input>
+		</div>
+	</div>
+	<div class="row responsive-sm">
+	    <div class="col">
+		     <ion-input class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:200px;" class="input-label">Before Uplift:</span> 
+			    <input type="number" ng-model="consumption.remaining">
+	        </ion-input>
+		</div>
+	</div>
+	<div class="row responsive-sm">
+		<div class="col">
+			 <ion-input class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;" class="input-label">Uplift Volume:</span> 
+			    <input type="number" ng-model="consumption.added" ng-change="calcMass()" style="padding-left:20px;">
+                <span style="padding-right:5px;text-align:right;">L</span>
+	        </ion-input>
+		</div>
+        
+		<!-- <div class="col col-10">
+            <ion-input class="item item-input"> 
+                <input type="text" readonly ng-model="consumption.upliftUnit" ng-init="consumption.upliftUnit='L'">
+            </ion-input>
+		</div> -->
+		<div class="col col-50">
+			 <ion-input disabled class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;" class="input-label">Calc. Mass:</span> 
+			    <input type="number" ng-model="consumption.uplift">
+    			<span  style="padding-right:5px;text-align:right;">kg</span>
+	        </ion-input>
+		</div>
+	</div>
+    <div class="row responsive-sm">
+		<div class="col">
+			 <ion-input class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;" class="input-label">Density:</span> 
+			    <input type="number" ng-model="consumption.density" ng-change="calcMass()">
+	        </ion-input>
+		</div>
+		<div class="col">
+		   <ion-input class="item item-input"> 
+		   	 	<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;" class="input-label">Calc.Uplift:</span> 
+			    <input type="number" ng-model="consumption.calcFuel" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+    			<span style="padding-right:5px;text-align:right;">kg</span>
+	        </ion-input>
+		</div>
+	</div>
+	<div class="row responsive-sm">
+		<div class="col">
+			 <ion-input class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;" class="input-label">Date:</span> 
+			    <input style="margin-left:-20px;"type="datetime-local" ng-model="consumption.date">
+	        </ion-input>
+		</div>
+		<div class="col">
+		   <ion-input class="item item-input"> 
+		   		<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;" class="input-label">Indicated:</span> 
+			    <input type="number"  ng-model="consumption.departure" ng-change="calcDiff()">
+    			<span style="padding-right:5px;text-align:right;">kg</span>
+	        </ion-input>
+		</div>
+	</div>
+	<div class="row responsive-sm">
+		<div class="col">
+		    <ion-input class="item item-input"> 
+			 	<span style="padding-right:5px;max-width:200px;" class="input-label">After Flight:</span> 
+			    <input type="number" ng-model="consumption.arrival" >
+	        </ion-input>
+		</div>
+		<div class="col">
+		    <ion-input class="item item-input"> 
+		   		<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;" class="input-label">Difference:</span> 
+			    <input type="number" ng-model="consumption.difference">
+    			<span style="padding-right:5px;text-align:right;">kg</span>
+	        </ion-input>
+		</div>
+	</div>
+	</div>
+	</div>
+</ion-content>
+<ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+ 	 <div class="button-bar">
+        <button ng-disabled="true" class="button button-large button-dark"></button>
+ 	    <button ng-show="viewMode=='insert'" ng-disabled="true" class="button button-large button-dark"></button>
+	    <button ng-show="viewMode=='update'" class="button button-large icon buttonicon ion-close button-assertive" ng-click="Delete()">Delete</button>
+	    <button ng-show="viewMode=='update'" class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="Update()">Save</button>
+	    <button ng-show="viewMode=='insert'" class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="Save()">Save</button> 
+    </div>
+</ion-footer-bar> 
+</ion-view>

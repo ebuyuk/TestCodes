@@ -1,0 +1,1122 @@
+<ion-view view-title="Defect" >
+    <ion-content padding="true" has-header="true" style="background-color: #F4F4F4">
+  <div wings="security" id="discrepancy.card.div" class="card-box">
+    <div wings="security" id="discrepancy.row1.div" class="row responsive-md" >
+        <div  wings="security" id="discrepancy.tailNumber.col" class="col">
+            <ion-input class="item item-input"> 
+                <span wings="security" id="discrepancy.tailNumber.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Tail #:</span> 
+                <input wings="security" id="discrepancy.tailNumber.input" readonly type="text" id="tailNumber" style="text-align: right;text-transform: uppercase; " ng-model="discrepancy.tailNumber">
+                <button wings="security" id="discrepancy.tailNumber.lov" class="button icon ion-arrow-down-b" ng-show="MM_M055_TailNumber == ''" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;"  modal-select="" on-select="onselectTailNumber(newValue,oldValue)" ng-model="discrepancy.tailNumber" options="aircraftsLov" modal-title="Aircrafts" has-search="true">
+                    <div class="option">
+                        <div class="row">
+                            <div class="col">
+                                <h2>{{option.TAIL_NUMBER}}</h2>
+                            </div>
+                            <div class="col"> 
+                                <h2>{{option.AIRCRAFT_TYPE}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+            </ion-input>
+        </div>
+        <div wings="security" id="discrepancy.tailNumber.col" class="col">
+             <ion-input class="item item-input"> 
+                <span wings="security" id="discrepancy.employeeName.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Reported By:</span> 
+                <input wings="security" id="discrepancy.employeeName.input" type="text"  readonly ng-model="discrepancy.employeeName" style="text-transform: uppercase;text-align: right;" >
+            </ion-input>
+        </div>
+        <div wings="security" id="discrepancy.employeeNumber.col" ng-show="false" class="col col-20">
+             <ion-input class="item item-input"> 
+                <span wings="security" id="discrepancy.employeeNumber.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;"></span> 
+                <input wings="security" id="discrepancy.employeeNumber.input"  type="text" ng-model="discrepancy.employeeNumber" >
+            </ion-input>
+        </div>
+    </div>
+        
+    <div wings="security" id="discrepancy.row2.div" class="row responsive-sm">
+        <div wings="security" id="discrepancy.status.col" class="col col-33" >
+            <ion-input class="item item-input"> 
+                <span wings="security" id="discrepancy.status.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Status:</span> 
+                <input wings="security" id="discrepancy.status.input" type="text" readonly style="text-align: right;" ng-model="discrepancy.status" >
+            </ion-input>
+        </div>
+	    <div wings="security" id="discrepancy.reportDate.col" class="col col-33">
+			 <ion-input class="item item-input"> 
+			 	<span wings="security" id="discrepancy.reportDate.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Date:</span> 
+			    <input wings="security" id="discrepancy.reportDate.input" type="date" style="text-align: right;" ng-model="discrepancy.reportDate">
+	        </ion-input>
+		</div>
+		<div wings="security" id="discrepancy.station.col" class="col col-33">
+			 <ion-input class="item item-input"> 
+			 	<span wings="security" id="discrepancy.station.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Station:</span> 
+			    <input wings="security" id="discrepancy.station.input" type="text" style="text-align: right;text-transform: uppercase;" ng-model="discrepancy.station" >
+			    <button wings="security" id="discrepancy.station.lov" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="discrepancy.station" option-property="FLIGHT_LOCATION" options="stations" modal-title="Stations" has-search="true">
+    	            <div class="option">
+                        <div class="row">
+                            <div class="col col-20">
+                                <h2>{{option.FLIGHT_LOCATION}}</h2>
+                            </div>
+                            <div class="col"> 
+                                <h2>{{option.DESCRIPTION}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+	        </ion-input>
+		</div>
+	</div>
+
+    <div wings="security" id="discrepancy.row3.div" class="row responsive-sm">
+	       <div wings="security" id="discrepancy.type.col" class="col col-33">
+	            <ion-input class="item item-input"> 
+	                    <span wings="security" id="discrepancy.type.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Type:</span> 
+	                    <input wings="security" id="discrepancy.type.input" type="text" style="text-align: right;text-transform: uppercase;" ng-model="discrepancy.type" >
+	                    <button wings="security" id="discrepancy.type.lov" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="discrepancy.type" option-property="DISCREPANCY_TYPE" options="discrepancyTypes" modal-title="Types" has-search="true">
+	                        <div class="option">
+	                            <div class="row">
+	                                <div class="col">
+	                                    <h2>{{option.DISCREPANCY_TYPE}}</h2>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </button>
+	            </ion-input>
+	        </div>
+            <div wings="security" id="discrepancy.type.col" class="col">
+                <ion-input class="item item-input"> 
+                    <span wings="security" id="discrepancy.ataCode.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">ATA Code:</span> 
+                    <input wings="security" id="discrepancy.ataCode.input" type="text" ng-model="discrepancy.discrepancy.ataCode" style="text-align: right;text-transform: uppercase; ">
+                    <button wings="security" id="discrepancy.ataCode.lov" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="discrepancy.discrepancy.ataCode" option-property="ATA_CODE" options="ataCodes" modal-title="Ata Codes" has-search="true">
+                        <div class="option">
+                            <div class="row">
+                                <div class="col col-33">
+                                    <h2>{{option.ATA_CODE}}</h2>
+                                </div>
+                                <div class="col"> 
+                                    <h2>{{option.DESCRIPTION}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </ion-input>
+            </div>
+            <div wings="security" id="discrepancy.controlNumber.col" class="col" >
+             <ion-input class="item item-input"> 
+                <span wings="security" id="discrepancy.controlNumber.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Log #:</span> 
+                <input wings="security" id="discrepancy.controlNumber.input" type="text" style="text-transform: uppercase;text-align: right;" ng-model="discrepancy.controlNumber" >
+            </ion-input>
+            </div>
+        </div>
+        <div wings="security" id="discrepancy.row4.div" class="row">
+          <div wings="security" id="discrepancy.description.col" class="col">
+        <ion-label> 
+<!--             <i class="icon-left ion-ios-color-wand positive" style="padding-left: 10px;font-size:24px;" ng-click="modal.show()" ></i>  -->
+            <span wings="security" id="discrepancy.description.span" style="">Discrepancy</span>
+            <button wings="security" id="discrepancy.description.lov" class="button icon ion-android-search energized" style="margin-left: 10px;background-color:#F4F4F4;border:0px;margin-top:-12px;position:absolute;" modal-select="" on-select="onselect(newValue,oldValue)" ng-model="discrepancy.discrepancy"  options="discrepancyTemplates" modal-title="Discrepancy Templates" has-search="true">
+                <div class="option">
+                     <div class="row">
+                         <div class="col col-40">
+                             <h2>{{option.TITLE}}</h2>
+                         </div>
+                         <div class="col"> 
+                             <h2>{{option.DESCRIPTION}}</h2>
+                         </div>
+                         <div class="col col-10">
+                             <h2>{{option.ATA_CODE}}</h2>
+                         </div>
+                     </div>
+                </div>
+            </button> 
+            <span wings="security" id="discrepancy.discrepancyNumber.span" style="position: fixed;right: 35px;">{{discrepancy.discrepancyNumber}}</span>
+        </ion-label>
+        
+        
+            <ion-item wings="security" id="discrepancy.description.input">
+                <textarea style="width: 100%;text-transform: uppercase;"rows="8" ng-model="discrepancy.discrepancy.description"></textarea>
+            </ion-item>
+                    </div>
+            
+        </div>
+<!--         <div class="row">
+            <div class="col">
+                <div style="width: 100%;">
+                    <p>
+                        <ion-label > 
+                            <span style="float: left;">Remarks:</span>
+                        </ion-label>
+                    </p>
+                    <ion-item style="margin-top:-10px">
+                        <textarea style="width: 100%;text-transform: uppercase;"rows="5" ng-model="discrepancy.remarks"></textarea>
+                    </ion-item>
+                </div>
+            </div>
+        </div>   -->
+        </div>
+        <br>
+<!--         <div class="item item-divider item-icon-right"> -->
+<!--             <i class="icon-left ion-clock" ></i> -->
+<!--                 Defer -->
+<!--         </div> -->
+        <ion-item wings="security" id="discrepancy.defer.panelHeader" ng-show="deferSectionVisibility" class="item item-icon-right" ng-click="toggle('isDeferShown')" ng-class="{active: isDeferShown}">
+                <div class="item-text-center item-text-wrap"><i class="icon-left ion-document-text" ></i>    Defer</div>
+                <i class="icon" ng-class="isDeferShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+        </ion-item>
+        <ion-item wings="security" id="discrepancy.defer.panel" ng-show="isDeferShown && deferSectionVisibility" class="item-accordion" style="padding:0px;margin:0px;background-color: #F4F4F4;">
+            <div wings="security" id="discrepancy.row4.div" class="row responsive-sm">
+                <div wings="security" id="discrepancy.document.col" class="col">
+                        <label wings="security" id="discrepancy.document.span" class="item item-input item-select">
+                            <div class="input-label">
+                                Document:
+                            </div>
+                            <select wings="security" id="discrepancy.document.select" ng-model="discrepancy.document" ng-change="onDocumentChanged()">
+                                <option value="" selected></option>
+                                <option wings="security" id="discrepancy.document.option" ng-repeat="item in documents">{{item.DOCUMENT_NUMBER}}</option>
+                            </select>
+                        </label>
+                </div>
+                <div wings="security" id="discrepancy.taskNumber.col" class="col">
+                    <div ng-hide="discrepancy.document == ''">
+                        <ion-input class="item item-input"> 
+                            <span wings="security" id="discrepancy.taskNumber.span" style="padding-right:5px;max-width:200px;" class="input-label">Task #:</span> 
+                            <input wings="security" id="discrepancy.taskNumber.input" type="text" style="text-transform: uppercase;text-align: right;" ng-model="discrepancy.taskNumber" >
+                         </ion-input>
+                    </div>
+                </div>
+            </div>
+            <div wings="security" id="discrepancy.row5.div" class="row responsive-sm">
+                <div wings="security" id="discrepancy.reference.col" class="col">
+                    <div ng-hide="discrepancy.document == ''">
+                        <ion-input class="item item-input"> 
+                            <span wings="security" id="discrepancy.reference.span" style="padding-right:5px;max-width:200px;width:100px;">Reference:</span> 
+                            <input wings="security" id="discrepancy.reference.input" type="text" ng-model="discrepancy.reference" style="text-align: right;text-transform: uppercase;">
+                            <button wings="security" id="discrepancy.reference.lov" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" on-select="onSelectRef(newValue,oldValue)" ng-model="discrepancy.reference" options="references" modal-title="References" has-search="true">
+                                <div class="option">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h2>{{option.DOCUMENT_NUMBER}}</h2>
+                                        </div>
+                                        <div class="col">
+                                            <h2>{{option.ITEM_NUMBER}}</h2>
+                                        </div>
+                                        <div class="col"> 
+                                            <h2>{{option.DESCRIPTION}}</h2>
+                                        </div>
+                                         <div class="col col-10"> 
+                                            <h2>{{option.CATEGORY}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                         </ion-input>
+                    </div>
+                </div>
+                <div wings="security" id="discrepancy.category.col" class="col">
+                    <div wings="security" id="discrepancy.category.div" ng-hide="discrepancy.document == ''">
+                    <ion-input class="item item-input"> 
+                            <span wings="security" id="discrepancy.category.span" style="padding-right:5px;max-width:200px;width:100px;" >Category:</span> 
+                            <input wings="security" id="discrepancy.category.input"  type="text" ng-model="discrepancy.category" style="text-align: right;text-transform: uppercase;" >
+                            <button wings="security" id="discrepancy.category.lov" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" on-select="onSelectCat(newValue,oldValue)" ng-model="discrepancy.category" options="categories" modal-title="Categories" has-search="true">
+                                <div class="option">
+                                    <div class="row">
+                                        <div class="col col-30">
+                                            <h2>{{option.CATEGORY}}</h2>
+                                        </div>
+                                        <div class="col">
+                                            <h2>{{option.ITEM_NUMBER}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                         </ion-input>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="discrepancy.document == ''">
+                <!-- <ion-item class="item item-icon-right" ng-hide="discrepancy.document == ''" ng-click="toggle('isDetailsShown')" ng-class="{active: isDetailsShown}" >
+                    <div class="item-text-center item-text-wrap"><i class="icon-left ion-document-text" ></i>    Details</div>
+                    <i class="icon" ng-class="isDetailsShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                </ion-item> -->
+                <div wings="security" id="discrepancy.details.div" class="item item-divider item-icon-right">
+                    <i class="icon-left ion-document-text" ></i>
+                    Details
+                </div>
+                    <div wings="security" id="discrepancy.row6.div" class="row responsive-sm">
+                        <div wings="security" id="discrepancy.deferReason.col" class="col">
+    		                <label class="item item-input item-select">
+    		                    <div wings="security" id="discrepancy.deferReason.span" class="input-label">
+    		                        Defer Reason:
+    		                    </div>
+    		                    <select wings="security" id="discrepancy.deferReason.select" ng-model="discrepancy.deferReason">
+    		                        <option selected></option>
+    		                        <option wings="security" id="discrepancy.deferReason.option" ng-repeat="item in deferReasons">{{item.DEFER_REASON}}</option>
+    		                    </select>
+    		                </label>
+    		            </div>
+    		             <div wings="security" id="discrepancy.repetitiveFlag.col" class="col">
+    		                 <label class="item item-input item-select">
+    		                    <div wings="security" id="discrepancy.repetitiveFlag.span" class="input-label">
+    		                        Repetitive Flag:
+    		                    </div>
+    		                    <select wings="security" id="discrepancy.repetitiveFlag.select" ng-model="discrepancy.repetitiveFlag">
+                                    <option selected></option>
+    		                        <option>Y</option>
+    		                        <option>N</option>
+    		                    </select>
+    		                </label>
+                         </div>
+                    </div>
+     	            <div wings="security" id="discrepancy.row7.div" class="row responsive-sm">
+                        <div wings="security" id="discrepancy.intervalHour.col" class="col">
+                         <ion-input class="item item-input"> 
+                            <span wings="security" id="discrepancy.intervalHour.span" style="padding-right:5px;max-width:200px;" class="input-label">Interval Hour:</span> 
+                            <input wings="security" id="discrepancy.intervalHour.input" type="text" ng-model="discrepancy.intervalHour" >
+                         </ion-input>
+                        </div>
+                        <div wings="security" id="discrepancy.intervalCycle.col" class="col">
+                            <ion-input class="item item-input"> 
+                                <span wings="security" id="discrepancy.intervalCycle.col" style="padding-right:5px;max-width:200px;" class="input-label">Interval Cycle:</span> 
+                                <input wings="security" id="discrepancy.intervalCycle.input" type="text" ng-model="discrepancy.intervalCycle" >
+                            </ion-input>
+                        </div>
+                        <div wings="security" id="discrepancy.intervalDay.col" class="col">
+                            <ion-input class="item item-input"> 
+                            <span wings="security" id="discrepancy.intervalDay.span" style="padding-right:5px;max-width:200px;" class="input-label">Interval Day:</span> 
+                            <input wings="security" id="discrepancy.intervalDay.input" type="text" ng-model="discrepancy.intervalDay" >
+                         </ion-input>
+                        </div>
+                     </div>
+                     <div wings="security" id="discrepancy.row8.div" class="row">
+                         <div wings="security" id="discrepancy.holdByName.col" class="col">
+                            <ion-input class="item item-input"> 
+                                <span wings="security" id="discrepancy.holdByName.span" style="padding-right:5px;max-width:200px;" class="input-label">Hold by:</span> 
+                                <input wings="security" id="discrepancy.holdByName.input" type="text" style="text-transform: uppercase;" ng-model="discrepancy.defer.holdByName" >
+                            </ion-input>
+                         </div>
+                     </div>
+                      <div ng-show="false" class="item item-input">
+                         <input type="text" ng-model="discrepancy.defer.holdByNumber" >
+                     </div>
+            </div>
+        </ion-item>
+        <br>
+        <div ng-show="componentTransactionVisibility">
+            <ion-item wings="security" id="discrepancy.close.panelHeader" class="item item-icon-right" ng-click="toggle('isClosedShown')" ng-class="{active: isClosedShown}">
+                <div class="item-text-center item-text-wrap"><i class="icon-left ion-ios-close" ></i>    Closed</div>
+                <i class="icon" ng-class="isClosedShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+            </ion-item>
+            <ion-item wings="security" id="discrepancy.close.panel" class="item-accordion"  ng-show="isClosedShown" style="padding:0px;margin:0px;background-color: #F4F4F4;">
+                <div class="item" style="background-color: #F4F4F4;">
+                    <ion-label wings="security" id="discrepancy.correctiveAction.span">
+                        Corrective Action	    
+                    </ion-label>
+                    <ion-item wings="security" id="discrepancy.correctiveAction.input">
+                        <textarea  style="width: 100%;text-transform: uppercase;"rows="6"  ng-model="discrepancy.correctiveAction"></textarea>
+                    </ion-item>
+                    
+                </div>
+                <div wings="security" id="discrepancy.row9.div" class="row responsive-sm">
+                    <div wings="security" id="discrepancy.closeDate.col" class="col">
+                        <div class="item item-input">
+                            <div wings="security" id="discrepancy.closeDate.span" class="input-label">Rectification Date:</div>
+                            <input wings="security" id="discrepancy.closeDate.input" type="datetime-local" ng-model="discrepancy.close.date" style="text-align: right;" ng-change="setStatus()" >
+                        </div>
+                    </div>
+                    <div wings="security" id="discrepancy.closeStation.col" class="col">
+                        <div class="item item-input">
+			 	            <span wings="security" id="discrepancy.closeStation.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Station:</span> 
+			                <input wings="security" id="discrepancy.closeStation.input" type="text" ng-model="discrepancy.close.station" style="text-align: right;text-transform: uppercase; " >
+                            <button wings="security" id="discrepancy.closeStation.lov" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;text-transform: uppercase;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="discrepancy.close.station" option-property="FLIGHT_LOCATION" options="stations" modal-title="Stations" has-search="true">
+                            <div class="option">
+                                <div class="row">
+                                    <div class="col col-20">
+                                        <h2>{{option.FLIGHT_LOCATION}}</h2>
+                                    </div>
+                                    <div class="col"> 
+                                        <h2>{{option.DESCRIPTION}}</h2>
+                                    </div>
+                                </div>          
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div wings="security" id="discrepancy.row10.div" class="row responsive-sm">
+                    <div wings="security" id="discrepancy.rectByName.col" class="col">
+                        <div class="item item-input">
+                            <div wings="security" id="discrepancy.rectByName.span" class="input-label">Rectified By:</div>
+    			            <input wings="security" id="discrepancy.rectByName.input" type="text" ng-model="discrepancy.close.rectByName" style="text-align: right;text-transform: uppercase;" > 
+    			            <button wings="security" id="discrepancy.rectByName.lov" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;text-transform: uppercase;" modal-select="" ng-model="discrepancy.close.rectByNumber" on-select="employeeOnselect(object,newValue,oldValue,'RECTIFIED')" options="employees" modal-title="Employees" has-search="true">
+                                <div class="option">
+                                     <h2>{{option.EMPLOYEE_NAME}}</h2>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                     <div ng-show="false" class="col">
+                        <div class="item item-input">
+                            <input type="text" ng-model="discrepancy.close.rectByNumber" >
+                        </div>
+                    </div>
+                </div>
+                <div wings="security" id="discrepancy.row11.div" class="row responsive-sm">
+                    <div wings="security" id="discrepancy.rectByName.col" class="col">
+                        <div class="item item-input">
+                            <div wings="security" id="discrepancy.inspectionDate.span" class="input-label">Inspection Date:</div>
+                            <input wings="security" id="discrepancy.inspectionDate.input" type="datetime-local" style="text-align: right;text-transform: uppercase;" ng-model="discrepancy.inspection.date" >
+                        </div>
+                    </div>
+                    <div wings="security" id="discrepancy.inspectionStation.col" class="col">
+                        <div class="item item-input">
+			 	            <span wings="security" id="discrepancy.inspectionStation.span" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Station:</span> 
+                            <input wings="security" id="discrepancy.inspectionStation.input" type="text" ng-model="discrepancy.inspection.station" style="text-align: right;text-transform: uppercase; ">
+                            <button wings="security" id="discrepancy.inspectionStation.lov" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" modal-select="" ng-model="discrepancy.inspection.station" option-property="FLIGHT_LOCATION" options="stations" modal-title="Stations" has-search="true">
+                            <div class="option">
+                                 <div class="row">
+                                    <div class="col col-20">
+                                        <h2>{{option.FLIGHT_LOCATION}}</h2>
+                                    </div>
+                                    <div class="col"> 
+                                        <h2>{{option.DESCRIPTION}}</h2>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div  wings="security" id="discrepancy.row12.div" class="row responsive-sm">
+                    <div wings="security" id="discrepancy.insByName.col" class="col">
+                        <div class="item item-input">
+                            <div wings="security" id="discrepancy.insByName.span" class="input-label">Inspected By:</div>
+                            <input wings="security" id="discrepancy.insByName.input" type="text" ng-model="discrepancy.inspection.employee.insByName" style="text-transform: uppercase;text-align: right;">
+                            <button wings="security" id="discrepancy.insByName.lov" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;text-transform: uppercase; " modal-select="" ng-model="discrepancy.inspection.employee.insByNumber"  on-select="employeeOnselect(object,newValue,oldValue,'INSPECTED')" options="employees" modal-title="Employees" has-search="true">
+                                <div class="option">
+                                     <h2>{{option.EMPLOYEE_NAME}}</h2>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                     <div ng-show="false" class="col">
+                        <div class="item item-input">
+                            <input type="text" ng-model="discrepancy.inspection.employee.insByNumber" >
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <br>
+        </div>
+        <div ng-show="componentTransactionVisibility">
+           <ion-item wings="security" id="discrepancy.componentTransaction.panelHeader" class="item item-icon-right" ng-click="toggle('isTransactionShown')" ng-class="{active: isTransactionShown}">
+                <div class="item-text-center item-text-wrap"><i class="icon-left ion-settings"style="padding-right:3px;" ></i>Component Transaction</div>
+                <i class="icon" ng-class="isTransactionShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+            </ion-item>
+            <ion-list wings="security" id="discrepancy.componentTransaction.panel" ng-show="isTransactionShown" >
+            
+            <div wings="security" id="discrepancy.componentTransaction.list" ng-repeat="object in transactions">
+            	<ion-item ng-click="toggleTransaction(object.MOBILE_RECORD_ID)">
+                    <div  style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                        <i wings="security" id="discrepancy.componentTransaction.icon" class="icon ion-settings positive" style="font-size: 42px;vertical-align:-webkit-baseline-middle;"></i>
+                    </div>
+                    <h2 style="text-align:left;top: 5px;" > 
+                        <b>
+                            <span wings="security" id="discrepancy.componentTransaction.span" style="color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                {{object.OFF_COMPONENT_NUMBER}} - {{object.OFF_SERIAL_NUMBER}}
+                            </span>
+                        </b>
+                    </h2>
+                    <!--  <span ng-show="object.MOBILE_RECORD_ID" style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                         <i class="ion-trash-a assertive" style="font-size: 48px;top:10px;right:30px;" ng-click="deleteTransaction(object.MOBILE_RECORD_ID)"></i>
+                    </span> -->
+                    <h2 style="text-align:left;top: 5px;" > 
+                         <b>
+                            <span wings="security" id="discrepancy.componentTransaction.span2" style="color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                {{object.ON_COMPONENT_NUMBER}} - {{object.ON_SERIAL_NUMBER}}
+                            </span>
+                        </b>
+                    </h2>
+                    <h2 style="text-align: left;padding-left:60px;">
+                        <b>
+                            <span wings="security" id="discrepancy.componentTransaction.span3" style="color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                {{object.POSITION}}
+                            </span>
+                        </b>
+                    </h2>
+                </ion-item>
+                <ion-item  ng-show="object.IS_SHOWN" style="background-color: #F4F4F4;padding:8px;" >
+                    <div wings="security" id="discrepancy.row13.div" class="row responsive-sm">
+                        <div wings="security" id="discrepancy.offComponentNumber.col" class="col ">
+                            <ion-input class="item item-input"> 
+                                <span wings="security" id="discrepancy.offComponentNumber.span" style="padding-right:5px;max-width:120px;" class="input-label">Part # Off :</span> 
+                                <input wings="security" id="discrepancy.offComponentNumber.input" style="text-align:right;text-transform: uppercase;" type="text" ng-focus="setScanObj('partoff')" ng-model="object.OFF_COMPONENT_NUMBER" >
+                            </ion-input>
+                        </div>
+                        <div wings="security" id="discrepancy.offSerialNumber.col" class="col ">
+                            <ion-input class="item item-input"> 
+                                <span wings="security" id="discrepancy.offSerialNumber.span" style="padding-right:5px;max-width:120px;" class="input-label">Serial # Off :</span> 
+                                <input wings="security" id="discrepancy.offSerialNumber.input" style="text-align:right;text-transform: uppercase;" type="text" ng-model="object.OFF_SERIAL_NUMBER" >
+                            </ion-input>
+                        </div>
+                    </div>
+                    <div  wings="security" id="discrepancy.row14.div" class="row responsive-sm">
+                        <div wings="security" id="discrepancy.onComponentNumber.col" class="col ">
+                            <ion-input class="item item-input"> 
+                                <span wings="security" id="discrepancy.onComponentNumber.span" style="padding-right:5px;max-width:120px;" class="input-label">Part # On :</span> 
+                                <input wings="security" id="discrepancy.onComponentNumber.input" style="text-align:right;text-transform: uppercase;" type="text" ng-focus="setScanObj('parton')" ng-model="object.ON_COMPONENT_NUMBER" >
+                            </ion-input>
+                        </div>
+                        <div wings="security" id="discrepancy.onSerialNumber.col" class="col ">
+                            <ion-input class="item item-input"> 
+                                <span wings="security" id="discrepancy.onSerialNumber.span" style="padding-right:5px;max-width:120px;" class="input-label">Serial # On :</span> 
+                                <input wings="security" id="discrepancy.onSerialNumber.input" style="text-align:right;text-transform: uppercase;" type="text" ng-model="object.ON_SERIAL_NUMBER" >
+                            </ion-input>
+                        </div>
+                    </div>
+                    <div  wings="security" id="discrepancy.row15.div" class="row responsive-sm">
+                         <div wings="security" id="discrepancy.position.col" class="col col-50">
+                            <ion-input class="item item-input"> 
+                                <span wings="security" id="discrepancy.position.span" style="padding-right:5px;max-width:120px;" class="input-label">Position :</span> 
+                                <input wings="security" id="discrepancy.position.input" style="text-align:right;" type="text" ng-model="object.POSITION">
+                            </ion-input>
+                        </div>
+                        <div wings="security" id="discrepancy.position.col" class="col col-50" class="col col-50" style="padding:0px;">
+	                        <div class="row" style="padding:0px;">
+		                        <div wings="security" id="discrepancy.componentTransaction.col" class="col">
+		                            <i wings="security" id="discrepancy.componentTransaction.icon" class="col col-50" class="icon ion-checkmark-circled energized" style="font-size:48px;" ng-click="saveTransaction(object)"></i>
+		                        </div>
+		                         <div wings="security" id="discrepancy.componentTransaction.col2" ng-show="object.MOBILE_RECORD_ID" class="col">
+		                            <i wings="security" id="discrepancy.componentTransaction.icon2" class="col col-50" class="icon ion-trash-a assertive" style="font-size:48px;" ng-click="deleteTransaction(object.MOBILE_RECORD_ID)"></i>
+		                        </div> 
+	                        </div>
+                        </div>
+                    </div>
+                </ion-item>
+                
+            </div>
+            
+            
+            </ion-list>
+        </div>
+            
+                <!--  <ion-item  style="background-color: #F4F4F4;padding:8px;" >
+                    <div class="row responsive-sm">
+                        <div class="col ">
+                            <ion-input class="item item-input"> 
+                                <span style="padding-right:5px;max-width:120px;" class="input-label">Part # Off :</span> 
+                                <input  type="text" ng-focus="setScanObj('partoff')" ng-model="transaction.partOff" >
+                            </ion-input>
+                        </div>
+                        <div class="col ">
+                            <ion-input class="item item-input"> 
+                                <span style="padding-right:5px;max-width:120px;" class="input-label">Serial # Off :</span> 
+                                <input type="text" ng-model="transaction.serialOff" >
+                            </ion-input>
+                        </div>
+                    </div>
+                    <div class="row responsive-sm">
+                        <div class="col ">
+                            <ion-input class="item item-input"> 
+                                <span style="padding-right:5px;max-width:120px;" class="input-label">Part # On :</span> 
+                                <input  type="text" ng-focus="setScanObj('parton')" ng-model="transaction.partOn" >
+                            </ion-input>
+                        </div>
+                        <div class="col ">
+                            <ion-input class="item item-input"> 
+                                <span style="padding-right:5px;max-width:120px;" class="input-label">Serial # On :</span> 
+                                <input type="text" ng-model="transaction.serialOn" >
+                            </ion-input>
+                        </div>
+                    </div>
+                    <div class="row responsive-sm">
+                         <div class="col col-50">
+                            <ion-input class="item item-input"> 
+                                <span style="padding-right:5px;max-width:120px;" class="input-label">Position :</span> 
+                                <input  type="text" ng-model="transaction.position">
+                            </ion-input>
+                        </div>
+                        <div class="col col-50" style="padding:0px;">
+	                        <div class="row" style="padding:0px;">
+		                        <div class="col">
+		                            <i class="icon ion-checkmark-circled energized" style="font-size:48px;" ng-click="saveTransaction()"></i>
+		                        </div>
+		                        <div class="col">
+		                            <i class="icon ion-backspace-outline assertive" style="font-size:48px;" ng-click="clearTransaction()"></i>
+		                        </div>
+	                        </div>
+                        </div>
+                    </div>
+                </ion-item>
+                <ion-item ng-repeat="object in transactions">
+                    <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                        <i class="icon ion-settings positive" style="font-size: 42px;vertical-align:-webkit-baseline-middle;"></i>
+                    </div>
+                    <h2 style="text-align:left;top: 5px;" > 
+                        <b>
+                            <span style="color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                {{object.OFF_COMPONENT_NUMBER}} - {{object.OFF_SERIAL_NUMBER}}
+                            </span>
+                        </b>
+                    </h2>
+                     <span style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                         <i class="ion-trash-a assertive" style="font-size: 48px;top:10px;right:30px;" ng-click="deleteTransaction(object.MOBILE_RECORD_ID)"></i>
+                    </span>
+                    <h2 style="text-align:left;top: 5px;" > 
+                         <b>
+                            <span style="color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                {{object.ON_COMPONENT_NUMBER}} - {{object.ON_SERIAL_NUMBER}}
+                            </span>
+                        </b>
+                    </h2>
+                    <h2 style="text-align: left;padding-left:60px;">
+                        <b>
+                            <span style="color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                {{object.POSITION}}
+                            </span>
+                        </b>
+                    </h2>
+                </ion-item> -->
+        <br>
+        <ion-item class="item item-icon-right" ng-click="toggle('isAttachmentShown')" ng-class="{active: isAttachmentShown}" >
+            <div class="item-text-center item-text-wrap"><i class="icon-left ion-images"style="padding-right:3px;" ></i>Attachments</div>
+            <i class="icon" ng-class="isAttachmentShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+        </ion-item>
+        <ion-item class="item-accordion" ng-show="isAttachmentShown" style="padding:0px;margin:0px;background-color: #F4F4F4;">
+             <flex-slider style="max-height: 240px;" slide="item in attachments track by item.FILE_LOCATION" item-width="180" slideshow="true" control-nav="false" direction-Nav="false" animation="slide">
+                 <li style="width: 180px;">
+                    <img ng-src="{{item.FILE_LOCATION}}" ng-click="loadImage(item)" err-src="./img/imgPlaceholder.png"/>
+                 </li>
+             </flex-slider>   
+        </ion-item>
+        <div style="height:20px;"></div>
+<script id="Cabin.html" type="text/ng-template">
+    <ion-modal-view style="width:100%;height:100%;top:0%;left:0%;bottom:0%;right:0%;">
+        <style>
+             .box{
+                 float: left;
+                 text-align: center;   
+                 margin-right: 2%; 
+                 margin-bottom: 2%; 
+                 background: #16a085; 
+                 color: #fff; 
+                 font-weight: bold; 
+                 font-size: 10px; 
+                 font-family: 'Arial';      
+                 box-sizing:border-box;  
+                 font-size: 2.9vw; 
+                 position: relative;
+            }
+            .gbox {
+                background: #e67e22;
+                height: 60px;
+            }
+            .rw { 
+				width: 100%;  
+				display: table-row;
+			}
+            .emp { 
+				width: 510px; 
+				height: 20px; 
+				float: left;  
+				box-sizing:border-box;
+			}
+            .rfs {
+                position: absolute;
+                right: 0;
+                float: right;
+                margin: 0 auto;
+            }
+            .lfs {
+                float: left;
+            }
+            .num {   
+				position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+            }
+            .square{
+			}
+            .square:after {
+            	content: "";
+             	display: block;
+             	padding-bottom: 100%;
+            }
+        </style>
+     	<ion-header-bar class="bar bar-header bar-dark">
+        	<h1 class="title">Cabin</h1>
+            <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+            <ion-content class="padding">
+                <ion-item> 	     
+    		        <div class="row">
+             	       <div class="box col gbox" ng-click="showAlertg()"><span class="num">GENERAL</span></div>
+		            </div>
+                	<div ng-repeat="i in getNumber(12) track by $index">
+         		    	<div class = "row">
+                   			<div class="box col square" ng-click="showAlert($index+1,'A')"><span class="num">{{($index)+1}}A</span></div>
+                   			<div class="box col square" ng-click="showAlert($index+1,'B')"><span class="num">{{($index)+1}}B</span></div>
+                   			<div class="box col square" ng-click="showAlert($index+1,'C')"><span class="num">{{($index)+1}}C</span></div>
+			                <div class="col"></div>
+             				<div class="col"></div>
+                      		<div class="box col square" ng-click="showAlert($index+1,'D')"><span class="num">{{($index)+1}}D</span></div>
+                   			<div class="box col square" ng-click="showAlert($index+1,'E')"><span class="num">{{($index)+1}}E</span></div>
+                   			<div class="box col square" ng-click="showAlert($index+1,'F')"><span class="num">{{($index)+1}}F</span></div>
+                  		</div>
+	               </div>
+               </div>
+			</ion-content>
+        </ion-modal-view>
+    </script>
+        <script id="Cabinp.html" type="text/ng-template">
+            <ion-modal-view style="width:90%;height:90%;top:5%;left:5%;bottom:5%;right:5%;">
+                <style>
+                	.blocklist {
+                        display: block;
+	                }
+	                .blocklist li {
+                		font-weight: bold;
+                		text-align: center;
+                		width: 100px;
+                		height: 150px;
+                		background: #ccc;
+                		margin: 10px;  
+                		float: left;
+                		padding: 5px;
+                    	text-transform: uppercase;
+                		cursor: pointer;
+                		margin-left: 0;
+                  	}
+	                .blocklist .active {
+               			background: #ff3333	;
+                		color: #fff;
+	                }
+    	        </style>     
+			<ion-header-bar class="bar bar-header bar-dark">
+				<!-- LLLLLLLLLLLLLLLLLLLLL 		margin default 10 width 100 height 95 -->
+            	<h1 class="title">Seat Discrepancy</h1>
+              	<button class="button button-clear button-primary" ng-click="modalSeats.hide();">Cancel</button>
+            </ion-header-bar>
+           	<ion-content class="padding">
+	     	    <div class="blocklist">
+    	       	    <ul>
+             			<li ng-click="toggleb()" ng-class="{active:b.state}" ng-repeat="b in btns" ng-init="b.state = false;">
+
+						<div style="width:80px; height:80px; background:fff; align:middle; position:absolute top:0;bottom:0;right:0;left:0; margin:auto;">
+					
+						<img wings-static-assests-picture filename="{{b.dir}}" directory="MM/MM_102" align="middle" "></img>
+							
+						</div>	
+							<div>
+							<p> {{b.label}}</p>
+							</div>
+
+						</li>
+               			
+						
+						<li ng-click="fttoggle();" ng-class="{active:cancelBtn.State}" ng-init="cancelBtn.State = false;">Free Text</li>
+            		</ul>    
+            	</div>
+            	<ion-input class="item item-input" ng-show="cancelBtn.State" style="display:block; width: 100%;"> 
+            	    <ion-label>Description:</ion-label> 
+            	    <input type="text" ng-model="cancelBtn.Text" placeholder="Free Text"></input>
+                </ion-input>
+                <button class="button button-full button-balanced" ng-click="discrepancyTypeCheck('Seats');">Save</button>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    
+    <script id="CabinIFE.html" type="text/ng-template">
+            <ion-modal-view style="width:90%;height:90%;top:5%;left:5%;bottom:5%;right:5%;">
+                <style>
+                	.blocklist {
+                        display: block;
+	                }
+	                .blocklist li {
+                		font-weight: bold;
+                		text-align: center;
+                		width: 100px;
+                		height: 150px;
+                		background: #ccc;
+                		margin: 10px;  
+                		float: left;
+                		padding: 5px;
+                    	text-transform: uppercase;
+                		cursor: pointer;
+                		margin-left: 0;
+                  	}
+	                .blocklist .active {
+               			background: #ff3333	;
+                		color: #fff;
+	                }
+    	        </style>     
+			<ion-header-bar class="bar bar-header bar-dark">
+				<!-- LLLLLLLLLLLLLLLLLLLLL 		margin default 10 width 100 height 95 -->
+            	<h1 class="title">IFE Discrepancy</h1>
+              	<button class="button button-clear button-primary" ng-click="modalIFE.hide();">Cancel</button>
+            </ion-header-bar>
+           	<ion-content class="padding">
+	     	    <div class="blocklist">
+    	       	    <ul>
+             			<li ng-click="toggleb()" ng-class="{active:b.state}" ng-repeat="b in btnsIFE" ng-init="b.state = false;">
+
+						<div style="width:80px; height:80px; background:fff; align:middle; position:absolute top:0;bottom:0;right:0;left:0; margin:auto;">
+					
+						<img wings-static-assests-picture filename="{{b.dir}}" directory="MM/MM_102" align="middle" "></img>
+							
+						</div>	
+							<div>
+							<p> {{b.label}}</p>
+							</div>
+
+						</li>
+               			
+						
+						<li ng-click="fttoggle();" ng-class="{active:cancelBtn.State}" ng-init="cancelBtn.State = false;">Free Text</li>
+            		</ul>    
+            	</div>
+            	<ion-input class="item item-input" ng-show="cancelBtn.State" style="display:block; width: 100%;"> 
+            	    <ion-label>Description:</ion-label> 
+            	    <input type="text" ng-model="cancelBtn.Text" placeholder="Free Text"></input>
+                </ion-input>
+                <button class="button button-full button-balanced" ng-click="discrepancyTypeCheck('IFE');">Save</button>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    
+    <script id="CabinLights.html" type="text/ng-template">
+            <ion-modal-view style="width:90%;height:90%;top:5%;left:5%;bottom:5%;right:5%;">
+                <style>
+                	.blocklist {
+                        display: block;
+	                }
+	                .blocklist li {
+                		font-weight: bold;
+                		text-align: center;
+                		width: 100px;
+                		height: 150px;
+                		background: #ccc;
+                		margin: 10px;  
+                		float: left;
+                		padding: 5px;
+                    	text-transform: uppercase;
+                		cursor: pointer;
+                		margin-left: 0;
+                  	}
+	                .blocklist .active {
+               			background: #ff3333	;
+                		color: #fff;
+	                }
+    	        </style>     
+			<ion-header-bar class="bar bar-header bar-dark">
+				<!-- LLLLLLLLLLLLLLLLLLLLL 		margin default 10 width 100 height 95 -->
+            	<h1 class="title">Light Discrepancy</h1>
+              	<button class="button button-clear button-primary" ng-click="modalLights.hide();">Cancel</button>
+            </ion-header-bar>
+           	<ion-content class="padding">
+	     	    <div class="blocklist">
+    	       	    <ul>
+             			<li ng-click="toggleb()" ng-class="{active:b.state}" ng-repeat="b in btnsLights" ng-init="b.state = false;">
+
+						<div style="width:80px; height:80px; background:fff; align:middle; position:absolute top:0;bottom:0;right:0;left:0; margin:auto;">
+					
+						<img wings-static-assests-picture filename="{{b.dir}}" directory="MM/MM_102" align="middle" "></img>
+							
+						</div>	
+							<div>
+							<p> {{b.label}}</p>
+							</div>
+
+						</li>
+               			
+						
+						<li ng-click="fttoggle();" ng-class="{active:cancelBtn.State}" ng-init="cancelBtn.State = false;">Free Text</li>
+            		</ul>    
+            	</div>
+            	<ion-input class="item item-input" ng-show="cancelBtn.State" style="display:block; width: 100%;"> 
+            	    <ion-label>Description:</ion-label> 
+            	    <input type="text" ng-model="cancelBtn.Text" placeholder="Free Text"></input>
+                </ion-input>
+                <button class="button button-full button-balanced" ng-click="discrepancyTypeCheck('Lights');">Save</button>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    
+    <script id="CabinDoors.html" type="text/ng-template">
+            <ion-modal-view style="width:90%;height:90%;top:5%;left:5%;bottom:5%;right:5%;">
+                <style>
+                	.blocklist {
+                        display: block;
+	                }
+	                .blocklist li {
+                		font-weight: bold;
+                		text-align: center;
+                		width: 100px;
+                		height: 150px;
+                		background: #ccc;
+                		margin: 10px;  
+                		float: left;
+                		padding: 5px;
+                    	text-transform: uppercase;
+                		cursor: pointer;
+                		margin-left: 0;
+                  	}
+	                .blocklist .active {
+               			background: #ff3333	;
+                		color: #fff;
+	                }
+    	        </style>     
+			<ion-header-bar class="bar bar-header bar-dark">
+				<!-- LLLLLLLLLLLLLLLLLLLLL 		margin default 10 width 100 height 95 -->
+            	<h1 class="title">Door Discrepancy</h1>
+              	<button class="button button-clear button-primary" ng-click="modalDoors.hide();">Cancel</button>
+            </ion-header-bar>
+           	<ion-content class="padding">
+	     	    <div class="blocklist">
+    	       	    <ul>
+             			<li ng-click="toggleb()" ng-class="{active:b.state}" ng-repeat="b in btnsDoors" ng-init="b.state = false;">
+
+						<div style="width:80px; height:80px; background:fff; align:middle; position:absolute top:0;bottom:0;right:0;left:0; margin:auto;">
+					
+						<img wings-static-assests-picture filename="{{b.dir}}" directory="MM/MM_102" align="middle" "></img>
+							
+						</div>	
+							<div>
+							<p> {{b.label}}</p>
+							</div>
+
+						</li>
+               			
+						
+						<li ng-click="fttoggle();" ng-class="{active:cancelBtn.State}" ng-init="cancelBtn.State = false;">Free Text</li>
+            		</ul>    
+            	</div>
+            	<ion-input class="item item-input" ng-show="cancelBtn.State" style="display:block; width: 100%;"> 
+            	    <ion-label>Description:</ion-label> 
+            	    <input type="text" ng-model="cancelBtn.Text" placeholder="Free Text"></input>
+                </ion-input>
+                <button class="button button-full button-balanced" ng-click="discrepancyTypeCheck('Doors');">Save</button>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    
+    <script id="CabinFAP.html" type="text/ng-template">
+            <ion-modal-view style="width:90%;height:90%;top:5%;left:5%;bottom:5%;right:5%;">
+                <style>
+                	.blocklist {
+                        display: block;
+	                }
+	                .blocklist li {
+                		font-weight: bold;
+                		text-align: center;
+                		width: 100px;
+                		height: 150px;
+                		background: #ccc;
+                		margin: 10px;  
+                		float: left;
+                		padding: 5px;
+                    	text-transform: uppercase;
+                		cursor: pointer;
+                		margin-left: 0;
+                  	}
+	                .blocklist .active {
+               			background: #ff3333	;
+                		color: #fff;
+	                }
+    	        </style>     
+			<ion-header-bar class="bar bar-header bar-dark">
+				<!-- LLLLLLLLLLLLLLLLLLLLL 		margin default 10 width 100 height 95 -->
+            	<h1 class="title">FAP Discrepancy</h1>
+              	<button class="button button-clear button-primary" ng-click="modalFAP.hide();">Cancel</button>
+            </ion-header-bar>
+           	<ion-content class="padding">
+	     	    <div class="blocklist">
+    	       	    <ul>
+             			<li ng-click="toggleb()" ng-class="{active:b.state}" ng-repeat="b in btnsFAP" ng-init="b.state = false;">
+
+						<div style="width:80px; height:80px; background:fff; align:middle; position:absolute top:0;bottom:0;right:0;left:0; margin:auto;">
+					
+						<img wings-static-assests-picture filename="{{b.dir}}" directory="MM/MM_102" align="middle" "></img>
+							
+						</div>	
+							<div>
+							<p> {{b.label}}</p>
+							</div>
+
+						</li>
+               			
+						
+						<li ng-click="fttoggle();" ng-class="{active:cancelBtn.State}" ng-init="cancelBtn.State = false;">Free Text</li>
+            		</ul>    
+            	</div>
+            	<ion-input class="item item-input" ng-show="cancelBtn.State" style="display:block; width: 100%;"> 
+            	    <ion-label>Description:</ion-label> 
+            	    <input type="text" ng-model="cancelBtn.Text" placeholder="Free Text"></input>
+                </ion-input>
+                <button class="button button-full button-balanced" ng-click="discrepancyTypeCheck('FAP');">Save</button>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+	<script id="CabinOHB.html" type="text/ng-template">
+            <ion-modal-view style="width:90%;height:90%;top:5%;left:5%;bottom:5%;right:5%;">
+                <style>
+                	.blocklist {
+                        display: block;
+	                }
+	                .blocklist li {
+                		font-weight: bold;
+                		text-align: center;
+                		width: 100px;
+                		height: 150px;
+                		background: #ccc;
+                		margin: 10px;  
+                		float: left;
+                		padding: 5px;
+                    	text-transform: uppercase;
+                		cursor: pointer;
+                		margin-left: 0;
+                  	}
+	                .blocklist .active {
+               			background: #ff3333	;
+                		color: #fff;
+	                }
+    	        </style>     
+			<ion-header-bar class="bar bar-header bar-dark">
+				<!-- LLLLLLLLLLLLLLLLLLLLL 		margin default 10 width 100 height 95 -->
+            	<h1 class="title">OverheadBin Discrepancy</h1>
+              	<button class="button button-clear button-primary" ng-click="modalOHB.hide();">Cancel</button>
+            </ion-header-bar>
+           	<ion-content class="padding">
+	     	    <div class="blocklist">
+    	       	    <ul>
+             			<li ng-click="toggleb()" ng-class="{active:b.state}" ng-repeat="b in btnsOHB" ng-init="b.state = false;">
+
+						<div style="width:80px; height:80px; background:fff; align:middle; position:absolute top:0;bottom:0;right:0;left:0; margin:auto;">
+					
+						<img wings-static-assests-picture filename="{{b.dir}}" directory="MM/MM_102" align="middle" "></img>
+							
+						</div>	
+							<div>
+							<p> {{b.label}}</p>
+							</div>
+
+						</li>
+               			
+						
+						<li ng-click="fttoggle();" ng-class="{active:cancelBtn.State}" ng-init="cancelBtn.State = false;">Free Text</li>
+            		</ul>    
+            	</div>
+            	<ion-input class="item item-input" ng-show="cancelBtn.State" style="display:block; width: 100%;"> 
+            	    <ion-label>Description:</ion-label> 
+            	    <input type="text" ng-model="cancelBtn.Text" placeholder="Free Text"></input>
+                </ion-input>
+                <button class="button button-full button-balanced" ng-click="discrepancyTypeCheck('OHB');">Save</button>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+	<script id="CabinMCD.html" type="text/ng-template">
+            <ion-modal-view style="width:90%;height:90%;top:5%;left:5%;bottom:5%;right:5%;">
+                <style>
+                	.blocklist {
+                        display: block;
+	                }
+	                .blocklist li {
+                		font-weight: bold;
+                		text-align: center;
+                		width: 100px;
+                		height: 150px;
+                		background: #ccc;
+                		margin: 10px;  
+                		float: left;
+                		padding: 5px;
+                    	text-transform: uppercase;
+                		cursor: pointer;
+                		margin-left: 0;
+                  	}
+	                .blocklist .active {
+               			background: #ff3333	;
+                		color: #fff;
+	                }
+    	        </style>     
+			<ion-header-bar class="bar bar-header bar-dark">
+				<!-- LLLLLLLLLLLLLLLLLLLLL 		margin default 10 width 100 height 95 -->
+            	<h1 class="title">MCD Discrepancy</h1>
+              	<button class="button button-clear button-primary" ng-click="modalMCD.hide();">Cancel</button>
+            </ion-header-bar>
+           	<ion-content class="padding">
+	     	    <div class="blocklist">
+    	       	    <ul>
+             			<li ng-click="toggleb()" ng-class="{active:b.state}" ng-repeat="b in btnsMCD" ng-init="b.state = false;">
+
+						<div style="width:80px; height:80px; background:fff; align:middle; position:absolute top:0;bottom:0;right:0;left:0; margin:auto;">
+					
+						<img wings-static-assests-picture filename="{{b.dir}}" directory="MM/MM_102" align="middle" "></img>
+							
+						</div>	
+							<div>
+							<p> {{b.label}}</p>
+							</div>
+
+						</li>
+               			
+						
+						<li ng-click="fttoggle();" ng-class="{active:cancelBtn.State}" ng-init="cancelBtn.State = false;">Free Text</li>
+            		</ul>    
+            	</div>
+            	<ion-input class="item item-input" ng-show="cancelBtn.State" style="display:block; width: 100%;"> 
+            	    <ion-label>Description:</ion-label> 
+            	    <input type="text" ng-model="cancelBtn.Text" placeholder="Free Text"></input>
+                </ion-input>
+                <button class="button button-full button-balanced" ng-click="discrepancyTypeCheck('MCD');">Save</button>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+
+</ion-content>
+<script id="templates/digitalSign.html" type="text/ng-template">
+ <ion-modal-view id="sign055" style="top:20%;width:70%;left:15%;height:60%; min-height:260px;    border: 1px solid black;box-shadow: 0px 0px 500px 10px black;overflow: hidden !important;">
+     <ion-header-bar class="bar bar-header bar-positive">
+         <h1 class="title" style="color:white">Digital Sign</h1>
+     </ion-header-bar>
+     <ion-content scroll="false" overflow-scroll="false" style="min-height:260px !important; overflow: hidden !important;">
+        <div class="list card" style="box-shadow:0 0 0 ;margin: 0px;padding-top: 7px; overflow: hidden !important;">
+            <div class="item item-body" style="box-shadow:0 0 0 ;padding:0px;overflow: hidden !important;">
+                <div id="loginList" class="list" style="postion:absolute;background-color:rgba(0, 0, 0, 0);box-shadow:0 0 0 ;opacity:0.9;overflow: hidden !important;">
+                    <label class="item item-input" style="border: none;margin-bottom: 10px;border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12);">
+                        <i class="icon ion-person placeholder-icon" style="color: #444"></i> 
+                        <input type="text" readonly ng-model="user.username" placeholder="Username" style="font-weight: bold;background: none;text-transform: uppercase;">
+                    </label>
+                    <label class="item item-input" style="border: none; border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12); ">
+                        <i class="icon ion-key placeholder-icon" style="color: #333; "></i>
+                        <input type="password" ng-model="user.password" placeholder="Password" style="font-weight: bold;background: none; color: #333;">
+                    </label>
+                    <div class="row" style="padding:0px">
+                        <div class="col" style="padding:0px">
+                            <canvas id="m055" style="height:100%;width:100%;margin-top: 10px;" class="canvas-container"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+            <ion-footer-bar style="padding:0px">
+                <div class="button-bar">
+                    <button class="button button-large icon buttonicon ion-trash-b button-energized" ng-click="clearCanvas()">CLEAR</button>
+                    <button class="button button-large icon buttonicon ion-close button-assertive" ng-click="hide()">CANCEL</button>
+                    <button class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="signin()">OK</button>
+                </div>
+            </ion-footer-bar> 
+ </ion-modal-view>
+</script> 
+<ion-footer-bar style="background-color:rgba(0,0,0,0.3) !important;padding:0px;">
+    <div class="button-bar">
+        <button ng-click="scanBarcode(scanObj)" ng-show="isTransactionShown" class="button button-large buttonicon ion-ios-barcode button-positive">
+           Scan
+        </button>
+        <button ng-disabled="disabled" ng-click="AddAttachment()" ng-show="isAttachmentShown" class="button button-large buttonicon ion-camera button-positive"></button>
+        <button ng-disabled="disabled" ng-show="viewMode=='update'" class="button button-large buttonicon icon ion-checkmark button-energized" ng-click="openWorkCard()">OPEN</button>
+	    <button ng-disabled="disabled" ng-show="viewMode=='update'" class="button button-large buttonicon icon ion-checkmark button-balanced" ng-click="Update()">SAVE</button>
+	    <button ng-disabled="disabled" ng-show="viewMode=='insert'" class="button button-large buttonicon icon ion-checkmark button-balanced" ng-click="Save()">SAVE</button>
+	</div>
+</ion-footer-bar>
+</ion-view>

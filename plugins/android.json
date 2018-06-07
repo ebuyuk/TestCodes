@@ -1,0 +1,108 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-android-fingerprint-auth": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-android-permissions": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-badge": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-dbcopy": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-document-viewer": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-image-picker": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-networkinterface": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-touch-id": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "ionic-plugin-deploy": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "phonegap-plugin-barcodescanner": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "uk.co.workingedge.cordova.plugin.sqliteporter": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-ionic": {
+            "APP_ID": "3aff36f0",
+            "CHANNEL_NAME": "dev",
+            "UPDATE_API": "https://api.ionicjs.com",
+            "UPDATE_METHOD": "background|auto|none",
+            "MAX_STORE": "2",
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-app-event": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "cordova-plugin-add-swift-support": {
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        }
+    }
+}

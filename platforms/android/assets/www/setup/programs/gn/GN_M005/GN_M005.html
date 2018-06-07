@@ -1,0 +1,55 @@
+<ion-view view-title="Issues"> 
+   <ion-header-bar class="bar-light bar-subheader">
+       <div class="item-input-inset">
+           <i class="icon-left ion-android-search"></i>
+           <input type="text" placeholder=" Search" ng-model="search" style="width:100%; padding-left:11px;" />
+       </div>
+    </ion-header-bar>
+<ion-content >
+        <style>
+            .item-content
+            {
+                padding-right: 16px !important;
+            }
+        </style>
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+      </ion-refresher>
+
+      <ion-list>
+         <ion-item collection-repeat="loop in rows |  orderBy:'-sent_date' | filter :search | limitTo:numberOfIssuesToDisplay" item="item" ng-click="showIssue(loop)" style="padding: 0;height:90px;" ng-style="loop.INBOX == 'TRUE' ? {} : {'opacity': '0.3'}">
+            <i class="icon-left ion-alert-circled assertive" ng-hide="loop.server_feedback == '' || loop.server_feedback == null" style="float: left;"></i>
+            <div style="border-radius: 50%; font-size: 9px;  color: #fff; float: left; display: inline;  width: 44px; height: 44px; text-align: center; line-height: 46px; margin-right: 20px;
+                 background: {{loop.status == 'OPEN' ? '#ffc900' : loop.status == 'CANCELLED' ? '#ef473a': '#33cd5f'}}" >
+                {{loop.status == 'OPEN' ? 'Open' : loop.status == 'CANCELLED' ? 'Cancelled': 'Closed'}}
+             </div>
+             <h2 style="text-align:left;" >
+                 {{loop.processed_by_employee_name}}
+                <span style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                    {{convertToDate(loop.server_transaction_date) | date : 'd MMM H:mm' }}
+                </span>
+             </h2>
+             <h4 style="text-align:left;" >
+                 {{loop.issue_number}} - {{loop.description}}
+                     <span style="float:right; position: absolute; right: 15px; top: 25px; color: #2980b9; font-weight: bold; font-size: 14px; "> 
+<!--                           <i class="icon ion-android-attach" style="font-size: 24px;display: inline-block;transform: rotate(90deg);"></i> -->
+                    </span>
+             </h4>
+             <h4>
+                 {{loop.subject}}
+                <span ng-show="loop.response_status != '' && loop.response_status != null" ng-repeat="action in loop.actionsTaken" style="position:relative;float:right;border-radius: 5px;color: #2980b9;padding:6px;border: 1px solid red;font-weight: bold; font-size: 14px; color:red; background-color:rgba(255,0,0,0.2)" > 
+                    {{action}}
+                </span>
+             </h4>
+             <ion-option-button class="button-assertive" ng-click="deleteMessage(loop)">
+                 Delete
+             </ion-option-button>
+        </ion-item> 
+          <ion-item ng-show="rows.length == 0">
+          Pull down to get records.
+        </ion-item> 
+      </ion-list>
+      <ion-infinite-scroll on-infinite="addMoreIssues()" distance="5%"></ion-infinite-scroll>
+  </ion-content>
+</ion-content>
+
+ </ion-view>

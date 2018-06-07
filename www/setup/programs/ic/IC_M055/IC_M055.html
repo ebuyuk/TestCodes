@@ -1,0 +1,48 @@
+<ion-view view-title="Issue">
+    <ion-content  scroll="false" style="background-color: #F4F4F4">
+    <style>
+
+    </style>
+        <div class="row" >
+           <div class="col">
+               <ion-input class="item item-input"> 
+                   <i class="icon ion-document-text" style="padding-right:10px"></i> 
+                   <span style="padding-right:9px;width:60px;" class="input-label">Work Card :</span> 
+                   <input type="text" id="workcard" ng-readonly="isReadOnly" ng-model="IC_M055.WORK_CARD" ng-init="scanObj='workcard'" ng-focus="setScanObj('workcard')">
+               </ion-input>
+           </div>
+           </div>
+           <div class="row" >
+           <div class="col">
+               <ion-input class="item item-input"> 
+                   <i class="icon ion-person" style="padding-right:10px"></i> 
+                   <span style="padding-right:9px;width:60px;" class="input-label">Issue To :</span> 
+                   <input type="text" id="issueTo" ng-readonly="isReadOnly" ng-focus="setScanObj('issueTo')" ng-model="IC_M055.ISSUE_TO_EMPLOYEE_NUMBER">
+               </ion-input>
+           </div>
+           </div>
+           <div class="row" >
+           
+           <div class="col">
+               <ion-input class="item item-input"> 
+                   <i class="icon ion-pull-request" style="padding-right:10px"></i> 
+                   <span style="padding-right:9px;width:60px;" class="input-label">Requisition :</span> 
+                   <input type="text" id="requisition" style="text-transform: uppercase;" ng-readonly="isReadOnly" ng-focus="setScanObj('requisition')" ng-model="IC_M055.REQUISITION">
+               </ion-input>
+           </div>
+        </div>
+</ion-content>
+<ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+    <div class="button-bar">
+        <button ng-click="deleteLocalRecords()" class="button button-large buttonicon ion-trash-b button-energized">
+            Clear
+        </button>
+        <button ng-click="scanBarcode(scanObj)" ng-hide="isReadOnly" class="button button-large buttonicon ion-ios-barcode button-positive">
+           Scan
+        </button>
+        <button ng-click="register()" class="button button-large buttonicon ion-checkmark button-balanced">
+            OK
+        </button>
+    </div>
+</ion-footer-bar> 
+</ion-view>

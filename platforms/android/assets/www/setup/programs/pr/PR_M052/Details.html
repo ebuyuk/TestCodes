@@ -1,0 +1,67 @@
+<ion-view view-title="New Part" cache-view="true"> 
+    <ion-content padding="true" has-header="true">
+    <ion-list>
+            <ion-item  style="background-color: #F4F4F4;padding:8px;">
+        <div class="row responsive-sm">
+            <div class="col" ng-click="focusInput('part_number')">
+                <ion-input class="item item-input"> 
+                    <span  class="input-label">Part # :</span> 
+                    <input id="part_number" style="text-transform: uppercase;" type="text" ng-blur="blur()" ng-change="onchange()" ng-model="part.part_number" >
+                    <span style="float:right; padding-right:92px;" ng-click="onIconClick()"><i ng-hide="part.part_number == ''" class="{{cButtonIcon}}" style="font-size:30px;"></i></span>
+                </ion-input>
+            </div>
+        </div>
+        <div class="row responsive-sm" ng-show="!isSearched">
+            <div class="col" ng-click="focusInput('description')">
+                <ion-input class="item item-input"> 
+                    <span  class="input-label">Description:</span> 
+                    <input id="description" ng-readonly="isPartDefined" type="text" ng-model="part.description" >
+                </ion-input>
+            </div>
+        </div>
+        <div class="row responsive-sm" ng-show="!isSearched">
+            <div class="col 50" ng-click="focusInput('quantity')">
+                <ion-input class="item item-input"> 
+                    <span class="input-label">Quantity:</span> 
+                    <input id="quantity"type="number" ng-model="part.quantity" >
+                </ion-input>
+            </div>
+            <div class="col 50" ng-click="focusInput('repair_flag')">
+                <ion-input class="item item-input"> 
+                    <span class="input-label">Repair:</span> 
+                    <input readonly id="repair_flag" type="text" ng-model="part.repair_flag" >
+                </ion-input>
+           </div>
+        </div>
+        </ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-item ng-repeat="object in partNumbers | filter:part.part_number" ng-click="fill(object)" ng-show="isSearched" style="background-color: #F4F4F4;padding:8px;">
+                <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                    <i class="icon ion-settings positive"style="font-size: 42px;"></i>
+                </div>
+                <h4 style="text-align:left; left:20px;" >
+                   <b>Part # : </b>{{object.part_number}}
+                   <span style=" margin-left: 10px;"><b>Price : </b> {{object.part_price}} </span>
+                </h4>
+                <h4 style="text-align:left; left:20px;" >
+                    <b>Description : </b>{{object.description }}
+                </h4>
+                <h4 style="text-align: left;">
+                    <b>OEM # : </b> {{object.oem_specification_number}}
+                    <span style=" margin-left: 10px;"><b>Quantity : </b> {{object.on_hand_quantity}} </span>
+                </h4>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+    <ion-footer-bar ng-hide="isSearched && !alternateMode" style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-hide="isSearched" ng-disabled="alternatesExist == false" ng-click="populateAlternates()" class="button button-large buttonicon icon ion-ios-shuffle-strong button-energized" style="background-color:#e8c85b;">Alternates</button>         
+            <button ng-hide="isSearched" ng-click="addNew()" class="button button-large icon buttonicon ion-plus-round button-balanced">Add New</button>
+            <button ng-disabled="newPartsCount < 1" ng-click="done()" class="button button-large icon buttonicon ion-checkmark button-positive">Done</button>
+            <button ng-show="isSearched && alternateMode" ng-click="closeAlternateMode()" class="button button-large icon buttonicon ion-reply button-balanced">{{tempPart.part_number}}</button>
+        </div>
+    </ion-footer-bar> 
+ </ion-view>
+  

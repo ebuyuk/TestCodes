@@ -1,0 +1,160 @@
+<ion-view view-title="Flight Inquiry"> 
+    <ion-header-bar class="bar-light bar-subheader"> 
+        <div class="item-input-inset" style="width:90%" ng-hide="isSearchActive">
+            <i class="icon-left ion-android-search"></i>
+            <input type="text" placeholder=" Search"  ng-model="searchCriteria" style="padding-left:15px;width:100%"/>
+        </div>        
+        <i class="icon-left ion-search balanced" ng-style="isCriteriaExists?{}:{'color':'#cccccc'}" ng-click="showModal(); onModal=true;" style="width:10%; font-size:25px;text-align:center; padding-top:5px;" ng-hide="isSearchActive"></i>      
+    </ion-header-bar> 
+	<ion-content  has-header="true" >
+	<ion-list ng-show="isSearchActive">
+	    <ion-item>
+	    <div class="row">
+            <label class="item item-input item-select" style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Tail # 
+                </div>
+                <select id="tailNumber"ng-model="flight.tailNumber">
+                    <option value="" selected></option>
+                    <option  ng-repeat="obj in aircraftsLov ">{{obj.TAIL_NUMBER}}</option>
+                </select>
+            </label>
+        </div>	    
+        <!--  log no -->
+        <div class="row">
+        <label class="item item-input " style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Log # 
+                </div>
+                <input type="text" ng-model="flight.logNumber" style="text-align:right;padding-right: 48px;text-transform: uppercase;">
+                </input>
+            </label>
+        </div>
+        <div class="row">
+        <label class="item item-input " style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Flight # 
+                </div>
+                <input type="text" ng-model="flight.flightNumber" style="text-align:right;padding-right: 48px;text-transform: uppercase;">
+                </input>
+            </label>
+        </div>
+        
+        <div class="row">
+        <ion-input class="item item-input" style="width:100%;"> 
+			 	<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Flight Interval</span>
+			    <input type="date" ng-model="flight.startDate" style="text-align:right; padding-right: 10px;">
+			    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label"> |</span>
+			    <input type="date" ng-model="flight.endDate" style="text-align:right; padding-right: 10px;">
+        
+        </div>
+	    </ion-item>
+	    </ion-list>
+		<ion-list ng-hide="isSearchActive">
+        	<ion-item ng-repeat="item in flights | filter :searchCriteria | limitTo:numberOfFligtsToDisplay" collection-item-height="100" ng-click="showFlightDetails(item)">
+                        <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;margin-top:10px;">
+                            <i class="icon ion-shipment-plane" ng-class="item.STATUS == 'SCHEDULED'? 'positive' : item.STATUS == 'ACCEPTED' ? 'energized' : item.STATUS == 'CANCELLED' ? 'assertive' :'balanced' " style="font-size: 42px;vertical-align:-webkit-baseline-middle;"></i>
+                        </div>
+                        <h2 style="text-align:left;top: 5px;" >
+                            <b>
+                                <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                                    {{item.TAIL_NUMBER}}
+                                </span>
+                            </b>
+                            <span style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                                {{item.SCHEDULE_DATE | date : 'd MMM yyyy'}}
+                            </span>
+                        </h2>
+                        <h2 style="text-align: left;padding-top:10px;">
+                            <b> {{item.SCHEDULED_FROM}} <i class="icon ion-plane" style=" margin-left: 10px;transform: rotate(90deg);display: inline-block;"></i>
+                                <span style=" margin-left: 10px;"> {{item.SCHEDULED_TO}}</span>
+                            </b>
+                            <span style="float:right; position:absolute;right: 15px;color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                                {{item.STATUS}}
+                            </span>
+                        </h2>
+                        <h3 style="text-align: left;margin-left:60px;padding-top:5px;">
+                            <b>Flight # : </b> {{item.FLIGHT_NUMBER}} - 
+                            <b> Log # : </b> {{item.CONTROL_NUMBER}}
+                        </h3>
+                        <h3 ng-hide="item.SCHEDULED_TAKE_OFF =='' || item.SCHEDULED_TAKE_OFF == undefined" style="text-align: left;margin-left:60px;padding-top:5px;">
+                            <b><i class="icon-left ion-clock"></i> : </b> {{item.SCHEDULED_TAKE_OFF}} - 
+                            <b><i class="icon-left ion-clock"></i> </b> {{item.SCHEDULED_LANDING}}
+                        </h3>
+                    </ion-item>
+        </ion-list>
+         <ion-infinite-scroll on-infinite="addMoreFlights()" distance="5%"></ion-infinite-scroll>
+    </ion-content>
+    <script id="templates/search.html" type="text/ng-template">
+        <ion-modal-view style="top:10%;bottom:10%;width:80%;left:10%;">
+          <ion-header-bar class="bar bar-header nav-green">
+              <h1 class="title" style="color:white">Search</h1>
+          </ion-header-bar>
+      <ion-content style="min-height:500px !important;">
+	  <ion-list>
+	    <ion-item style="border-bottom: 0px;">
+	    <div class="row">
+<div class="col">
+            <label class="item item-input item-select" style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Tail # 
+                </div>
+                <select id="tailNumber"ng-model="flight.tailNumber">
+                    <option value="" selected></option>
+                    <option  ng-repeat="obj in aircraftsLov ">{{obj.TAIL_NUMBER}}</option>
+                </select>
+            </label>
+        </div>	   
+</div> 
+        <!--  log no -->
+        <div class="row">
+<div class="col">
+        <label class="item item-input " style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Log # 
+                </div>
+                <input type="text" ng-model="flight.logNumber" style="text-align:right;padding-right: 48px;text-transform: uppercase;">
+                </input>
+            </label>
+        </div>
+</div>
+        <div class="row">
+<div class="col">
+        <label class="item item-input " style="padding-bottom: 4px;padding-top: 4px; width:100%;">
+                <div class="input-label">
+                    Flight # 
+                </div>
+                <input type="text" ng-model="flight.flightNumber" style="text-align:right;padding-right: 48px;text-transform: uppercase;">
+                </input>
+            </label>
+        </div>
+        </div>
+<div class="row">
+<div class="col">
+<ion-input class="item item-input" style="width:100%;"> 
+			 	<span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Flight Interval</span>
+        </div>
+		<div class="col">
+<ion-input class="item item-input" style="width:100%;"> 
+			    <input type="date"  ng-model="flight.startDate" style="text-align:right; padding-right: 10px;">
+
+		</div>
+		<div class="col">
+<ion-input class="item item-input" style="width:100%;"> 
+			    <input type="date" ng-model="flight.endDate" style="text-align:right; padding-right: 10px;">
+
+		</div>
+        </div>
+	    </ion-item>
+	    </ion-list>
+        </ion-content>
+<ion-footer-bar style="background-color:rgba(0,0,0,0.3) !important;padding:0px;">
+    <div class="button-bar">
+	    <button class="button button-large buttonicon icon ion-close button-assertive" ng-click="hide()">CANCEL</button>
+ 	    <button class="button button-large buttonicon icon ion-trash-b button-energized" ng-click="clearCriterias()">CLEAR</button>
+ 	    <button class="button button-large icon ion-search button-balanced"  ng-click="hide(); getFlightList()">SEARCH</button>
+	</div>
+</ion-footer-bar>
+        </ion-modal-view>
+    </script>
+</ion-view>

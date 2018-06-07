@@ -1,0 +1,244 @@
+<ion-view view-title="Steps">
+    <ion-header-bar class="bar-light bar-subheader"> 
+        <div class="item-input-inset" style="width:90%">
+            <i class="icon-left ion-android-search"></i>
+            <input type="text" placeholder=" Search" ng-model="searchCriteria" style="padding-left:15px;width:100%"/>
+        </div>
+        <i class="icon-left ion-levels positive"   ng-click="popoverSort.show($event)" style="width:10%; font-size:25px;text-align:center; padding-top:5px;"></i>      
+    </ion-header-bar> 
+    <ion-content has-header="true" style="background-color: #F4F4F4;">
+    
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <style>
+            .item.active,
+            .item.activated,
+            .item-complex.active .item-content,
+            .item-complex.activated .item-content,
+            .item .item-content.active,
+            .item .item-content.activated {
+                border-color: #ccc;
+                background-color: #ffffff; 
+            }
+            .stable, a.stable{
+                color:lightgrey;
+            }
+        </style>
+        <ion-list>
+            <ion-item ng-hide="card.ID" style="padding:5px 16px 5px 16px; line-height:50px;">
+                <div class="item-input" style="padding: 0px">
+    		        <i class="icon ion-document-text" style="padding-right:10px"></i> 
+                    <span style="padding-right:5px; width:60px;" class="input-label">Work Card:</span>
+                    <input type="text" id="WORK_CARD_NUMBER" ng-model="card.WORK_CARD_NUMBER" ng-blur="onblur()">
+                </div>
+            </ion-item>
+            <ion-item ng-show="card.ID" ng-click="toggle('showCard')"  style="padding:5px 16px 5px 16px; line-height:50px;border-bottom: none;">
+                <div class="item-text-center item-text-wrap">
+                    <i class="icon ion-document-text" style="padding-right:10px"></i>
+                    <b>Work Card:</b> {{card.WORK_CARD_NUMBER}}
+                    <i class="icon ion-close-circled assertive" ng-click="clearSteps()" style="float: right;padding-right: 10px;font-size: 32px; width:15%;text-align:right;"></i>
+                </div>                
+		    </ion-item>
+		    <ion-item class="item-accordion" ng-show="showCard" style="padding:0px;margin:0px; border-bottom:0px;"> 
+		        <div class="row">
+		            <div class="col">
+		                <h4>
+		             	    <span style="font-size:18px"><b>{{card.PROJECT_NUMBER}}</b></span>
+		               	</h4>
+		            </div>
+		        </div>    
+		    	<div class="row">
+		            <div class="col">
+		                <h4>
+		                    <i>{{card.DESCRIPTION}}</i>
+		                </h4>
+		            </div>
+		        </div>
+		        <div class="row">
+		            <div class="col">
+		                <h4>
+		                    <b><i class="icon-left ion-clock"></i> Estimated </b> {{card.ESTIMATED_TIME}} - 
+		                    <b><i class="icon-left ion-clock"></i> Applied </b> {{card.APPLIED_TIME}}
+		                </h4>
+		            </div>
+		        </div>
+		    </ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-item ng-click="showDescription(object,$event)" ng-repeat="object in steps |orderBy: sortBy | filter:searchCriteria" ng-class="{'stable-bg':object.selected_flag}" on-hold="onHoldStep(object)" style="padding:0;height:80px;">
+                <div class="row">
+                    <div class="col col-10" ng-click="toggleStep(object)" style="padding:0px;border-radius: 50%; font-size: 40px;  color: #fff; float: left; display: inline;  width: 42px; height: 60px; text-align: center; line-height: 60px; margin-right: 20px;">
+                        <i class="icon {{stepIcon(object)}}"style="font-size: 42px;"></i>
+                    </div>
+                    <div class="col col-90">
+                        <h2 style="text-align: left;">
+                            <b>Step # : </b>{{object.STEP_NUMBER}}
+                        </h2>
+                        <h4 style="text-align:left;white-space:nowrap;margin-right:20px;margin-top:10px;" >
+                            {{object.DESCRIPTION}}{{descriptionLengthCheck(object.DESCRIPTION)}}
+                        </h4>
+                        <h4 style="text-align: left;left:20px;margin-top:5px;">
+                            <span ng-hide="object.MECHANIC_EMPLOYEE_NUMBER == ''" style="color:green;"><b>Performed By </b>{{object.MECHANIC_EMPLOYEE_NUMBER}}</span>
+                            <span ng-hide="object.INSPECTOR_EMPLOYEE_NUMBER == ''" style=" margin-left: 50px;color:red;"><b>Completed By </b>{{object.INSPECTOR_EMPLOYEE_NUMBER}} </span>
+                        </h4>
+                        <h3 style="text-align: left;margin-left:60px;padding-top:5px;">
+                   <!--<span ng-click="openPopover($event,object.SERVER_FEEDBACK)" ng-show="object.MOBILE_RECORD_STATUS != 'LOADED'"style="position:absolute;float:right;border-radius: 5px; right: 5px; top:5px; color: #2980b9;padding:4px;font-weight: bold; border: 1px solid;font-size: 14px;" ng-style="object.MOBILE_RECORD_STATUS=='REJECTED'?{'color':'red','border-color':'red'}:{'color':'green','border-color':'green'}"> 
+                       {{object.MOBILE_RECORD_STATUS}}
+                   </span>
+                   <span ng-show="object.MOBILE_RECORD_ACTION != ''" style="position:absolute;float:right;border-radius: 5px; right: 90px; top:5px; color: #2980b9;padding:4px;font-weight: bold; border: 1px solid;font-size: 14px;color:blue;border-color:blue;"> 
+                       {{object.MOBILE_RECORD_ACTION}} 
+                   </span>-->
+                   <span ng-click="openPopover($event,object.SERVER_FEEDBACK)" ng-show="object.UNSYNC_STEP_TEXT" style="float:right; position: absolute; right: 20px; top:5px; color:red; font-size:30px;">
+                       <i class="icon-left ion-alert-circled"></i>
+                   </span> 
+               </h3>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <script id="templates/popoverTooltip.html" type="text/ng-template">
+        <ion-popover-view>
+            <ion-header-bar>
+                  <h1 class="title">Response Message</h1>
+            </ion-header-bar>
+            <ion-content>
+                <div style="padding:5px;width:100%;height:100%;">
+                    {{responseMessage}}
+                </div>
+            <ion-content>
+        </ion-popover-view>
+    </script>
+    <script id="templates/popoverDescription.html" type="text/ng-template">
+		<ion-popover-view class="fit">
+            <ion-content scroll="false">
+		        <div ng-click="closeDescription()" style="padding:16px;"> {{fullDescription}}</div>
+            </ion-content>
+        </ion-popover-view>
+    </script>
+    <script id="templates/popoverSort.html" type="text/ng-template">
+		<ion-popover-view class="fit">
+            <ion-content scroll="false">
+                <div class="list">
+			        <div class="row " style="margin-bottom:5px">
+			            <div class="col col-20" ng-click="setSortBy('STEP_NUMBER')">
+				            <i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>		
+			            </div>	
+			            <div class="col col-60">
+				            <a class="item" style ="padding:0">
+              	                <span style=" margin-left: 15px;line-height:30px">Step #</span>
+                            </a>
+			            </div>
+			            <div class="col col-20" style="text-align: right;" ng-click="setSortBy('-STEP_NUMBER')">
+			                <i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+			            </div>
+			        </div>
+                    <div class="row " style="margin-bottom:5px">
+			            <div class="col col-20" ng-click="setSortBy('STEP_STATUS')">
+				            <i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>		
+		 	            </div>	
+			            <div class="col col-60">
+				            <a class="item" style ="padding:0">
+              	                <span style=" margin-left: 15px;line-height:30px">Status</span>
+                            </a>
+			            </div>
+			            <div class="col col-20" style="text-align: right;" ng-click="setSortBy('-STEP_STATUS')">
+			                <i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+			            </div>
+			        </div>
+                    <div class="row " style="margin-bottom:5px">
+			            <div class="col col-20" ng-click="setSortBy('INSPECTOR_EMPLOYEE_NUMBER')">
+				            <i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>		
+			            </div>	
+			            <div class="col col-60">
+				            <a class="item" style ="padding:0">
+              	                <span style=" margin-left: 15px;line-height:30px">Performed By</span>
+                            </a>
+			            </div>
+			            <div class="col col-20" style="text-align: right;" ng-click="setSortBy('-INSPECTOR_EMPLOYEE_NUMBER')">
+			                <i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+			            </div>
+			        </div>
+                    <div class="row " style="margin-bottom:5px">
+			            <div class="col col-20" ng-click="setSortBy('MECHANIC_EMPLOYEE_NUMBER')">
+				            <i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>		
+			            </div>	
+			            <div class="col col-60">
+				            <a class="item" style ="padding:0">
+              	                <span style=" margin-left: 15px;line-height:30px">Closed By</span>
+                            </a>
+			            </div>
+			            <div class="col col-20" style="text-align: right;" ng-click="setSortBy('-MECHANIC_EMPLOYEE_NUMBER')">
+			                <i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+			            </div>
+			        </div>
+                </div>
+            </ion-content>
+        </ion-popover-view>
+    </script>
+    <script id="templates/popover.html" type="text/ng-template">
+        <ion-popover-view class="fit">
+            <ion-content scroll="false">
+                <div class="list">
+                    <a class="item" ng-click="performStep()">
+                        <i class="icon ion-checkmark energized"style="font-size: 25px;"></i>
+                        <span style=" margin-left: 15px;line-height:30px">Perform</span>
+                    </a>
+                    <a class="item" ng-click="completeStep()">
+                        <i class="icon ion-checkmark balanced"style="font-size: 25px;"></i>
+                        <span style=" margin-left: 15px;">Complete</span>
+                    </a>
+                    <a class="item" ng-click="deleteStep()">
+                        <i class="icon ion-close assertive"style="font-size: 25px;"></i>
+                        <span style=" margin-left: 15px;">Delete</span>
+                    </a>
+                </div>
+            </ion-content>
+        </ion-popover-view>
+    </script>
+    <script id="templates/digitalSign.html" type="text/ng-template">
+ <ion-modal-view  id="sign051" style="top:20%;width:70%;left:15%;height:60%; min-height:260px;    border: 1px solid black;box-shadow: 0px 0px 500px 10px black;overflow: hidden !important;">
+     <ion-header-bar class="bar bar-header bar-positive">
+         <h1 class="title" style="color:white">Digital Sign</h1>
+     </ion-header-bar>
+     <ion-content scroll="false" overflow-scroll="false" style="min-height:260px !important; overflow: hidden !important;">
+        <div class="list card" style="box-shadow:0 0 0 ;margin: 0px;padding-top: 7px; overflow: hidden !important;">
+            <div class="item item-body" style="box-shadow:0 0 0 ;padding:0px;overflow: hidden !important;">
+                <div id="loginList" class="list" style="postion:absolute;background-color:rgba(0, 0, 0, 0);box-shadow:0 0 0 ;opacity:0.9;overflow: hidden !important;">
+                    <label class="item item-input" style="border: none;margin-bottom: 10px;border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12);">
+                        <i class="icon ion-person placeholder-icon" style="color: #444"></i> 
+                        <input type="text" readonly ng-model="user.username" placeholder="Username" style="font-weight: bold;background: none;text-transform: uppercase;">
+                    </label>
+                    <label class="item item-input" style="border: none; border-top: 1px solid rgba(0,0,0,0.08);box-shadow: 0 2px 2px -5px rgba(0,0,0,0.2), inset 0px -3px 0px 0px rgba(0,0,0,0.12); ">
+                        <i class="icon ion-key placeholder-icon" style="color: #333; "></i>
+                        <input type="password" ng-model="user.password" placeholder="Password" style="font-weight: bold;background: none; color: #333;">
+                    </label>
+                    <div class="row" style="padding:0px">
+                        <div class="col" style="padding:0px">
+                            <canvas id="prm118" style="height:100%;width:100%;margin-top: 10px;" class="canvas-container"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+            <ion-footer-bar style="padding:0px">
+                <div class="button-bar">
+                    <button class="button button-large icon buttonicon ion-trash-b button-energized" ng-click="clearCanvas()">CLEAR</button>
+                    <button class="button button-large icon buttonicon ion-close button-assertive" ng-click="hide()">CANCEL</button>
+                    <button class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="signin()">OK</button>
+                </div>
+            </ion-footer-bar> 
+ </ion-modal-view>
+</script> 
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px" ng-hide="selectedStep.STEP_STATUS =='COMPLETED'">
+        <div class="button-bar">
+            <button ng-show="selectedStep != '' && selectedStep.STEP_STATUS == 'OPEN'" class="button buttonicon ion-close  button-assertive" ng-click="deleteStep()">Delete</button>
+            <button ng-hide="selectedStep == '' || selectedStep.STEP_STATUS =='COMPLETED'" class="button button-large buttonicon icon ion-edit button-energized" ng-click="modify()">Modify</button>
+            <button ng-show="selectedStep != '' && selectedStep.UNSYNC_STEP_TEXT" ng-click="discard()" class="button button-large buttonicon icon ion-close button-assertive">Discard</button>
+            <button ng-show="selectedStep != '' && selectedStep.STEP_STATUS == 'OPEN'" class="button buttonicon ion-refresh  button-balanced" ng-click="performStep()">Perform</button>
+            <button ng-show="selectedStep != '' && selectedStep.STEP_STATUS == 'PERFORMED'" class="button buttonicon ion-checkmark button-balanced " ng-click="completeStep()">Complete</button>
+            <button ng-hide="selectedStep != ''" ng-click="scanBarcode()" class="button button-large buttonicon ion-ios-barcode button-positive">Scan</button>
+            <button ng-show="selectedStep == '' && (card.ID || card.MOBILE_RECORD_ID)" class="button button-large icon ion-plus-round button-balanced buttonicon" ng-click="newStep()">New</button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

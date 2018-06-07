@@ -1,0 +1,124 @@
+<ion-modal-view style="top: 0 ;bottom: 0 ; left: 0 ;right: 0 ;width: 100% ;">
+    <ion-header-bar class="bar-calm">
+        <h1 class="title">Configuration</h1>
+    </ion-header-bar>
+    <ion-content scroll="false">
+        <ion-slides  options="options" slider="data.slider">
+            <ion-slide-page>
+                <div class="bar bar-header bar-balanced" style="height:44px;">
+                    <h1 class="title" style="margin-top:0px;">Mobile Server</h1>
+                </div>
+                <div><br><br></div>
+                <div class="list">
+                    <div class="row responsive-sm"> 
+                        <div class="col col-36">
+                            <div class="item item-toggle" style="height:55px">
+                                <i class="icon ion-network"></i>
+                                <b>Protocol:</b>
+                                <label class="toggle toggle-custom">
+                                    <input type="checkbox" ng-model="protocolStatus" ng-change="setProtocol(protocolStatus)">
+                                    <div class="track" style="width:70px;">
+                                        {{application_config.MEDIATOR_PROTOCOL}}
+                                        <div class="handle" ></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col col-39">
+                            <ion-input class="item item-input" style="height:55px">
+                                <i class="icon ion-network"></i>
+                                <ion-label>IP</ion-label>
+                                <input type="text" placeholder="IP" ng-model="application_config.MEDIATOR_IP">
+                            </ion-input>
+                        </div>
+                        <div class="col col-25">
+                            <ion-input class="item item-input" style="height:55px">
+                                <i class="icon ion-network"></i>
+                                <ion-label>PORT</ion-label>
+                                <input type="text" placeholder="PORT" ng-model="application_config.MEDIATOR_PORT">
+                            </ion-input>
+                        </div>
+                    </div>
+                </div>
+            </ion-slide-page>
+       
+            <ion-slide-page>
+                 <div class="bar bar-header bar-energized" style="height:44px;">
+                    <h1 class="title" style="margin-top:0px;">Environment</h1>
+                </div>
+                <div><br><br></div>
+                <div class="list">
+                    <div class="row responsive-sm"> 
+                        <div class="col col-50">
+                            <ion-input class="item item-input">
+                                <i class="icon ion-android-plane"></i>
+                                <ion-label>Tail Number :</ion-label>
+                                <input type="text" placeholder="Tail Number" ng-model="application_config.TAIL_NUMBER" style="text-transform: uppercase;">
+                            </ion-input>
+                        </div>
+                        <div class="col col-50">
+                            <ion-input class="item item-input">
+                                <i class="icon ion-home"></i>
+                                <ion-label>Station :</ion-label>
+                                <input type="text" placeholder="Station" ng-model="application_config.STATION" style="text-transform: uppercase;">
+                            </ion-input>
+                        </div>
+                    </div>
+                    <div class="row responsive-sm"> 
+                        <div class="col col-50">
+                            <ion-input class="item item-input">
+                                <i class="icon ion-person placeholder-icon"></i> 
+                                <ion-label>User Id :</ion-label>
+                                <input type="text"  placeholder="User Id" ng-model="application_config.userId" style="text-transform: uppercase;">
+                            </ion-input>
+                        </div>
+                        <div class="col col-50">
+                            <ion-input class="item item-input">
+                                <i class="icon ion-key placeholder-icon"></i>
+                                <ion-label>Password :</ion-label>
+                                <input type="password"  placeholder="Password" ng-model="application_config.password">
+                            </ion-input>
+                        </div>
+                    </div>
+                </div>
+            </ion-slide-page>
+            
+            <ion-slide-page>
+        	    <div class="list">
+                     <div class="bar bar-header bar-orange" style="height:44px;">
+                    <h1 class="title" style="margin-top:0px;">Advanced</h1>
+                </div>
+                <div><br><br></div>
+        	    	<div class="row responsive-sm"> 
+                    	<div class="col">
+                        	<ion-input class="item item-input">
+                            	<i class="icon ion-network"></i>
+                           		<ion-label>Notification:</ion-label>
+                            	<input type="text" ng-model="application_config.NOTIFICATION_SERVICE"readonly>
+                        	</ion-input>
+                    	</div>
+                	</div>
+                	<div class="row responsive-sm"> 
+                    	<div class="col">
+                        	<ion-input class="item item-input">
+                            	<i class="icon ion-network"></i>
+                            	<ion-label>Setup:</ion-label>
+                            	<input type="text" ng-model="application_config.COUCHDB_URL" readonly>
+                        	</ion-input>
+                    	</div>
+                	</div>
+        		</div>
+        	</ion-slide-page>
+        </ion-slides>
+    </ion-content>
+    <ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+    <div class="button-bar">
+        <button ng-click="cancelSettings()" class="button button-large buttonicon icon-left ion-close button-assertive">
+            Close
+        </button>
+        <button ng-click="saveSettings()" class="button button-large buttonicon icon-left ion-checkmark button-balanced">
+            Save
+        </button>
+    </div>
+    </ion-footer-bar> 
+</ion-modal-view>

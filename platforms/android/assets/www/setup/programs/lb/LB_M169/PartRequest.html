@@ -1,0 +1,112 @@
+<ion-view view-title="Part Request" cache-view="true"> 
+    <ion-content has-header="true" style="background-color: #F4F4F4;">
+    <ion-list>
+            <ion-item  style="background-color: #F4F4F4;padding:0;">
+        <div class="row responsive-sm">
+            <div class="col" ng-click="focusInput('partInput')">
+                <ion-input class="item item-input"> 
+                    <span  class="input-label">Part # :</span> 
+                    <input id="partInput" style="text-transform: uppercase;" type="text" ng-blur="blur()" ng-change="onchange()" ng-model="partRequest.PART_NUMBER" >
+                    <span style="float:right; padding-right:20px;padding-left:10%;" ng-click="onIconClick()"><i ng-hide="partRequest.PART_NUMBER == '' || !globals.deviceConnectionInfo.isOnline" class="{{cButtonIcon}}" style="font-size:30px;"></i></span>
+                </ion-input>
+            </div>
+        </div>
+        <div class="row responsive-sm" ng-show="!isSearched">
+            <div class="col" ng-click="focusInput('descInput')">
+                <ion-input class="item item-input"> 
+                    <span  class="input-label">Description:</span> 
+                    <input id="descInput" ng-readonly="isPartDefined" type="text" ng-model="partRequest.DESCRIPTION" >
+                </ion-input>
+            </div>
+        </div>
+        <div class="row responsive-sm" ng-show="!isSearched">
+            <div class="col 50" ng-click="focusInput('quantityInput')">
+                <ion-input class="item item-input"> 
+                    <span class="input-label">Quantity:</span> 
+                    <input id="quantityInput"type="number" ng-model="partRequest.QUANTITY" >
+                </ion-input>
+            </div>
+            <div class="col 50" ng-click="focusInput('uomInput')">
+            	<label class="item item-select" >
+                    <div class="input-label">UOM:</div>
+                    <select ng-disabled="isPartDefined" ng-model="partRequest.UOM" ng-options="i.UOM as (i.UOM) for i in uomCodes">
+                        <option value="" selected hidden></option>
+                    </select>
+                </label>
+           </div>
+        </div>
+        <div class="row responsive-sm" ng-show="!isSearched">
+        <div class="col 50" >
+                <label class="item item-select" >
+                    <div class="input-label">Priority:</div>
+                    <select ng-change="priorityChanged()" ng-model="partRequest.PRIORITY_OBJECT" ng-options="i as (i.DESCRIPTION) for i in priorityCodes">
+                        <option value="" selected hidden></option>
+                    </select>
+                </label>
+            </div>
+            
+            <div class="col 50" ng-click="focusInput('dateInput')">
+                <ion-input class="item item-input"> 
+                    <span class="input-label">Due Date :</span> 
+                    <input id="dateInput"type="date" ng-model="partRequest.DUE_DATE" >
+                </ion-input>
+            </div>
+        </div>
+        <div class="row responsive-sm" ng-show="!isSearched">
+            <div class="col">
+                <label class="item item-select" style="height:100%">
+                    <div class="input-label">Aircraft Location:</div>
+                    <select ng-model="partRequest.AIRCRAFT_LOCATION" style="max-width: 100%" ng-options="i.AIRCRAFT_LOCATION as (i.DESCRIPTION) for i in aircraftLocations">
+                        <option value="" selected hidden></option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="row responsive-sm" ng-show="!isSearched">
+            <div class="col" ng-click="focusInput('ipcInput')">
+                <ion-input class="item item-input"> 
+                    <span class="input-label">IPC Reference:</span> 
+                    <input id="ipcInput" type="text" ng-model="partRequest.IPC_REFERENCE" style="text-transform: uppercase;">
+                </ion-input>
+            </div>
+        </div>
+        <div class="row responsive-sm" ng-show="!isSearched">
+            <div class="col" >
+                    <ion-item >
+                        <textarea  placeholder="Comments ..." style="width:100%;text-transform: uppercase;" rows="8" ng-model="partRequest.INTERNAL_COMMENT"></textarea>
+                    </ion-item>
+
+            </div>
+        </div>
+        </ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-item ng-repeat="object in partNumbers | filter:partRequest.partNumber" ng-click="fill(object)" ng-show="isSearched" style="background-color: #F4F4F4;padding:8px;">
+                <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                    <i class="icon ion-settings positive"style="font-size: 42px;"></i>
+                </div>
+                <h4 style="text-align:left; left:20px;" >
+                   <b>Part # : </b>{{object.part_number}}
+                   <span style=" margin-left: 10px;"><b>Price : </b> {{object.part_price}} </span>
+                </h4>
+                <h4 style="text-align:left; left:20px;" >
+                    <b>Description : </b>{{object.description }}
+                </h4>
+                <h4 style="text-align: left;">
+                    <b>OEM # : </b> {{object.oem_specification_number}}
+                    <span style=" margin-left: 10px;"><b>Quantity : </b> {{object.on_hand_quantity}} / {{object.available_quantity}} </span>
+                   <!--   <span style=" margin-left: 10px;"><b>Avl. Quantity : </b> {{object.AvlQuantity}} </span> -->
+                </h4>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+    <ion-footer-bar ng-hide="isSearched && !alternateMode" style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-hide="isSearched || partRequest.MOBILE_RECORD_ID" ng-disabled="!alternatesExist" ng-click="populateAlternates()" class="button button-large buttonicon icon ion-ios-shuffle-strong button-energized" style="background-color:#e8c85b;">Alternates</button>         
+            <button ng-hide="isSearched" ng-click="request()" class="button button-large icon buttonicon ion-checkmark button-balanced">Request</button>
+            <button ng-show="isSearched && alternateMode" ng-click="closeAlternateMode()" class="button button-large icon buttonicon ion-reply button-balanced">{{tempPartRequest.PART_NUMBER}}</button>
+        </div>
+    </ion-footer-bar> 
+ </ion-view>
+  

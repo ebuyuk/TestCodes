@@ -1,0 +1,294 @@
+<ion-view view-title="Modify" cache-view="true"> 
+    <ion-content  has-header="true" style="background-color: #F4F4F4;">
+        <ion-list>
+            <ion-item ng-hide="card.ID" style="padding:5px 16px 5px 16px; line-height:50px;">
+                <div class="item-input" style="padding: 0px">
+    		        <i class="icon ion-document-text" style="padding-right:10px"></i> 
+                    <span style="padding-right:5px; width:60px;" class="input-label">Work Card:</span>
+                    <input type="text" id="WORK_CARD_NUMBER" ng-model="card.WORK_CARD_NUMBER" ng-blur="onblur()">
+                </div>
+            </ion-item>
+            <ion-item ng-show="card.ID" ng-click="toggle('showCard')" style="padding:5px 16px 5px 16px; line-height:50px;border-bottom:0;">
+                <div class="item-text-center item-text-wrap">
+                    <i class="icon ion-document-text" style="padding-right:10px"></i>
+                    <b>Work Card:</b> {{card.WORK_CARD_NUMBER}}
+                    <i class="icon ion-close-circled assertive" ng-click="clearCard()" style="float: right;padding-right: 10px;font-size: 32px; width:15%;text-align:right;"></i>
+                </div>                
+            </ion-item>
+		    <ion-item class="item-accordion" ng-show="showCard" style="padding:0px;margin:0px; border-bottom:0px;"> 
+			    <div class="row">
+		            <div class="col">
+		                <h4>
+		                    <span style="font-size:18px"><b>{{card.PROJECT_NUMBER}}</b></span>
+		               	</h4>
+		            </div>
+		        </div>    
+		    	<div class="row">
+		            <div class="col">
+		                <h4>
+		                    <i>{{card.DESCRIPTION}}</i>
+		                </h4>
+		            </div>
+		        </div>
+		        <div class="row">
+		            <div class="col">
+		                <h4>
+		                    <b><i class="icon-left ion-clock"></i> Estimated </b> {{card.ESTIMATED_TIME}} - 
+		                    <b><i class="icon-left ion-clock"></i> Applied </b> {{card.APPLIED_TIME}}
+		                </h4>
+		            </div>
+		        </div>
+		    </ion-item>    
+            <ion-item ng-show="card.ID" style="background-color: #F4F4F4;padding:0;">
+		        <div class="row responsive-sm" ng-show="card.ID">
+		            <div class="col col-50">
+		                <ion-input class="item item-input">  
+		                    <span class="input-label">WO Type:</span> 
+		                    <input readonly type="text" id="WORK_ORDER_TYPE" ng-model="card.WORK_ORDER_TYPE">
+		                </ion-input>
+		            </div>
+		            <div class="col col-50">
+		                <ion-input class="item item-input">  
+		                    <span class="input-label">WO#:</span> 
+		                    <input readonly type="text" id="WORK_ORDER_NUMBER" ng-model="card.WORK_ORDER_NUMBER">
+		                </ion-input>
+		            </div>
+		        </div>
+		        <div class="row" ng-show="card.ID">
+		            <div class="col">
+		                <ion-item class="item-accordion" ng-show="true" style="padding:0px;margin:0px;">
+		                    <div class="row">
+		                        <div class="col col-50">
+		                            <h2 style="text-align:center; " >
+		                                <b>Skill Code</b>
+		                            </h2>
+		                        </div>
+		                        <div class="col col-50">
+		                            <h2 style="text-align:center; " >
+		                                <b>Time</b>
+		                            </h2>
+		                        </div>
+		                    </div>
+		                    <div class="row" style=" border-top: 1px solid #efefef;">
+		                        <div class="col col-50">
+		                            <ion-input class="item item-input" style="height:100%">
+		                                <input readonly type="text" ng-model="card.PRIMARY_SKILL_CODE">
+		                            </ion-input>
+		                        </div>
+		                        <div class="col col-50">
+		                            <ion-input class="item item-input" style="height:100%">
+		                                <input readonly type="number" ng-model="card.ESTIMATED_TIME">
+		                            </ion-input>
+		                        </div>
+		                    </div>
+		                </ion-item>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm" ng-show="card.ID">
+				    <div class="col col-50">
+                        <label class="item item-input item-select">
+                            <div class="input-label">Shop:</div>
+                            <select ng-model="card.SHOP_NUMBER" id="shopNumber" ng-options="i.SHOP_NUMBER as (i.DESCRIPTION) for i in shopNumbers">
+                                <option value="" selected hidden></option>
+                            </select>
+                        </label>
+		            </div>
+		            <div class="col col-50" ng-show="card.SHOP_FLAG!='Y'" >
+		                <ion-input class="item item-input" multiple="true" modal-select="" ng-model="card.ZONES" option-property="ZONE" options="zoneNumbers" modal-title="Zone Number" has-search="true"> 
+		                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Zones:</span> 
+		                    <input readonly type="text" ng-model="card.ZONES" style="text-align: right;text-transform: uppercase; ">
+		                    <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;margin-top:-11px">
+		                        <div class="option">
+		                            <div class="row">
+		                                <div class="col col-20">
+		                                    <h2>{{option.ZONE}}</h2>
+		                                </div>
+		                                <div class="col"> 
+		                                    <h2>{{option.DESCRIPTION}}</h2>
+		                                </div>
+		                            </div>
+		                        </div>
+                            </button>
+		                </ion-input>
+		            </div>
+		            <div class="col col-50" ng-show="card.SHOP_FLAG=='Y'">
+				  	    <ion-input class="item item-input">  
+		                    <span class="input-label">Zones:</span> 
+		                    <input readonly type="text"  ng-model="card.ZONES">
+		                </ion-input>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm" ng-show="card.SHOP_FLAG=='Y'" ng-show="card.ID">
+		            <div class="col col-50">
+		                <ion-input class="item item-input">  
+		                    <span style="padding-right:5px;width:60px;" class="input-label">Component</span> 
+		                    <input readonly type="text" id="COMPONENT_NUMBER" ng-model="card.COMPONENT_NUMBER">
+		                </ion-input>
+		            </div>
+		            <div class="col col-50">
+		                <ion-input class="item item-input">  
+		                    <span style="padding-right:5px;width:60px;" class="input-label">Serial</span> 
+		                    <input type="text" id="SERIAL_NUMBER" ng-model="card.SERIAL_NUMBER">
+		                </ion-input>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm" ng-show="card.SHOP_FLAG=='Y'" ng-show="card.ID">
+		            <div class="col col-50">
+		                <label class="item item-input item-select">
+		                    <div class="input-label">Priority:</div>
+		                    <select ng-model="card.PRIORITY_CODE" id="PRIORITY_CODE" ng-options="i.PRIORITY_CODE as (i.DESCRIPTION) for i in priorityCodes">
+		                        <option value="" selected hidden></option>
+		                    </select>
+		                </label>
+		            </div>
+		            <div class="col col-50">
+		                <label class="item item-input item-select">
+                            <div class="input-label">Task:</div>
+                            <select ng-model="card.TASK_CODE" id="TASK_CODE" ng-options="i.TASK_CODE as (i.DESCRIPTION) for i in taskCodes">
+                                <option value="" selected hidden></option>
+                            </select>
+                        </label>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm" ng-show="card.SHOP_FLAG!='Y'">
+		            <div class="col">
+		                <ion-input class="item item-input" modal-select="" ng-model="card.ATA_CODE" option-property="ATA_CODE" options="ataCodes" modal-title="Ata Codes" has-search="true"> 
+		                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">ATA Code:</span> 
+		                    <input readonly type="text" ng-model="card.ATA_CODE" style="text-align: right;text-transform: uppercase; ">
+		                    <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;margin-top:-11px">
+		                        <div class="option">
+		                            <div class="row">
+		                                <div class="col col-20">
+		                            	    <h2>{{option.ATA_CODE}}</h2>
+		                            	</div>
+		                                <div class="col"> 
+		                                    <h2>{{option.DESCRIPTION}}</h2>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </button>
+		                </ion-input>
+		            </div>
+		            <div class="col">
+		                <label class="item item-input item-select">
+		                    <div class="input-label">Task:</div>
+		                    <select ng-model="card.TASK_CODE" id="TASK_CODE" ng-options="i.TASK_CODE as (i.DESCRIPTION) for i in taskCodes">
+		                        <option value="" selected hidden></option>
+		                    </select>
+		                </label>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm">
+		            <div class="col col-50">
+                        <label class="item item-input item-select">
+                            <div class="input-label">Auth:</div>
+                            <select ng-model="card.AUTHORIZATION_TYPE" ng-options="i.AUTHORIZATION_TYPE as (i.DESCRIPTION) for i in authorizationTypes">
+                                <option value="" selected hidden></option>
+                            </select>
+                        </label>
+		            </div>
+		            <div class="col col-50" ng-show="card.SHOP_FLAG!='Y'">
+		                <ion-input class="item item-input" multiple="true" modal-select="" ng-model="card.FLAGS" option-property="FLAG" options="flags" modal-title="Flags" has-search="true"> 
+		                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Flags:</span> 
+		                    <input readonly type="text" ng-model="card.FLAGS" style="text-align: right;text-transform: uppercase; ">
+		                    <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;margin-top:-11px">
+		                        <div class="option">
+		                            <div class="row">
+		                                <div class="col"> 
+		                                    <h2>{{option.DESCRIPTION}}</h2>
+                                        </div>
+                                    </div>
+	                            </div>
+	                        </button>
+                        </ion-input>
+		            </div>
+		            <div class="col col-50" ng-show="card.SHOP_FLAG=='Y'">
+                        <label class="item item-input item-select">
+                            <div class="input-label">Milestone:</div>
+                            <select ng-model="card.MILESTONE" ng-options="i.milestone as (i.description) for i in milestones">
+                                <option value="" selected hidden></option>
+                            </select>
+                        </label>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm" ng-show="card.SHOP_FLAG!='Y'">
+		            <div class="col col-50">
+		                <label class="item item-input item-select">
+		                    <div class="input-label">Contract:</div>
+		                    <select ng-model="card.CONTRACT_GROUP" id="contractGroupy" ng-options="i.CONTRACT_GROUP as (i.DESCRIPTION) for i in contractGroups">
+		                        <option value="" selected hidden></option>
+		                    </select>
+		                </label>
+		            </div>
+		            <div class="col col-50">
+                        <label class="item item-input item-select">
+                            <div class="input-label">Milestone:</div>
+                            <select ng-model="card.MILESTONE" ng-options="i.milestone as (i.description) for i in milestones">
+                                <option value="" selected hidden></option>
+                            </select>
+                        </label>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm" ng-show="card.SHOP_FLAG=='Y'">
+		            <div class="col col-50">
+		                <ion-input class="item item-input">  
+		                    <span class="input-label">ATA Code:</span> 
+		                    <input readonly type="text" ng-model="card.ATA_CODE">
+		                </ion-input>
+		            </div>
+		            <div class="col col-50">
+		                <ion-input class="item item-input">  
+		                    <span class="input-label">Task:</span> 
+		                    <input readonly type="text" ng-model="card.TASK_CODE">
+		                </ion-input>
+		            </div>
+		        </div>
+		        <div class="row" ng-show="card.SHOP_FLAG=='Y'">
+		            <div class="col">
+		                <ion-input class="item item-input"> 
+		                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Flags:</span> 
+		                    <input readonly type="text" ng-model="card.flags" style="text-align: right;text-transform: uppercase; ">
+		                    <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;" multiple="true" modal-select="" ng-model="card.flags" option-property="FLAG" options="flags" modal-title="Flags" has-search="true">
+		                        <div class="option">
+		                            <div class="row">
+		                                <div class="col"> 
+		                                    <h2>{{option.DESCRIPTION}}</h2>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </button>
+		                </ion-input>
+		            </div>
+		        </div>
+		        <div class="row" ng-show="card.ID">
+		            <div class="col">
+		                <ion-input class="item item-input">
+		                    <textarea style="width: 100%;text-transform: uppercase;" rows="8" id="description" placeholder="Card description..." ng-model="card.DESCRIPTION"></textarea>
+		                </ion-input>
+		            </div>
+		        </div>
+		        <div class="row">
+		            <div class="col">
+		                 <div style="width: 100%;">
+		                    <p>
+		                        <ion-label style="padding-top:0"> 
+		                            <span style="float: left;">Corrective Action:</span>
+		                        </ion-label>
+		                    </p>
+		                    <ion-item>
+		                        <textarea style="width: 100%;text-transform: uppercase;"rows="5" ng-model="card.CORRECTIVE_ACTION"></textarea>
+		                    </ion-item>
+		                </div>
+		            </div>
+		        </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button class="button button-large buttonicon icon ion-ios-barcode button-positive" ng-click="scanBarcode(scanObj)">SCAN</button>
+            <button ng-disabled="card.description=='' || card.created" class="button button-large buttonicon icon ion-checkmark button-balanced" ng-click="modify()">Modify</button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>
+  

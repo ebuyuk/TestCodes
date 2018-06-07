@@ -1,0 +1,192 @@
+<style>    
+.item.active, item.activated {
+    background: #B1D9F7 !important;
+}
+#mynetwork {
+      width: 100%;
+      height: 400px;
+      border: 1px solid lightgray;
+    }
+.padding {
+    padding : 0px;
+}
+ion-popover-view.fit {
+  height: auto;
+}
+
+ion-popover-view.fit ion-content {
+  position: relative;
+}
+
+.platform-android ion-popover-view.fit {
+  margin-top: 5px;
+}
+
+.platform-ios ion-popover-view.fit {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+table {
+    border:1px solid !important;
+}
+table.sample {
+   border: 1px solid gray !important;
+   border-spacing: 0px;
+   border-collapse: collapse;
+   background-color: white;
+}
+table.sample th {
+   border-width: 1px;
+   padding: 1px;
+   border-style: solid;
+   border-color: gray;
+   background-color: rgb(240, 230, 220);
+    font-weight: normal;
+}
+table.sample td {
+   border-width: 1px;
+   padding: 1px;
+   border-style: solid;
+   border-color: gray;
+   background-color: rgb(250, 240, 230);
+}
+</style>    
+
+<ion-view view-title="Issue">
+    <ion-content has-header="true" padding="true">
+	    <div style="padding:10px;">
+            <h2 style="text-align: justify; font-size: 18px;font-family:sans-serif;">
+                <b>{{GN_M005_Issue.row.subject}}</b>
+            </h2>
+            <h2 style="text-align: justify; font-size: 16px;font-family:sans-serif;">
+                {{GN_M005_Issue.row.description}}
+            </h2>
+        </div>
+		<div class="item " style="border: 0; border-top: 1px solid #efefef;">
+            <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 44px; height: 44px; text-align: center; line-height: 46px; margin-right: 20px;
+                     background:  {{strcolor(GN_M005_Issue.row.status)}}">{{firstletter(GN_M005_Issue.row.status)}}</div><div><h1 style="font-size: 18px ; margin: 0; ">{{GN_M005_Issue.row.processed_by_employee_name}}</h1>
+                <p>
+                    <b>Sent Date:</b>
+                    {{convertToDate(GN_M005_Issue.row.server_transaction_date) | date : 'dd/MM/yyyy HH:mm'}}
+                </p>
+            </div>
+ 	    </div>
+        <div ng-show="GN_M005_Issue.row.response_status != ''  && GN_M005_Issue.row.response_status != null" class="item " style="border: 0; border-top: 1px solid #efefef;">
+                <p>
+                    <b>Next Status:</b>
+                    {{GN_M005_Issue.row.response_status}}
+                </p>
+                <p>
+                    <b>Remark:</b>
+                    {{GN_M005_Issue.row.response_remark}}
+                </p>
+                <p ng-show="GN_M005_Issue.row.server_feedback != '' && GN_M005_Issue.row.server_feedback != null" style="white-space:normal;">
+                   <b  style="color:#C52121;">Sync Error:</b>
+                   {{GN_M005_Issue.row.server_feedback}}
+                </p>
+        </div>
+        <ion-list>
+            <div>
+                <ion-item class="item item-icon-right" ng-click="toggle('isDataShown')" ng-class="{active: isDataShown}">
+                    <div class="item-text-center item-text-wrap"><i class="icon-left ion-ios-clock" ></i>    Data</div>
+                    <i class="icon" ng-class="isDataShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                </ion-item>
+                <ion-item class="item-accordion" ng-show='isDataShown' style="padding:0px;margin:0px;">
+                    <label class="item-input">
+                        <div style="overflow:auto;-webkit-overflow-scrolling: touch;" ng-bind-html="GN_M005_Issue.row.DATA"></div>        
+                    </label>
+                </ion-item>
+            </div>
+        </ion-list>
+        <ion-list>
+            <div>
+                <ion-item class="item item-icon-right" ng-click="toggle('isFlowShown')" ng-class="{active: isFlowShown}">
+                    <div class="item-text-center item-text-wrap"><i class="icon-left ion-ios-clock" ></i>    Flow</div>
+                    <i class="icon" ng-class="isFlowShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                </ion-item>
+                <ion-item class="item-accordion" ng-show='isFlowShown' style="padding:0px;margin:0px;">
+                        <div id="mynetwork"></div>
+                </ion-item>
+            </div>
+        </ion-list>
+        <ion-list>
+            <div>
+                <ion-item class="item item-icon-right" ng-click="toggle('isTransShown')" ng-class="{active: isTransShown}">
+                    <div class="item-text-center item-text-wrap"><i class="icon-left ion-ios-clock" ></i>    Transition</div>
+                    <i class="icon" ng-class="isTransShown ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                </ion-item>
+                <ion-item class="item-accordion" ng-show='isTransShown' style="padding:0px;margin:0px;">
+                    <table class="footable">
+                            <thead style="display:none;">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in transactionData">
+                                    <td style="width: 60%;">
+                                        <div class="col col-top">
+                                            <h3><i class="icon-left ion-person"></i>  {{item.PROCESSED_BY_EMPLOYEE_NAME}}</h3>
+                                            <h3><i class="icon-left ion-document"></i>  {{item.DT_CREATED}}</h3>
+                                       </div>
+                                    </td>
+                                    <td style="width: 40%;">
+                                        <div>
+                                            <h3><i class="icon-left ion-information-circled"></i>  Status:  {{item.STATUS}}</h3>
+                                            <h3><i class="icon-left ion-arrow-right-c"></i>  Action: {{item.ACTION}}</h3>
+                                            <h3 style="white-space:normal;"><i class="icon-left ion-ios-compose-outline"></i>  {{item.REMARKS}}</h3>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </ion-item>
+            </div>
+        </ion-list>
+        <br>
+        <br>
+    </ion-content>
+    <script id="templates/popover.html" type="text/ng-template">
+      <ion-popover-view class="fit">
+        <ion-content scroll="false">
+            <div class="list">
+             <a ng-repeat="loop in GN_M005_Issue.actions" class="item" ng-click="showModal(loop)">
+              {{loop.label}}
+            </a>
+            </div>
+        </ion-content>
+      </ion-popover-view>
+    </script>
+    <script id="templates/onSave.html" type="text/ng-template">
+      <ion-modal-view style="width:80%;top:10%;left:10%;bottom:10%;right:10%;min-height: 100px;">
+          <ion-header-bar class="bar bar-header bar-calm">
+              <h1 class="title">Action</h1>
+          </ion-header-bar>
+          <ion-content >
+              <div class="row">
+                  <div class="col">
+                      <ion-label> 
+                          <span style="float: left;">Remark:</span>
+                      </ion-label>
+                      <ion-item>
+                          <textarea style="width: 100%;height:100%" rows="15" id="area" ng-model="GN_M005_Issue.response_remark"></textarea>
+                      </ion-item>
+                  </div>
+              </div>
+            </ion-content>
+            <ion-footer-bar style="padding:0px">
+                <div class="button-bar">
+                    <button class="button button-large icon buttonicon button-assertive" ng-click="modal.hide()">Cancel</button>
+                    <button class="button button-large icon buttonicon button-balanced" ng-click="executeAction()">OK</button>
+                </div>
+    	    </ion-footer-bar> 
+      </ion-modal-view>
+    </script>
+    <ion-footer-bar ng-repeat="loop in GN_M005_Issue.actions |limitTo:1" style="padding:0px">
+        <div class="button-bar">
+            <button  ng-repeat="loop in GN_M005_Issue.actions |limitTo:2" ng-class="(loop.status == 'OPEN') ? 'button button-large icon buttonicon button-energized' : (loop.status == 'CANCELLED') ? 'button button-large icon buttonicon button-assertive' : 'button button-large icon buttonicon button-balanced'" ng-click="showModal(loop)">{{loop.label}}</button>
+            <button  class="button button-icon ion-more buttonicon button-stable" ng-repeat="loop in GN_M005_Issue.actions |limitTo:1" ng-click="popover.show($event)" style="background:rgba(0,0,0,0.1);"></button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

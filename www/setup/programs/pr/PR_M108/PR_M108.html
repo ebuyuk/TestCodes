@@ -1,0 +1,430 @@
+<ion-view view-title="My Cards">
+    <ion-header-bar class="bar-light bar-subheader" style="border-bottom: solid 1px #DDDDDD;"> 
+        <div class="item-input-inset" style="width:90%">
+            <i class="icon-left ion-android-search"></i>
+            <input type="text" placeholder=" Search" ng-change="cancelSelect()" ng-model="searchCriteria" style="padding-left:15px;width:100%;"/>
+        </div>
+      <!--    <i class="icon positive" ng-click="toggleSort()" ng-class="isASC ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'" style="width:10%; font-size:25px;text-align:right; padding-top:5px;"></i>-->       
+        <i class="icon-left ion-levels positive"   ng-click="popoverSort.show($event)" style="width:10%; font-size:25px;text-align:center; padding-top:5px;"></i>      
+    </ion-header-bar>
+     
+    <ion-content has-header="true" style="padding:0; background-color:#F4F4F4;">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <style>
+              .item.active,
+              .item.activated, 
+              .item-complex.active .item-content,
+              .item-complex.activated .item-content,
+              .item .item-content.active,
+              .item .item-content.activated {
+                  border-color: #ccc;
+                  background-color: #ffffff; }
+        </style>
+        
+        <!-- selected card -->
+        <ion-scroll direction="y"">
+        <ion-item style="padding:0;">
+            <ion-item style="border-bottom:none" ng-show="selectedCard">
+                 <div ng-click="toggleWorkCard(selectedCard);$event.stopPropagation();" style="border-radius: 50%; color:#ffffff;text-align:center;font-size: 9px; float: left; display: inline;  width: 44px; height: 44px; line-height: 46px; margin-right: 20px; background: {{selectedCard.STATUS=='PLANNING' ?'#387ef5':selectedCard.STATUS == 'BILLING' ? '#33cd5f' : '#ffc900'}}">
+                    <!--  <i class="icon {{cardIcon(selectedCard)}}" style="font-size: 42px;" ng-style="selectedCard.selected_flag==false?{'color':'#2980b9'}:selectedCard.selected_flag==true?{'color':'#28a54c'}:{'color':'#2980b9'}"></i> -->
+                 {{selectedCard.STATUS == 'PLANNING' ? 'Planning' : selectedCard.STATUS == 'BILLING' ? 'Billing' : 'Wip'}}
+                 </div>
+                 <h2 style="text-align:left;" >
+                    <span style="color: #2980b9; font-size: 4vmin;"> 
+                    Work Card {{selectedCard.WORK_ORDER_NUMBER}}.{{selectedCard.ITEM_NUMBER}}</span>
+                    <span style="color: #2980b9; font-weight: bold; font-size: 3vmin; float:right; " > 
+                    {{selectedCard.WIP_STATUS}} | {{selectedCard.WIP_REASON}} </span>
+                 </h2>
+                 <h4 style="text-align:left;color: #848484;" >
+                    <b style="font-size: 3.2vmin;">Open Date : </b>
+                    <span style=" font-size: 3.2vmin; " > 
+                    {{selectedCard.OPEN_DATE}} </span>
+                 </h4>
+            </ion-item>
+            <!--  <ion-item style="height:130px;">
+                <div class="row">
+                    <div class="col col-80">
+                        <p style="font-size:100%; text-overflow:ellipsis;">{{selectedCard.DESCRIPTION}}</P>
+                    </div>
+                    <div class="col col-20">
+                        <span ng-show="selectedCard.PRIMARY_SKILL_CODE"style="border-radius: 5px; padding:6px;font-weight: bold; background-color:blue; border: 1px solid;font-size: 14px;float:right;border-color:blue;"> 
+                            <p style="font-size:100%; text-overflow:ellipsis; color:white;"> {{selectedCard.PRIMARY_SKILL_CODE}}</p>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{selectedCard.CUSTOMER_WORK_CARD}}
+                    </div>
+                    <div class="col" style="text-align:right;">
+                        #{{selectedCard.WORK_ORDER_NUMBER}}.{{selectedCard.ITEM_NUMBER}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" style="text-align:center;">
+                        TAIL# {{selectedCard.TAIL_NUMBER}}
+                    </div>
+                </div>
+            </ion-item style="height:80px; padding:5px">
+            <ion-item style="border-bottom-color:#f8f8f8" ng-show="selectedCard">
+                <div class="row">
+                    <div class="col "style="text-align:center;">
+                        {{selectedCard.REQUISITION_COUNT}}
+                    </div>
+                    <div class="col "style="text-align:center;">
+                        {{selectedCard.APPLIED_TIME+ " / " +selectedCard.ESTIMATED_TIME}}
+                    </div>
+                    <div class="col "style="text-align:center;">
+                        {{selectedCard.CHILD_CARD_COUNT}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col "style="text-align:center; color:blue;">
+                        Requisitions
+                    </div>
+                    <div class="col "style="text-align:center; color:blue;">
+                        Applied/Estimated<br>Hours
+                    </div>
+                    <div class="col "style="text-align:center; color:blue;">
+                        Cards
+                    </div>
+                </div>
+            </ion-item>-->
+            <ion-item style="border-bottom:none; padding:0; background-color:rgb(244,244,244)" ng-show="selectedCard">
+                <div class="row" style="padding:0">
+                    <div class="col" style="padding:0;">
+                        <div class="row" style="padding:0" ng-show="selectedCard.UNSYNC_STEPS > 0 || selectedCard.UNSYNC_REQUISITIONS > 0 || selectedCard.UNSYNC_CARD_TEXT">
+                            <div class="item item-divider" style="width:100%;border:none;margin:0;background-color: #e0e0e6;">
+                            <b>Action Log</b>
+                            </div>
+                        </div>
+                        <ion-list style="height:5px;"ng-show="selectedCard.UNSYNC_STEPS > 0 || selectedCard.UNSYNC_REQUISITIONS > 0 || selectedCard.UNSYNC_CARD_TEXT">
+                        <ion-item ng-repeat="object in selectedCard.UNSYNC_CARD_TRANSACTIONS" item="object" style="height:80px;" ng-click="navigateToAction(object)">
+                        <div style="border-radius: 50%; color:#ffffff;text-align:center;font-size: 9px; float: left; display: inline;  width: 44px; height: 44px; line-height: 46px; margin-right: 20px; background: {{object.MOBILE_RECORD_STATUS =='REJECTED' ?'#ff0000':'#ffc900'}};">
+                            {{object.MOBILE_RECORD_ACTION}}
+                        </div>
+                        <span style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                            {{convertToDate(object.MOBILE_ACTION_DATE) | date : 'd MMM H:mm' }}
+                        </span>
+                        <span style="float:right; position: absolute; right: 15px; top: 25px; width:70px; text-align:center;background: {{object.MOBILE_RECORD_STATUS =='REJECTED' ?'#ff0000':'#ffc900'}};color:white; font-size: 14px;border: 1px solid {{object.MOBILE_RECORD_STATUS =='REJECTED' ?'#ff0000':'#ffc900'}};padding:2px 7px 2px 7px;font-size: 14px;border-radius: 50px;" > 
+                           {{setObjectName(object.MOBILE_TABLE_NAME)}}
+                        </span>
+                        <h3 style="text-align:left;margin-top:8px;height:30px;margin-right:70px;color:#565656;white-space:normal;">
+                           {{object.SERVER_FEEDBACK}}
+                           </h3>
+                            </ion-item>
+                        </ion-list>
+                        <div class="row" style="padding:0">
+                            <div class="item item-divider" style="width:100%;border:none;margin:0;background-color: #e0e0e6;">
+                            <b>Information</b>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;">
+                        <div class="col">
+                            <ion-input class="item item-input"> 
+                                <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label" aria-label="Date:" id="_label-24">Project:</span> 
+                                <input type="text" readonly style="text-align: right;" ng-model="selectedCard.PROJECT_NUMBER" class="ng-pristine ng-untouched ng-valid ng-empty" aria-labelledby="_label-24">
+                            </ion-input>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label" aria-label="Date:" id="_label-24">Customer:</span> 
+                            <input type="text" readonly style="text-align: right;" ng-model="selectedCard.CUSTOMER_NAME" class="ng-pristine ng-untouched ng-valid ng-empty" aria-labelledby="_label-24">
+                        </ion-input>
+                        </div>
+                        </div>
+                        <div class="row" >
+                        <div class="col">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label" aria-label="Date:" id="_label-24">Tail #:</span> 
+                            <input type="text" readonly style="text-align: right;" ng-model="selectedCard.TAIL_NUMBER" class="ng-pristine ng-untouched ng-valid ng-empty" aria-labelledby="_label-24">
+                        </ion-input>
+                        </div>
+                        </div>
+                        <div class="row" style="padding:0">
+                            <div class="item item-divider" style="width:100%;border:none;margin:5px 0 0 0;background-color: #e0e0e6;">
+                            <b>Description</b>
+                            </div>
+                        </div>
+                        <div class="row responsive-sm" style="margin-top:5px;">
+                        <div class="col col-50">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label" aria-label="Date:" id="_label-24">Task :</span> 
+                            <input type="text" readonly style="text-align: right;" ng-model="selectedCard.TASK_CODE" class="ng-pristine ng-untouched ng-valid ng-empty" aria-labelledby="_label-24">
+                        </ion-input>
+                        </div>
+                        <div class="col col-50">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label" aria-label="Date:" id="_label-24">ATA :</span> 
+                            <input type="text" readonly style="text-align: right;" ng-model="selectedCard.ATA_CODE" class="ng-pristine ng-untouched ng-valid ng-empty" aria-labelledby="_label-24">
+                        </ion-input>
+                        </div>
+                        </div>
+                        <div class="row responsive-sm" >
+                        <div class="col col-50">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label" aria-label="Date:" id="_label-24">Milestone :</span> 
+                            <input type="text" readonly style="text-align: right;" ng-model="selectedCard.MILESTONE" class="ng-pristine ng-untouched ng-valid ng-empty" aria-labelledby="_label-24">
+                        </ion-input>
+                        </div>
+                        <div class="col col-50">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label" aria-label="Date:" id="_label-24">Skill :</span> 
+                            <input type="text" readonly style="text-align: right;" ng-model="selectedCard.PRIMARY_SKILL_CODE" class="ng-pristine ng-untouched ng-valid ng-empty" aria-labelledby="_label-24">
+                        </ion-input>
+                        </div>
+                        </div>
+                        <div class="row responsive-sm" >
+                        <div class="col col-50">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label" aria-label="Date:" id="_label-24">Work Card :</span> 
+                            <input type="text" readonly style="text-align: right;" ng-model="selectedCard.CUSTOMER_WORK_CARD" class="ng-pristine ng-untouched ng-valid ng-empty" aria-labelledby="_label-24">
+                        </ion-input>
+                        </div>
+                        <div class="col col-50">
+                        <ion-input class="item item-input"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label" aria-label="Date:" id="_label-24">Estimated :</span> 
+                            <input type="text" readonly style="text-align: right;" ng-model="selectedCard.ESTIMATED_TIME" class="ng-pristine ng-untouched ng-valid ng-empty" aria-labelledby="_label-24">
+                        </ion-input>
+                        </div>
+                        </div>
+                        <div class="row" style="padding:0; border-width:thin;padding:10px;">
+                         <textarea readonly style="padding:10px;width: 100%;text-transform: uppercase; background-color:white !important;border:solid 1px #dddddd;"rows="6" ng-model="selectedCard.DESCRIPTION"></textarea>
+                        </div>
+                        <div class="row" style="padding:0;margin-top:10px;">
+                            <div class="item item-divider" style="width:100%;border:none;margin:0;background-color: #e0e0e6;">
+                            <b>Details</b>
+                            </div>
+                        </div>
+                        <div class="row responsive-sm" style="margin-top:10px;">
+                            <div id="requisitionsParent" class="col col-33">
+                                <div style="padding-bottom:6px;width:100%;text-align:center; color:#2980b9;">
+                                    Open/Closed<br>Requisitions
+                                </div>
+                                <div><canvas id="requisition"  ></canvas></div>
+                                <div style="text-align:center;padding-top:6px;">
+                                    {{selectedCard.OPEN_REQUISITION_COUNT+ " / " +selectedCard.CLOSED_REQUISITION_COUNT}}
+                                </div>
+                            </div>
+                            <div id="timesParent" class="col col-33">
+                                <div style="padding-bottom:6px;width:100%;text-align:center; color:#2980b9;">
+                                    Applied/Remaining<br>Hours
+                                </div>
+                                <div><canvas id="time"  ></canvas></div>
+                                <div style="text-align:center;padding-top:6px;">
+                                    {{selectedCard.APPLIED_TIME+ " / " +selectedCard.REMAINING_TIME}}
+                                </div>
+                            </div>
+                            <div id="cardsParent" class="col col-33">
+                                <div style="padding-bottom:6px;width:100%;text-align:center; color:#2980b9;">
+                                    Open/Closed<br>Cards
+                                </div>
+                                <div><canvas id="card"  ></canvas></div>
+                                <div style="text-align:center;padding-top:6px;">
+                                    {{selectedCard.OPEN_CHILD_CARD_COUNT+ " / " +selectedCard.CLOSED_CHILD_CARD_COUNT}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </ion-item>
+            <ion-list ng-hide="selectedCard">
+           <ion-item ng-repeat="object in workCards |orderBy: sortBy | filter:searchCriteria " ng-class="{'stable-bg':object.selected_flag}" on-hold="onHoldWorkCard(object)" style="padding:0; height:90px">
+               <div class="list" style="padding-top:10px;padding-bottom:10px;" ng-click="toggleWorkCard(object);$event.stopPropagation();">
+                   <div style="border-radius: 50%; text-align:center;color:#ffffff; font-size: 9px; margin-top:5px; float: left; display: inline;  width: 44px; height: 44px; line-height: 46px; margin-right: 20px; margin-left:16px;  background: {{object.STATUS=='PLANNING' ?'#387ef5':object.STATUS == 'BILLING' ? '#33cd5f' : '#ffc900'}};">
+                      <!-- <i class="icon {{cardIcon(object)}}" style="font-size: 42px;" ng-style="object.selected_flag==false?{'color':'#2980b9'}:object.selected_flag==true?{'color':'#28a54c'}:{'color':'#2980b9'}"></i>-->
+                   {{object.STATUS == 'PLANNING' ? 'Planning' : object.STATUS == 'BILLING' ? 'Billing' : 'Wip'}}
+                   </div>
+                   <h2 style="text-align:left;padding-top:6px;">
+                       <span style="color: #2980b9; font-weight: bold; font-size: 4vmin; " > 
+                           {{object.WORK_ORDER_NUMBER}}.{{object.ITEM_NUMBER}}
+                       </span>
+                       <span style="color: #848484; font-size: 3.2vmin; padding-left: 30px;padding-left: 30px;" > 
+                           {{object.PROJECT_NUMBER}}
+                       </span>
+                       <span ng-show="object.PRIMARY_SKILL_CODE" style="float:right; position: absolute; right: 15px; top: 10px; background: {{object.STATUS=='PLANNING' ?'#387ef5':object.STATUS == 'BILLING' ? '#33cd5f' : '#ffc900'}};color:white; font-weight: bold; font-size: 14px;border: 1px solid {{object.STATUS=='PLANNING' ?'#387ef5':object.STATUS == 'BILLING' ? '#33cd5f' : '#ffc900'}};padding:2px 7px 2px 7px;font-size: 14px;border-radius: 50px;" > 
+                           {{object.PRIMARY_SKILL_CODE}}
+                       </span>
+                   </h2>
+                   <h3 style="text-align:left;margin-right:60px;height:30px;color:#565656;white-space:normal;font-size:14px;">
+                       {{object.DESCRIPTION}}     
+                       <span ng-show="object.UNSYNC_STEPS > 0 || object.UNSYNC_REQUISITIONS > 0 || object.UNSYNC_CARD_TEXT" style="float:right; position: absolute; right: 20px; top:40px; color:red; font-size:30px;">
+                       <i class="icon-left ion-alert-circled"></i>
+                       </span>        
+                   </h3>
+                  <!-- <div style="text-align: left;margin-left:60px;padding-top:2px;color:#565656;" class="ng-binding">
+                       <b><i class="icon-left ion-clock"></i> Estimated </b>    
+                       <b><i class="icon-left ion-clock"></i> Applied </b> 
+                  </div> -->
+                  <div>
+                       <!--<span style="float:right; position: absolute; right: 15px; top: 77px; color: #2980b9; font-weight: bold; font-size: 14px; " class="ng-binding"> 
+                           
+                       </span>-->
+                       <!-- <span ng-show="object.MOBILE_RECORD_STATUS == 'REJECTED'" style="float:left; position: absolute; left: 15px;  padding-top:9px; color: red; font-weight: bold; font-size: 14px; " class=""> 
+                           <i class="icon-left ion-close"></i>
+                       </span> -->
+                       <!--  <span ng-show="object.UNSYNC_CARD_TEXT" style="float:left; position: absolute; left: 45px; padding-top:9px; color: red; font-weight: bold; font-size: 14px; " class="ng-binding"> 
+                           {{object.UNSYNC_CARD_TRANSACTIONS[object.UNSYNC_CARD_TRANSACTIONS.length-1].SERVER_FEEDBACK}}
+                       </span> -->
+                       <!-- <span ng-show="object.MOBILE_RECORD_STATUS == 'REJECTED'" style="float:left; position: absolute; left: 45px; padding-top:9px; color: red; font-weight: bold; font-size: 14px; " class="ng-binding"> 
+                           Ata code is required.
+                       </span> -->
+                       <!-- <span ng-show="object.MOBILE_RECORD_STATUS == 'LOADED' && object.UNSYNC_STEPS < 1 && object.UNSYNC_REQUISITIONS < 1" style="float:left; position: absolute; left: 15px; bottom: -10px; color: green; font-weight: bold; font-size: 14px; " class="ng-hide"> 
+                           <i class="icon-left ion-checkmark"></i>
+                       </span> -->
+                       <!--<span ng-click="openPopover($event,object.UNSYNC_CARD_TRANSACTIONS[object.UNSYNC_CARD_TRANSACTIONS.length-1].SERVER_FEEDBACK)" ng-show="object.UNSYNC_CARD_TEXT" style="/* position: absolute; */float: right;border-radius: 4%;/* right: 5px; */top: 100px;margin-right: 8px;color: red;padding: 3px;font-weight: bold;border: 1px solid red;font-size: 14px;" ng-style="object.UNSYNC_CARD_TRANSACTIONS[object.UNSYNC_CARD_TRANSACTIONS.length-1].MOBILE_RECORD_STATUS =='REJECTED'?{'color':'red','border-color':'red'}:{'color':'green','border-color':'green'}" class="ng-binding"> 
+                           {{object.UNSYNC_CARD_TRANSACTIONS[object.UNSYNC_CARD_TRANSACTIONS.length-1].MOBILE_RECORD_STATUS}}
+                       </span> -->
+                       <!-- <span ng-show="object.MOBILE_RECORD_STATUS != 'LOADED'" style="/* position: absolute; */float: right;border-radius: 4%;/* right: 5px; */top: 100px;margin-right: 8px;color: red;padding: 3px;font-weight: bold;border: 1px solid red;font-size: 14px;" ng-style="object.MOBILE_RECORD_STATUS=='REJECTED'?{'color':'red','border-color':'red'}:{'color':'green','border-color':'green'}" class="ng-binding"> 
+                           REJECTED
+                       </span> -->
+                      <!--<span ng-show="object.UNSYNC_CARD_TEXT" style="/* position:absolute; */float:right;border-radius: 4%;/* right: 200px; */top:100px;margin-right: 8px;color: #2980b9;padding:3px;font-weight: bold;border: 1px solid;font-size: 14px;color:blue;border-color:blue;" class="ng-binding"> 
+                           {{object.UNSYNC_CARD_TRANSACTIONS[object.UNSYNC_CARD_TRANSACTIONS.length-1].MOBILE_RECORD_ACTION}}
+                       </span>-->
+                       <!--  <span ng-show="object.MOBILE_RECORD_ACTION != ''" style="/* position:absolute; */float:right;border-radius: 4%;/* right: 200px; */top:100px;margin-right: 8px;color: #2980b9;padding:3px;font-weight: bold;border: 1px solid;font-size: 14px;color:blue;border-color:blue;" class="ng-binding"> 
+                           CREATE
+                       </span>-->
+                       <!--<span ng-show="object.UNSYNC_STEPS > 0" style="/* position:absolute; */float:right;border-radius: 4%;/* right: 300px; */top:100px;color: #2980b9;margin-right: 8px;padding:3px;font-weight: bold;border: 1px solid;font-size: 14px;color:blue;border-color:red;" class=""> 
+                           <i style="color:red" class="icon-left ion-steam"></i>
+                       </span>-->
+                       <!--<span ng-show="object.UNSYNC_REQUISITIONS > 0" style="/* position:absolute; */float:right;border-radius: 4%;/* right: 350px; */top:100px;color: #2980b9;margin-right: 8px;padding:3px;font-weight: bold;border: 1px solid;font-size: 14px;color:blue;border-color:orange;" class=""> 
+                           <i style="color:orange" class="icon-left ion-settings"></i>
+                       </span>-->
+                   </div>
+               </div>
+           </ion-item>
+           <ion-item ng-hide="isThereData">
+               No records.
+           </ion-item> 
+        </ion-list>
+        </ion-item>
+        
+
+        </ion-scroll>
+       <!-- unselected Cards list -->
+    </ion-content>
+    <script id="templates/popoverTooltip.html" type="text/ng-template">
+        <ion-popover-view>
+            <ion-header-bar>
+                  <h1 class="title">Response Message</h1>
+            </ion-header-bar>
+            <ion-content>
+                <div style="padding:5px;width:100%;height:100%;">
+                    {{responseMessage}}
+                </div>
+            <ion-content>
+        </ion-popover-view>
+    </script>
+    <script id="templates/popoverSort.html" type="text/ng-template">
+        <ion-popover-view class="fit">
+        <ion-content scroll="false">
+            <div class="list">
+               <div class="row " style="margin-bottom:5px">
+                  <div class="col col-25" ng-click="setSortBy('ID')">
+                     <i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>     
+                  </div>    
+                  <div class="col col-50">
+                     <a class="item" style ="padding:0">
+                        <span style=" margin-left: 15px;line-height:30px">Card #</span>
+                     </a>
+                  </div>
+                  <div class="col col-25" style="text-align: right;" ng-click="setSortBy('-ID')">
+                     <i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+                  </div>
+               </div>
+               <div class="row " style="margin-bottom:5px">
+                  <div class="col col-25" ng-click="setSortBy('MOBILE_RECORD_ID')">
+                     <i class="icon ion-ios-arrow-up positive"style="font-size: 25px;"></i>     
+                  </div>    
+                  <div class="col col-50">
+                     <a class="item" style ="padding:0">
+                        <span style=" margin-left: 15px;line-height:30px">Date</span>
+                     </a>
+                  </div>
+                  <div class="col col-25" style="text-align: right;" ng-click="setSortBy('-MOBILE_RECORD_ID')">
+                     <i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+                  </div>
+               </div>
+               <div class="row " style="margin-bottom:5px">
+                  <div class="col col-25" ng-click="setSortBy('PROJECT_NUMBER')">
+                     <i class="icon ion-ios-arrow-up positive"style="font-sissze: 25px;"></i>       
+                  </div>    
+                  <div class="col col-50">
+                     <a class="item" style ="padding:0">
+                        <span style=" margin-left: 15px;line-height:30px">Project #</span>
+                     </a>
+                  </div>
+                  <div class="col col-25" style="text-align: right;" ng-click="setSortBy('-PROJECT_NUMBER')">
+                     <i class="icon ion-ios-arrow-down positive"style="font-size: 25px;"></i>
+                  </div>
+               </div>
+            </div>
+        </ion-content>
+      </ion-popover-view>
+    </script>
+    <script id="templates/popover.html" type="text/ng-template">
+      <ion-popover-view class="fit">
+        <ion-content scroll="true">
+            <div class="list">
+               <a class="item" ng-show="selectedCard.UNSYNC_CARD_TEXT || selectedCard.UNSYNC_STEPS > 0 || selectedCard.UNSYNC_REQUISITIONS > 0 " ng-click="discard()">
+                 <i class="icon ion-close-circled assertive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;line-height:30px">Discard</span>
+               </a>
+               <a class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('EDIT')" ng-click="callProgram('PR_M115')">
+                 <i class="icon ion-compose positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;">Modify</span>
+               </a>
+               <a class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('LOGON')" ng-click="callProgram('LB_M100')">
+                 <i class="icon ion-log-in positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;line-height:30px">Logon</span>
+               </a>
+               <a class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('BUMP')" ng-click="callProgram('PR_M119')">
+                 <i class="icon ion-clock positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;">Bump</span>
+               </a>
+               <a class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('CLOSE')" ng-click="callProgram('PR_M117')">
+                 <i class="icon ion-checkmark positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;">Close</span>
+               </a>
+               <a class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('MATERIALS')" ng-click="callProgram('LB_M169')">
+                 <i class="icon ion-settings positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;">Materials...</span>
+               </a>
+               <a class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('STEPS')" ng-click="callProgram('PR_M118')">
+                 <i class="icon ion-steam positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;">Steps...</span>
+               </a>
+               <a class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('MODIFY')" ng-click="callProgram('PR_M116')">
+                 <i class="icon ion-compose positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;">Modify</span>
+               </a>
+               <a  class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('CREATE')" ng-click="callProgram('PR_M115')" style="border-right:1px;border-color:#ddd;border-left:1px;">
+                 <i class="icon ion-clipboard positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;">New Card</span>
+               </a>
+               <a class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('EVALUATE')" ng-click="callProgram('PR_M100')">
+                 <i class="icon ion-compose positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;">Evaluate</span>
+               </a>
+               <a class="item" ng-hide="selectedCard.WORK_CARD_ACTIONS != ''"">
+                 <i class="icon ion-close positive"style="font-size: 25px;"></i>
+                 <span style=" margin-left: 15px;">No Action Allowed</span>
+               </a>
+               <a class="item" ng-hide="!selectedCard.WORK_CARD_ACTIONS.includes('ATTACHMENT')" ng-click="showAttachments()">
+                   <i class="icon ion-camera positive"style="font-size: 25px;"></i>
+                   <span style=" margin-left: 15px;">Attachments</span>
+               </a>
+            </div>
+        </ion-content>
+      </ion-popover-view>
+    </script>
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-click="scanBarcode()" class="button button-large buttonicon ion-ios-barcode button-positive">Scan</button>
+            <button ng-hide="true" ng-click="attachReport()" class="button button-large buttonicon ion-ios-barcode button-positive">Report</button>
+            <button ng-disabled="selectedCard==''"class="button button-icon ion-more buttonicon" ng-click="popover.show($event)"></button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

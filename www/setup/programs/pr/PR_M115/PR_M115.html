@@ -1,0 +1,268 @@
+<ion-view view-title="New Card" cache-view="true"> 
+    <ion-content  has-header="true" style="background-color: #F4F4F4;">
+        <style>
+            textarea[readonly] {
+                background-color: #ffffff !important;
+            }
+            .button.disabled, .button[disabled]{
+        	    opacity:1;
+            }
+            .item-input{
+        	    padding:11px 0 5px 16px;
+            }
+        </style>
+        <ion-list>
+            <ion-item ng-hide="card.SOURCE_CARD_ID" style="padding:5px 16px 5px 16px; line-height:50px;">
+                <div class="item-input" style="padding: 0px">
+    				<i class="icon ion-document-text" style="padding-right:10px"></i> 
+                    <span style="padding-right:5px; width:60px;" class="input-label">Source Card:</span>
+                    <input type="text" id="sourceCard" ng-model="card.SOURCE_WORK_CARD" ng-blur="onblur()">
+		        </div>
+		    </ion-item>
+		    <ion-item ng-show="card.SOURCE_CARD_ID" ng-click="toggle('showCard')" style="padding:5px 16px 5px 16px; line-height:50px;border-bottom:0;">
+		        <div class="item-text-center item-text-wrap">
+		            <i class="icon ion-document-text" style="padding-right:10px"></i>
+		            <b>Source Card:</b> {{card.SOURCE_WORK_CARD}}
+		            <i class="icon ion-close-circled assertive" ng-click="clearCard()" style="float: right;padding-right: 10px;font-size: 32px; width:15%;text-align:right;"></i>
+		        </div>
+		    </ion-item>
+		    <ion-item class="item-accordion" ng-show="showCard" style="padding:0px;margin:0px; border-bottom:0px;"> 
+			    <div class="row">
+		            <div class="col">
+		                <h4>
+		             	    <span style="font-size:18px"><b>{{card.PROJECT_NUMBER}}</b></span>
+		               	</h4>
+		            </div>
+		        </div>    
+		        <div class="row">
+		            <div class="col">
+		                <h4>
+		                    <i>{{card.sourceDescription}}</i>
+		                </h4>
+		            </div>
+		        </div>
+		        <div class="row">
+		            <div class="col">
+		                <h4>
+		                    <b><i class="icon-left ion-clock"></i> Estimated </b> {{card.estimated_time}} - 
+		                    <b><i class="icon-left ion-clock"></i> Applied </b> {{card.applied_time}}
+		                </h4>
+		            </div>
+		        </div>
+		    </ion-item>    
+            <ion-item style="background-color: #F4F4F4;padding:0;" >
+                <div class="row responsive-sm">
+                    <div class="col col-50" id="woType">
+                        <label class="item item-input item-select">
+                            <div class="input-label">WO Type:</div>
+                            <select ng-disabled="card.created" ng-model="card.WORK_ORDER_TYPE" ng-change="populateSourceCard()" ng-options="i.WORK_ORDER_TYPE as (i.DESCRIPTION) for i in workOrderTypes">
+                                <option value="" selected hidden></option>
+                            </select>
+                        </label>
+                    </div>
+		            <div class="col col-50" ng-hide="card.WORK_CARD_NUMBER">
+		                <ion-input class="item item-input">  
+		                    <span style="padding-right:5px;width:60px;" class="input-label">WO#:</span> 
+		                    <input ng-readonly="card.created" type="number" id="workOrderNumber" ng-model="card.WORK_ORDER_NUMBER">
+		                </ion-input>
+		            </div>
+		            <div class="col col-50" ng-show="card.WORK_CARD_NUMBER" id="childCard">
+		                <ion-input class="item item-input" style="border-color:#387ef5;">  
+		                    <span style="padding-right:5px;width:60px;color:#387ef5;" class="input-label">Child Card#:</span> 
+		                    <input style="color:#387ef5;"ng-readonly="card.created" type="text" id="WORK_CARD_NUMBER" ng-model="card.WORK_CARD_NUMBER">
+		                </ion-input>
+		            </div>
+		        </div>
+                <div class="row">
+                    <div class="col">
+                        <ion-item class="item-accordion" ng-show="true" style="padding:0px;margin:0px;">
+                            <div class="row">
+                                <div class="col col-50">
+                                    <h2 style="text-align:center;">
+                                        <b>Skill Code</b>
+                                    </h2>
+                                </div>
+                                <div class="col col-40">
+                                    <h2 style="text-align:center;">
+                                        <b>Time</b>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="row" on-swipe-right="addNewSkill(object.id+1)"on-swipe-left="activateDelete(object)"ng-repeat="object in skillsTimesArr" style="border-top: 1px solid #efefef;">
+                                <div class="col col-40" style="position:relative">
+                                    <label class="item item-select" style="position:absolute;margin-top:4px;margin-bottom:4px;top:0;left:0;right:0;bottom:0;">
+                                        <select ng-disabled="card.created" ng-model="object.skillCode" ng-options="i.SKILL_CODE as (i.SKILL_CODE) for i in skillCodes">
+                                            <option value="" selected hidden></option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col col-40">
+                                    <ion-input class="item item-input">
+                                        <input ng-readonly="card.created" type="number" ng-model="object.estimatedTime">
+                                    </ion-input>
+                                </div>
+                                <div ng-hide="card.created" class="col col-10" style="padding-top:11px;padding-left:1px">
+                                    <i class="icon ion-plus-circled balanced" style="font-size:32px;" ng-show="skillIndex == object.id" ng-click="addNewSkill(object.id+1)"></i>
+                                </div>
+                                <div ng-hide="card.created" class="col col-10" style="padding-top:11px;padding-left:1px">
+                                    <i class="icon ion-close-circled assertive" style="font-size:32px;" ng-show="object.showDelete" ng-click="removeSkill(object)"></i>
+                                </div>
+                            </div>
+                        </ion-item>
+                    </div>
+                </div>
+                <div class="row responsive-sm">
+                    <div class="col col-50">
+                        <label class="item item-input item-select">
+                            <div class="input-label">Shop:</div>
+                            <select ng-disabled="card.created" ng-model="card.SHOP_NUMBER" id="shopNumber" ng-options="i.SHOP_NUMBER as (i.DESCRIPTION) for i in shopNumbers">
+                                <option value="" selected hidden></option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col col-50">
+                        <ion-input class="item item-input" multiple="true" modal-select="" ng-model="card.ZONES" option-property="ZONE" options="zoneNumbers" modal-title="Zone Number" has-search="true"> 
+                            <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Zones:</span> 
+                            <input readonly type="text" ng-model="card.ZONES" style="text-align: right;text-transform: uppercase;">
+                            <button ng-disabled="card.created" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;margin-top:-11px">
+                                <div class="option">
+                                    <div class="row">
+                                        <div class="col col-20">
+                                            <h2>{{option.ZONE}}</h2>
+                                        </div>
+                                        <div class="col"> 
+                                            <h2>{{option.DESCRIPTION}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </ion-input>
+                    </div>
+                </div>
+		        <div class="row responsive-sm" ng-show="card.SHOP_FLAG=='Y'">
+		            <div class="col col-50">
+		                <ion-input class="item item-input">  
+		                    <span style="padding-right:5px;width:60px;" class="input-label">Component</span> 
+		                    <input ng-readonly="card.created" type="text" id="componentNumber" ng-model="card.COMPONENT_NUMBER">
+		                </ion-input>
+		            </div>
+		            <div class="col col-50">
+		                <ion-input class="item item-input">  
+		                    <span style="padding-right:5px;width:60px;" class="input-label">Serial</span> 
+		                    <input ng-readonly="card.created" type="text" id="serialNumber" ng-model="card.SERIAL_NUMBER">
+		                </ion-input>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm">
+		            <div class="col">
+		                <ion-input class="item item-input" modal-select="" ng-model="card.ATA_CODE" option-property="ATA_CODE" options="ataCodes" modal-title="Ata Codes" has-search="true"> 
+		                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis; white-space: nowrap;display:block;width:120px;" class="input-label">ATA Code:</span> 
+		                    <input readonly type="text" ng-model="card.ATA_CODE" style="text-align: right;text-transform: uppercase; ">
+		                    <button ng-disabled="card.created" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;margin-top:-11px">
+		                        <div class="option">
+		                            <div class="row">
+		                                <div class="col col-20">
+		                                    <h2>{{option.ATA_CODE}}</h2>
+		                                </div>
+		                                <div class="col"> 
+		                                    <h2>{{option.DESCRIPTION}}</h2>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </button>
+		                </ion-input>
+		            </div>
+		            <div class="col">
+		                <label class="item item-input item-select">
+		                    <div class="input-label">Task:</div>
+		                    <select ng-disabled="card.created" ng-model="card.TASK_CODE" id="taskCode" ng-options="i.TASK_CODE as (i.DESCRIPTION) for i in taskCodes">
+		                        <option value="" selected hidden></option>
+		                    </select>
+		                </label>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm">
+		            <div class="col col-50">
+		                <label class="item item-input item-select">
+		                    <div class="input-label">Contract</div>
+		                    <select ng-disabled="card.created" ng-model="card.CONTRACT_GROUP" id="contractGroup" ng-options="i.CONTRACT_GROUP as (i.DESCRIPTION) for i in contractGroups">
+		                        <option value="" selected hidden></option>
+		                    </select>
+		                </label>
+		            </div>
+		            <div class="col col-50">
+		                <label class="item item-input item-select">
+		                    <div class="input-label">Milestone:</div>
+		                    <select ng-disabled="card.created" ng-model="card.MILESTONE" id="MILESTONE" ng-options="i.milestone as (i.description) for i in milestones">
+		                        <option value="" selected hidden></option>
+		                    </select>
+		                </label>
+		            </div>
+		        </div>
+		        <div class="row responsive-sm">
+                    <div class="col col-50">
+                        <label class="item item-input item-select">
+                            <div class="input-label">Auth:</div>
+                            <select ng-model="card.AUTHORIZATION_TYPE" ng-options="i.AUTHORIZATION_TYPE as (i.DESCRIPTION) for i in authorizationTypes">
+                                <option value="" selected hidden></option>
+                            </select>
+                        </label>
+                    </div>
+		            <div class="col col-50">
+		                <ion-input class="item item-input" multiple="true" modal-select="" ng-model="card.FLAGS" option-property="FLAG" options="flags" modal-title="Flags" has-search="true"> 
+		                    <span style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;display:block;width:120px;" class="input-label">Flags:</span> 
+		                    <input readonly type="text" ng-model="card.FLAGS" style="text-align: right;text-transform: uppercase; ">
+		                    <button ng-disabled="card.created" class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:8px;margin-top:-11px">
+		                        <div class="option">
+		                            <div class="row">
+		                                <div class="col"> 
+		                                    <h2>{{option.DESCRIPTION}}</h2>
+		                                </div>
+                                    </div>
+	                            </div>
+		                    </button>
+		                </ion-input>
+		            </div>
+		        </div>
+		        <div class="row">
+		            <div class="col">
+		                <ion-input class="item item-input">
+		                    <textarea ng-readonly="card.created" style="width: 100%;text-transform: uppercase;" rows="10" id="DESCRIPTION" placeholder="Card description..." ng-model="card.DESCRIPTION"></textarea>
+		                </ion-input>
+		            </div>
+		        </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <script id="templates/popover.html" type="text/ng-template">
+        <ion-popover-view class="fit">
+            <ion-content scroll="false">
+                <div class="list">
+                    <a class="item" ng-click="logon()">
+                        <i class="icon ion-log-in positive"style="font-size: 25px;"></i>
+                        <span style=" margin-left: 15px;line-height:30px">Logon</span>
+                    </a>
+                    <a class="item" ng-click="callProgram('LB_M169')">
+                        <i class="icon ion-settings positive"style="font-size: 25px;"></i>
+                        <span style=" margin-left: 15px;">Materials</span>
+                    </a>
+                    <a class="item" ng-click="callProgram('PR_M118')">
+                        <i class="icon ion-steam positive"style="font-size: 25px;"></i>
+                        <span style=" margin-left: 15px;">Steps</span>
+                    </a>
+                    <a class="item" ng-click="newAttachment()">
+                        <i class="icon ion-camera positive"style="font-size: 25px;"></i>
+                        <span style=" margin-left: 15px;">Attachments</span>
+                    </a>
+                </div>
+            </ion-content>
+        </ion-popover-view>
+    </script>
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-disabled="card.created" class="button button-large buttonicon icon ion-ios-barcode button-positive" ng-click="scanBarcode(scanObj)">SCAN</button>
+            <button ng-disabled="card.created" ng-hide="card.created"class="button button-large buttonicon icon ion-checkmark button-balanced" ng-click="create()">CREATE</button>
+        	<button ng-hide="!card.created" class="button button-icon ion-more buttonicon" ng-click="popover.show($event)"></button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

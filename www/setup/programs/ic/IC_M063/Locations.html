@@ -1,0 +1,442 @@
+<ion-view view-title="Inventory Count">
+    <!-- <ion-header-bar class="bar-light bar-subheader">
+       <div class="item-input-inset">
+           <i class="icon-left ion-android-search"></i>
+           <input type="text" placeholder=" Search" ng-model="search" style="width:100%; padding-left:11px;" />
+       </div>
+    </ion-header-bar> -->
+    <ion-content overflow-scroll=true style="background-color: #F4F4F4">
+    <style>
+    .list .item.item-accordion {
+      line-height: 38px;
+      padding-left: 40px;
+      padding-top: 0;
+      padding-bottom: 0;
+      transition: 0.09s all linear;
+    }
+    .modal {
+    top: 0px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+    .list .item.item-accordion.ng-hide {
+      line-height: 0px;
+    }
+    
+    .list .item.item-accordion.ng-hide-add,
+    .list .item.item-accordion.ng-hide-remove {
+      display: block !important;
+    }
+    
+    .sub-item {
+      padding-left: 20px;
+    }
+    .numberCircle {
+    border-radius: 35%;
+    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+
+    width: 32px;
+    height: 40px;
+/*     padding: 3px; */
+    padding-top:8px;
+    background: #fff;
+    border: 2px solid #666;
+    color: #666;
+    text-align: center;
+    font: 16px Arial, sans-serif;
+
+  
+}
+     .item.active,
+     .item.activated, 
+     .item-complex.active .item-content,
+     .item-complex.activated .item-content,
+     .item .item-content.active,
+     .item .item-content.activated {
+         border-color: #ccc;
+         background-color: #B1D9F7; }
+    </style>
+    <ion-slides  ng-style="{height:slideHeight+'px'}" options="options" slider="data.slider">
+        <ion-slide-page>
+            <div class="bar bar-header bar-stable" style="height:44px;">
+                <h1 class="title" style="margin-top:0px;">Locations</h1>
+            </div>
+            <div><br><br></div>
+           <!--  <div ng-show="data.slider.activeIndex == 0" class="item-input-inset">
+                <i class="icon-left ion-android-search"></i>
+                <input type="text" placeholder=" Search" ng-model="IC_M063.searchKey" ng-change="searchinLocation()" style="width:100%; padding-left:11px;"/>
+            </div> -->
+            <ion-content style="top:0;padding:0px;padding-bottom:0px;margin-top:43px;">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="pullLocations()">
+            </ion-refresher>
+            <ion-list id="IC_M063_location">
+                <div ng-repeat="plant in locations">
+                    <ion-item class="item-icon-right" ng-click="togglePlant(plant)" ng-class="{active: isPlantShown(plant)}">
+                        <div class="item-text-center item-text-wrap">
+                            <div class ="row" style="padding=0;">
+                                <i class="icon-left ion-ios-home" style="font-size:40px;"></i> 
+                                    <div class="col col-50" style="padding-top:14px;">
+                                        {{plant.name}}
+                                    </div>
+                                    <div class="col col-40" style="padding=0;text-align:right;">
+                                        <span class="numberCircle" style="color:#e8c85b;font-weight:bold;width:40px;border-color:#e8c85b;display:inline-block;">{{plant.toCount}}</span>
+                                        <span class="numberCircle" style="color:#3ab5ef;font-weight:bold;width:40px;border-color:#3ab5ef;display:inline-block;">{{plant.counting}}</span>
+                                        <span class="numberCircle" style="color:#5bc35b;font-weight:bold;width:40px;border-color:#5bc35b;display:inline-block;">{{plant.counted}}</span>
+                                        <span class="numberCircle" style="color:#89a593;font-weight:bold;width:40px;border-color:#89a593;display:inline-block;">{{plant.empty}}</span>
+                                    </div>
+                                </div>
+                        </div>
+                        <i class="icon" ng-class="isPlantShown(plant) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                    </ion-item>
+                    <div ng-repeat="stockroom in plant.childItems">
+                        <ion-item class="item-accordion item-icon-right" ng-click="toggleStockroom(stockroom)" ng-show="isPlantShown(plant)" ng-class="{active: isStockroomShown(stockroom)}">
+                            <div class="item-text-center item-text-wrap">
+                                <div class="row" style="padding=0;">
+                                    <i class="icon-left ion-ios-photos" style="font-size:32px;padding-top:4px;"></i>
+                                    <div class="col col-50" style="padding=0;">
+                                        {{stockroom.name}}
+                                    </div>
+                                    <div class="col col-40" style="padding=0;text-align:right;">
+                                        <span class="numberCircle" style="color:#e8c85b;font-weight:bold;width:40px;border-color:#e8c85b;display:inline-block;">{{stockroom.toCount}}</span>
+                                        <span class="numberCircle" style="color:#3ab5ef;font-weight:bold;width:40px;border-color:#3ab5ef;display:inline-block;">{{stockroom.counting}}</span>
+                                        <span class="numberCircle" style="color:#5bc35b;font-weight:bold;width:40px;border-color:#5bc35b;display:inline-block;">{{stockroom.counted}}</span>
+                                        <span class="numberCircle" style="color:#89a593;font-weight:bold;width:40px;border-color:#89a593;display:inline-block;">{{stockroom.empty}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <i class="icon" ng-class="isStockroomShown(stockroom) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                        </ion-item>
+                        <div ng-repeat="column in stockroom.childItems | filter :search">
+                            <ion-item class="item-accordion item-icon-right"  ng-show="isStockroomShown(stockroom)" ng-class="{active: isColumnShown(column)}">
+                                <div class="item-text-center item-text-wrap">
+                                    <div class="row" style="padding=0;">
+                                        <i class="icon-left ion-folder" style="font-size:24px;padding-left: 30px;padding-top:5px;"></i>
+                                        <div class="col col-50" style="word-wrap: break-word;">
+                                            {{column.name}}
+                                        </div>
+                                        <div class="col col-40" style="margin-left:-19px;text-align: right;">
+                                        <span class="numberCircle" style="color:#e8c85b;font-weight:bold;width:40px;border-color:#e8c85b;display:inline-block;">{{column.toCount}}</span>
+                                        <span class="numberCircle" style="color:#3ab5ef;font-weight:bold;width:40px;border-color:#3ab5ef;display:inline-block;">{{column.counting}}</span>
+                                        <span class="numberCircle" style="color:#5bc35b;font-weight:bold;width:40px;border-color:#5bc35b;display:inline-block;">{{column.counted}}</span>
+                                        <span class="numberCircle" style="color:#89a593;font-weight:bold;width:40px;border-color:#89a593;display:inline-block;">{{column.empty}}</span>
+                                        </div>
+                                </div>
+                                </div>
+<!--                                 <i class="icon" ng-class="isColumnShown(column) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i> -->
+                            </ion-item>
+                            <!-- <ion-item class="item-accordion item-icon-right" ng-repeat="bin in column.childItems | filter :search" ng-show="isColumnShown(column)" ng-click="forwardCount(bin)">
+                                <div class="item-text-center item-text-wrap" style="padding-left: 40px;">
+                                    <i class="icon-left ion-filing" ng-class="bin.status?'TO-COUNT'" style="font-size:16px;"></i>
+                                    {{bin.name}}
+                                </div>
+                            </ion-item> -->
+                        </div>
+                    </div>
+                </div>
+            </ion-list>
+            </ion-content>
+        </ion-slide-page>
+        <ion-slide-page>
+            <div class="bar bar-header bar-stable" style="height:44px;">
+                <h1 class="title" style="margin-top:0px;">Count</h1>
+            </div>
+            <div><br><br></div>
+            <div class="row" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-location" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;width:60px;" class="input-label">Location:</span> 
+                        <input type="text"  id="location" ng-model="IC_M063_Count.location" ng-blur="getLocationByName()" ng-focus="setScanObj('location')" ng-init="scanObj='location'">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-pricetag" style="padding-right:10px"></i> 
+                        <span style="padding-right:9px;width:60px;" class="input-label">Tag # &nbsp;&nbsp; :</span> 
+                        <input type="number" id="tag" ng-model="IC_M063_Count.tag" ng-init="scanObj='tag'" ng-focus="setScanObj('tag')" ng-blur="pullAllocation()" ng-change="changedTag()">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="row responsive-sm" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-albums" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;width:60px;" class="input-label">Quantity:</span> 
+                        <input type="number" id="quantity" ng-keyup="changedQty()" ng-model="IC_M063_Count.quantity">
+                    </ion-input>
+                </div>
+            </div>
+            <div ng-show="false" class="row" >
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <i class="icon ion-ios-location" style="padding-right:10px"></i> 
+                        <span style="padding-right:5px;width:60px;" class="input-label">LocationID:</span> 
+                        <input type="text" ng-model="IC_M063_Count.locationId">
+                    </ion-input>
+                </div>
+            </div>
+            <div class="item item-divider" style="padding:0px;min-height:10px;">
+            </div>
+            <div class="card" ng-show="allocation != undefined"  style="padding:10px;margin:0px;" >
+                <div class="row">
+                    <div class="col">
+                        <TABLE style="font-family:sans-serif;font-size:16px;color:#444">
+                            <TR>
+                                <TD><b>Part #</TD>
+                                <TD>&nbsp; :</b></TD>
+                                <TD class="tdPad">&nbsp;{{allocation.part_number}}<br></TD>
+                            </TR>
+                            <TR ng-show="allocation.serial_number != ''">
+                                <TD><b>Serial #</TD>
+                                <TD>&nbsp; :</b></TD>
+                                <TD class="tdPad">&nbsp;{{allocation.serial_number}}<br></TD>
+                            </TR>
+                            <TR ng-show="allocation.lot_number != ''">
+                                <TD><b>Lot #</TD>
+                                <TD>&nbsp; :</b></TD>
+                                <TD class="tdPad">&nbsp;{{allocation.lot_number}}<br></TD>
+                            </TR>
+                            <TR>
+                                <TD><b>Location</TD>
+                                <TD>&nbsp; :</b></TD>
+                                <TD class="tdPad">&nbsp;{{allocation.location}}</TD>
+                            </TR>
+                            <TR>
+                                <TD><b>Status</TD>
+                                <TD>&nbsp; :</b></TD>
+                                <TD class="tdPad">&nbsp;{{allocation.status}}</TD>
+                            </TR>
+                            <TR>
+                                <TD><b>Condition</TD>
+                                <TD>&nbsp; :</b></TD>
+                                <TD class="tdPad">&nbsp;{{allocation.condition_code}}</TD>
+                            </TR>
+                            <TR>
+                                <TD><b>Customer</TD>
+                                <TD>&nbsp;  :</b></TD>
+                                <TD class="tdPad">&nbsp;{{allocation.customer_name}}</TD>
+                            </TR>
+                            <TR ng-show="allocation.expiration_flag == 'Y'">
+                                <TD><b>Expire Date</TD>
+                                <TD>&nbsp; :</b></TD>
+                                <TD class="tdPad">&nbsp;{{allocation.expire_date}}</TD>
+                            </TR>
+                        </TABLE>
+                    </div>
+                    <div class="col col-10">
+                        <i class="icon-right ion-compose energized" style="font-size:48px;" ng-click="showModal()"></i>
+                    </div>
+                </div>
+            </div>   
+         </ion-slide-page>   
+     </ion-slides> 
+</ion-content>
+<script id="templates/edit.html" type="text/ng-template">
+      <ion-modal-view>
+          <ion-header-bar class="bar bar-header nav-green">
+              <h1 class="title" style="color:white">Edit Tag</h1>
+          </ion-header-bar>
+          <ion-content style="padding-top:10px;">
+              <div class="card" ng-show="allocation != undefined" style="padding:10px;margin:0px;" >
+                  <TABLE style="font-family:sans-serif;font-size:16px;color:#444">
+                      <TR>
+                          <TD><b>Part #</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{allocation.part_number}}<br></TD>
+                      </TR>
+                      <TR ng-show="allocation.serial_number != ''">
+                          <TD><b>Serial #</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{allocation.serial_number}}<br></TD>
+                      </TR>
+                      <TR ng-show="allocation.lot_number != ''">
+                          <TD><b>Lot #</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{allocation.lot_number}}<br></TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Location</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{allocation.location}}</TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Status</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{allocation.status}}</TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Condition</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{allocation.condition_code}}</TD>
+                      </TR>
+                      <TR>
+                          <TD><b>Customer</TD>
+                          <TD>&nbsp;  :</b></TD>
+                          <TD class="tdPad">&nbsp;{{allocation.customer_name}}</TD>
+                      </TR>
+                      <TR ng-show="allocation.expiration_flag == 'Y'">
+                          <TD><b>Expire Date</TD>
+                          <TD>&nbsp; :</b></TD>
+                          <TD class="tdPad">&nbsp;{{allocation.expire_date}}</TD>
+                      </TR>
+                  </TABLE>
+              </div>
+<br>
+            <div class="item item-divider" style="padding:0px;min-height:20px;"></div>
+              <div class="row responsive-sm">
+                  <div class="col">
+                      <ion-input class="item item-input"> 
+                          <span style="text-transform: uppercase;padding-right:9px;width:120px;" class="input-label">Serial:</span> 
+                          <input type="text" ng-model="IC_M063_editTag.serial_number" >
+                      </ion-input>
+                  </div>
+                <div class="col">
+                      <ion-input class="item item-input"> 
+                          <span style="text-transform: uppercase;padding-right:9px;width:120px;" class="input-label">Lot:</span> 
+                          <input type="text" ng-model="IC_M063_editTag.lot_number" >
+                      </ion-input>
+                  </div>
+              </div>
+              <div class="row responsive-sm">
+                  <div class="col">
+                      <ion-input class="item item-input"> 
+                          <span style="text-transform: uppercase;padding-right:9px;width:120px;" class="input-label">Expire Dt:</span> 
+                          <input type="date" ng-model="IC_M063_editTag.expire_date" >
+                      </ion-input>
+                  </div>
+                <div class="col">
+                    <ion-input class="item item-input"> 
+                        <span style="text-transform: uppercase;padding-right:9px;width:120px;" class="input-label">Customer:</span> 
+                        <input type="text" ng-model="IC_M063_editTag.customer_number" readonly style="text-transform: uppercase; ">
+                        <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:22px;" modal-select="" ng-model="IC_M063_editTag.customer_number" option-property="CUSTOMER_NUMBER" options="IC_0063_lovs.customersLov" modal-title="Customers" has-search="true">
+                        <div class="option">
+                            <div class="row">
+                                <div class="col col-10">
+                                    <h2>{{option.CUSTOMER_NUMBER}}</h2>
+                                </div>
+                                <div class="col">
+                                    <h2>{{option.CUSTOMER_NAME}}</h2>
+                                </div>
+                           </div>
+                        </div>
+                        </button>
+                    </ion-input>
+                  </div>
+              </div>
+              <div class="row responsive-sm">
+                  <div class="col">
+                      <ion-input class="item item-input"> 
+                          <span style="text-transform: uppercase;padding-right:9px;width:120px;" class="input-label">Form:</span> 
+                          <input type="text" ng-model="IC_M063_editTag.form_number" >
+                      </ion-input>
+                  </div>
+                 <div class="col">
+                      <ion-input class="item item-input"> 
+                          <span style="text-transform: uppercase;padding-right:9px;width:120px;" class="input-label">Condition:</span> 
+                          <input type="text" ng-model="IC_M063_editTag.condition_code" readonly>
+                          <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:22px;" modal-select="" ng-model="IC_M063_editTag.condition_code" option-property="CONDITION_CODE" options="IC_0063_lovs.conditionCodesLov" modal-title="Conditions" has-search="true">
+                        <div class="option">
+                            <div class="row">
+                                <div class="col col-40">
+                                    <h2>{{option.CONDITION_CODE}}</h2>
+                                </div>
+                                <div class="col">
+                                    <h2>{{option.DESCRIPTION}}</h2>
+                                </div>
+                           </div>
+                        </div>
+                        </button>
+                      </ion-input>
+                  </div>
+              </div>
+              <div class="row responsive-sm">
+                  <div class="col">
+                      <ion-input class="item item-input"> 
+                          <span style="text-transform: uppercase;padding-right:9px;width:120px;" class="input-label">Program:</span> 
+                          <input type="text" ng-model="IC_M063_editTag.program_code" readonly>
+                        <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:30px;" modal-select="" ng-model="IC_M063_editTag.program_code" option-property="PROGRAM_CODE" options="IC_0063_lovs.programCodesLov" modal-title="Program Codes" has-search="true">
+                        <div class="option">
+                            <div class="row">
+                                <div class="col col-20">
+                                    <h2>{{option.PROGRAM_CODE}}</h2>
+                                </div>
+                                <div class="col">
+                                    <h2>{{option.DESCRIPTION}}</h2>
+                                </div>
+                           </div>
+                        </div>
+                        </button>
+                      </ion-input>
+                  </div>
+                <div class="col">
+                      <ion-input class="item item-input"> 
+                          <span style="text-transform: uppercase;padding-right:9px;width:120px;" class="input-label">App. Std.:</span> 
+                          <input type="text" ng-model="IC_M063_editTag.applicable_standard" readonly>
+                        <button class="button icon ion-arrow-down-b" style="background-color:#FFFFFF;border:0px;min-height:0px;height:34px;margin-right:35px;" modal-select="" multiple ng-model="IC_M063_editTag.applicable_standard" option-property="CERTIFYING_AGENCY" options="IC_0063_lovs.appStdsLov" modal-title="Applicable Standarts" has-search="true">
+                        <div class="option">
+                            <div class="row">
+                                <div class="col col-20">
+                                    <h2>{{option.CERTIFYING_AGENCY}}</h2>
+                                </div>
+                                <div class="col">
+                                    <h2>{{option.DESCRIPTION}}</h2>
+                                </div>
+                           </div>
+                        </div>
+                        </button>
+                      </ion-input>
+                  </div>
+              </div>
+               <div class="row responsive-sm">
+                  <div class="col">
+                      <ion-input class="item item-input"> 
+                          <span style="text-transform: uppercase;padding-right:9px;width:120px;" class="input-label">Shelf Life:</span> 
+                          <input type="text" ng-model="IC_M063_editTag.shelf_life" >
+                      </ion-input>
+                  </div>
+                <div class="col">
+                  </div>
+              </div>
+            </ion-content>
+            <ion-footer-bar style="padding:0px">
+                <div class="button-bar">
+                    <button class="button button-large icon buttonicon ion-close button-assertive" ng-click="modal.hide()">Close</button>
+                    <button class="button button-large icon buttonicon ion-trash-b button-energized" ng-click="resetEditTag()">Clear</button>
+                    <button class="button button-large icon buttonicon ion-checkmark button-balanced" ng-click="modifyTag('MODIFY-TAG')">OK</button>
+                </div>
+            </ion-footer-bar> 
+      </ion-modal-view>
+    </script>
+    <script id="templates/popover.html" type="text/ng-template">
+      <ion-popover-view class="fit">
+        <ion-content scroll="false">
+            <div class="list">
+             <a class="item" ng-click="pushAllocation('SET-LOCATION-STATUS','COUNTED')">
+              COUNTED
+            </a>
+            <a class="item" ng-click="pushAllocation('SET-LOCATION-STATUS','EMPTY')">
+              EMPTY
+            </a>
+            </div>
+        </ion-content>
+      </ion-popover-view>
+    </script>
+<ion-footer-bar ng-show="slider.activeIndex == 1" style="background-color:rgb(224,242,251) !important;padding:0px">
+    <div class="button-bar">
+        <button  ng-click="reset()" class="button button-large buttonicon ion-close button-assertive">
+            Clear
+        </button>
+        <button ng-click="scanBarcode(scanObj)" class="button button-large buttonicon ion-ios-barcode button-positive">
+           Scan
+        </button>
+        <button ng-hide ="(IC_M063_Count.tag == ''  || IC_M063_Count.tag == null) && (IC_M063_Count.quantity == '' || IC_M063_Count.quantity == null) && IC_M063_Count.locationType=='BIN'" ng-click="pushAllocation('COUNT-TAG')" on-hold="openPopover($event)" class="button button-large button icon ion-checkmark button-balanced">
+            OK
+        </button>
+        <button ng-show="(IC_M063_Count.tag == ''  || IC_M063_Count.tag == null) && (IC_M063_Count.quantity == '' || IC_M063_Count.quantity == null) && IC_M063_Count.locationType=='BIN'" class="button button-large icon ion-more button-balanced" ng-click="openPopover($event)"></button>
+    </div>
+</ion-footer-bar> 
+</ion-view>

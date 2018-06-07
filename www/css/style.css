@@ -1,0 +1,273 @@
+/* Empty. Add your own CSS if you like */
+.item-radio .radio-icon {
+  /* checkmark icon will be hidden by default */
+  /*position: absolute;
+  top: 2;
+  left: 0;
+  z-index: 3;
+  visibility: hidden;
+  padding: 0px;
+  height: 100%;
+  font-size: 24px; */}
+  
+ion-popover-view.fit {
+  height: auto !important;
+}
+
+ion-popover-view.fit ion-content {
+  position: relative !important;
+}
+
+.platform-android ion-popover-view.fit {
+  margin-top: 10px !important;
+}
+.signin{
+/*  background: url("../img/sky.jpg") no-repeat center center fixed;  */
+background: url("../img/main14.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+/* .navbar-content{ */
+/*  background: url("../img/silver.png") no-repeat center center fixed;  */
+/*   -webkit-background-size: cover; */
+/*   -moz-background-size: cover; */
+/*   -o-background-size: cover; */
+/*   background-size: cover; */
+/* } */
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-left: 0px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+
+.sub-item {
+  padding-left: 20px;
+}
+.header .col {
+  background-color:lightgrey;
+}
+.ion-md-input-sign {
+    background-color: rgba(0,0,0,.6);
+    bottom: 0;
+    color: #fff;
+    letter-spacing: .25rem;
+    padding: 20px 10px;
+    position: relative;
+    z-index: 1;
+}
+ion-item table
+{
+border: 0 !important;
+padding-bottom :2px;
+}
+
+ion-item td:first-child
+{
+border-left: 0 !important;
+ 
+}
+ion-item thead
+{
+border-left: 0 !important;
+
+}
+ion-item th:first-child
+{
+border-left: 0 !important;
+}
+ion-item th
+{
+
+}
+.input-label
+{
+   width: unset !important;
+   font-weight: bold !important;
+}
+.item-input span
+{
+	font-weight: bold !important;
+	
+}
+.icongreen::before
+{
+  color: green !important;
+}
+.card-box {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); 
+  }
+/* input {
+    text-transform: uppercase;
+}
+textarea {
+    text-transform: uppercase;
+} */
+input[readonly] {
+      background-color: #ffffff !important;
+}
+ion-input input {
+    margin-right:10px !important;
+}
+button {
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.32) !important;
+}
+
+.buttonicon {
+     font-weight: bold !important;
+/*     text-transform: uppercase !important; */
+    border-radius: 0 !important;
+    box-shadow: inset 0px -3px 0px 0px rgba(0, 0, 0, 0.12); 
+}
+
+.item-select{
+	padding: 6px 16px 6px 16px;
+		    }
+.ion-arrow-down-b:before {
+    font-size: 12px !important;
+    color: #999;
+}
+::-webkit-input-placeholder {
+   		font-style: italic;
+   		text-transform: none;
+	}
+	:-moz-placeholder {
+   		font-style: italic;  
+   		text-transform: none;
+	}
+	::-moz-placeholder {
+   		font-style: italic;  
+   		text-transform: none;
+	}
+	:-ms-input-placeholder {  
+   		font-style: italic; 
+   		text-transform: none;
+	}
+	
+.buttonicon:before {
+    font-size: 16px !important;
+    margin-right: 3px;
+    margin-top: -2px;
+}
+
+.loading-container .loading {
+ width:100%;
+ padding:0;
+ border-radius:0;
+}
+
+div.boardPanePageStamp {
+    position: absolute;
+    z-index: 1;
+    font-family: Arial,sans-serif;
+    /***
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+   ***/
+    color: #c00;
+    background: rgba(255, 255, 255, 0);
+    /* padding: 5px; */
+    /* zoom: 1; */
+    border-radius: 50%;
+    filter: alpha(opacity=20);
+    opacity: 0.5;
+    -webkit-text-shadow: 0 0 2px #c00;
+    text-align: center;
+    text-shadow: 0 0 2px #c00;
+    box-shadow: 0 0 2px #c00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.6vh;
+    border: solid 1px #c00;
+    margin-top  : -1.2%;
+    height      :  2.4%;
+    margin-left : -1.55%;
+    width       :  3.1%;
+    overflow : hidden;
+
+
+    position: absolute;
+    z-index: 1;
+    font-family: Arial,sans-serif;
+    color: #000;
+    background: rgba(255, 255, 255, 0);
+    border-radius: 50%;
+    filter: alpha(opacity=20);
+    opacity: 0.8;
+    -webkit-text-shadow: 0 0 2px #c00;
+    text-align: center;
+    box-shadow: 0 0 2px #c00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9vh;
+    height: 2.4%;
+    margin-left: -1.55%;
+    width: 3.1%;
+    overflow: visible;
+    word-break: initial;
+}
+
+
+div.boardContainer {
+  height: 100%;
+	width: 100%;
+	position: absolute;
+    overflow: visible;
+    border: 0px solid transparent;
+    background-size: contain;
+    background-repeat: round;
+}
+/*
+.loading{
+ position: absolute !important;
+  top:45% !important;
+  bottom: 45% !important;
+  left: 0 !important;
+  right: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+
+
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+
+} */

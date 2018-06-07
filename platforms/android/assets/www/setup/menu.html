@@ -1,0 +1,57 @@
+<style>
+.nav-green {
+    background-color:#1195c7;
+}
+ion-side-menu.menu-left.menu {
+    background: linear-gradient(180deg, #e3e4e5, rgba(0,128,128,1)) !important;
+    background-size: cover !important;
+    box-shadow: inset -7px 0 20px -7px rgba(0,0,0,0.4);
+} 
+.itemMenu {
+    background-color: rgba(0,0,0,0) !important;
+    border-width:0px;
+}
+</style>
+<ion-side-menus enable-menu-with-back-views="false" ng-controller="MenuCtrl" ng-show="globals.loggedIn">
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-calm">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent" animation="slide-left-right">
+            <ion-header-bar class="nav-green">
+                <button menu-toggle="left" class="button-icon icon ion-navicon light"></button>
+                <div class="button-bar">
+                </div>
+                <button ng-class="globals.deviceConnectionInfo.isOnline ? 'button-icon icon ion-wifi light' : (globals.deviceConnectionInfo.isOffline ? 'button-icon icon ion-flash-off light' : '')">
+                {{globals.currentUser.userId}}
+                </button>
+            </ion-header-bar>
+        </ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="left">
+        <ion-header-bar style="background:none;">
+            <button menu-toggle="left" class="button-icon icon ion-person" style="padding-top: 3px;padding-left: 15px;">
+                <span style="padding-left: 12px;font-size: 18px;vertical-align: text-bottom;color: black;"> {{globals.currentUser.userId}}</span>
+            </button>
+        </ion-header-bar>
+        <ion-content class="navbar-content">
+            <ion-list>
+                <a class="item item-icon-left itemMenu" menu-close ng-click="signOut()" href="#/signin" style="border-top: 1px rgba(110, 106, 106, 0.2);border-style:outset;font-size:14px;padding-left:70px;"> 
+	                <i class="icon ion-android-exit" style="transform: rotate(180deg);left:14px;font-size:16px"></i>Sign Out
+	            </a>
+	            <a class="item item-icon-left itemMenu" menu-close ng-click="openSettings()" style="border-top: 1px rgba(110, 106, 106, 0.2);border-style:outset;font-size:14px;padding-left:70px;"> 
+	                <i class="icon ion-settings" style="left:14px;font-size:16px"></i>Settings
+	            </a>
+	            <a class="item item-icon-left itemMenu" menu-close ng-click="openMessages()" style="font-size:14px;padding-left:70px;">
+                    <i class="icon ion-email" style="left:14px;font-size:16px"></i>Message
+<!--                     <span class="badge badge-assertive">{{globals.messageBadge}}</span>	 -->
+                </a>
+	            <a class="item item-icon-left itemMenu" menu-close href="#/app/home" style="font-size:14px;padding-left:70px;" ng-click="fetchRolePrograms(item.roleId)" ng-repeat="item in globals.currentUser.roleList | orderBy:'roleId'">
+	                <i class="icon ion-cube" style="left:14px;font-size:16px"></i>{{item.description}}
+	            </a>
+	            
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>

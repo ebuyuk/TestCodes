@@ -1,0 +1,68 @@
+
+<ion-view view-title="Shipments">
+    <ion-header-bar class="bar-light bar-subheader"> 
+        <div class="item-input-inset" style="width:100%;">
+            <i class="icon-left ion-android-search"></i>
+            <input type="text" placeholder=" Search" ng-model="searchCriteria" style="padding-left:15px;width:100%"/>
+        </div>
+    </ion-header-bar> 
+    <ion-content has-header="true">
+        <style>
+            .item.active,
+            .item.activated,
+            .item-complex.active .item-content,
+            .item-complex.activated .item-content,
+            .item .item-content.active,
+            .item .item-content.activated {
+                border-color: #ccc;
+                background-color: #ffffff; }
+        </style>
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="pullShipments(searchCriteria)">
+        </ion-refresher>
+       <ion-list>
+           <ion-item collection-repeat="object in shipments | filter:searchCriteria" item="object" style="height:100px" ng-click="showShipment(object)">
+               <!-- <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;">
+                   <i class="icon ion-shipment-plane positive"style="font-size: 42px;"></i>
+               </div> -->
+              <div style="border-radius: 50%; font-size: 10px;  color: #fff; float: left; display: inline;  width: 44px; height: 44px; text-align: center; line-height: 46px; margin-right: 20px;margin-top:10px;
+                         background: {{object.status=='COMPLETED' ?'#387ef5':object.status == 'CANCELLED' ? '#e20303' :'#387ef5'}}" >
+                         {{object.status == 'COMPLETED' ? 'Completed' : object.STATUS == 'CANCELLED' ? 'Cancelled':'Created'}}
+                     </div>
+              <!--  <h2 style="text-align: left;">
+			       <b> {{object.from_station}} <i class="icon ion-arrow-right-c" style=" margin-left: 10px;"></i>
+				   <span style=" margin-left: 10px;"> {{object.to_station}} </span></b>
+               </h2> -->
+               <h2 style="text-align:left;top: 5px;padding-top:7px;" >
+                     <b>
+                     <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 20px; " > 
+                        <span style="color:#848484;font-size:font-size: 4vmin;padding-top:5px;">{{object.shipment_number}} </span>
+                    </span>
+                     </b>
+                 </h2>
+                <h2 style="text-align: left;padding-top:5px;">
+                       <b style="font-size: 3vmin;color: #2980b9;"> {{object.from_station}} <span style="color:#848484;font-size:3.1vmin;"></span>
+                       <i class="icon ion-plane" style=" margin-left: 10px;margin-right: 10px;transform: rotate(90deg);display: inline-block;font-size:4vmin;"></i>
+                       <span> {{object.to_station}} </span> <span style="color:#848484;font-size:3.1vmin;"></span></b>
+                      <!--  <span style="float:right; position:absolute;right: 15px;color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                                {{object.STATUS}}
+                       </span> -->
+                </h2>
+                <h2 style="text-align:left;top: 5px;padding-left:65px" >
+                     <b>
+                     <span style="color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                        <span style="color:#848484;font-size:font-size: 4vmin;"><b>MAWB : </b> {{object.master_airwaybill}} </span>
+                    </span>
+                    <span style="color:#848484;font-size:font-size: 4vmin;padding-left: 52px;"><b>HAWB : </b> {{object.house_airwaybill}} </span>
+                     </b>
+                 </h2>
+           </ion-item>
+       </ion-list>
+    </ion-content>
+    <ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-click="scanBarcode()" class="button button-large buttonicon ion-ios-barcode button-positive">
+                Scan
+            </button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

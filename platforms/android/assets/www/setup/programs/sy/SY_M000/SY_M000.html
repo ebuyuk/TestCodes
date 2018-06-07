@@ -1,0 +1,96 @@
+<ion-view view-title="Query">
+  <ion-content padding="true" has-header="true">
+<!--    <button class="button" ng-click="upload()">UPLOAD</button> -->
+ <!--             <ion-input wings="security" id="test03" class="item item-input"> 
+                <span  wings="security" id="test01" style="padding-right:5px;max-width:200px;text-overflow: ellipsis;  white-space: nowrap;" class="input-label">Reported By:</span> 
+                <input wings="security" id="test02" type="text" ng-model="discrepancy.employeeName" style="text-transform: uppercase;text-align: right;" >
+            </ion-input>
+ <span wings="security" id="test04">
+    Hello
+  </span>
+   <div wings="security" id="test05">
+    
+  </div> -->
+  
+        <div class="row">
+            <div class="col col-20">
+                <button class="button" ng-click="uploadDB()">UPLOAD DB</button>
+            </div>
+            <!-- <div class="col col-20">
+                <button class="button" ng-click="ListTablesTransaction()">EXPORT
+                    DB JSON</button>
+            </div>
+            <div class="col col-20">
+                <button class="button" ng-click="exportDbSQL()">EXPORT DB SQL</button>
+            </div>
+            <div class="col col-20">
+                <button class="button" ng-click="initP()">INIT POUCH</button>
+            </div>
+            <div class="col col-20">
+                <button class="button" ng-click="printInfo()">PRINT INFO</button>
+            </div> -->
+        </div>
+<!--         
+        
+     <div id="canvas-holder" style="width:100%">
+        <canvas id="chart-area"></canvas>
+    </div>
+     <div id="canvas-holder" style="width:100%">
+        <canvas id="bar-area"></canvas>
+    </div>
+                        <button class="button" ng-click="addDataset()">addDataset</button> -->
+          <textarea  style="width: 100%;border:1px solid #ddd;" rows="10"  ng-model="service.sql"></textarea>
+          <ion-list>
+            <ion-radio ng-model="service.choice" ng-value="'transaction'">Transaction DB</ion-radio>
+            <ion-radio ng-model="service.choice" ng-value="'config'">Configuration</ion-radio>
+          </ion-list>
+		
+<br>
+          <h3>Scroll to see all columns!</h3>
+          <div style="overflow:auto;">
+          <table class="footable" >
+                        <thead>
+                            <tr >
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in messageList">
+                                <td>
+                                    {{item}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+              <table class="footable" >
+                        <thead>
+                            <tr >
+                                <th ng-repeat="item in headers" >{{item}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in result">
+                                <td ng-repeat="column in item">
+                                    {{column}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+          </div>
+          <ion-list>
+    <div class="item item-divider item-icon-right">
+        <i class="icon-left ion-hammer" ></i>
+        History
+    </div>
+  <ion-radio ng-repeat="item in history" ng-click="service.sql=item" ng-value="item">{{item}}</ion-radio>
+</ion-list>
+  </ion-content>
+  <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+    <div class="button-bar">
+        <button ng-disabled="true" class="button button-large button-dark"></button>
+        <button ng-disabled="true" class="button button-large button-dark"></button>        
+        <button class="button button-large icon ion-checkmark button-energized" ng-click="Execute()">Execute</button>
+        
+    </div>
+</ion-footer-bar> 
+</ion-view>

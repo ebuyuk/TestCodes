@@ -1,0 +1,119 @@
+<ion-view view-title="Bump" cache-view="true"> 
+    <ion-content  has-header="true" style="background-color: #F4F4F4;">
+        <style>
+            ::-webkit-input-placeholder {
+   		        text-transform: none;
+	        }
+			:-moz-placeholder {
+		   	    text-transform: none;
+			}
+			::-moz-placeholder {
+		        text-transform: none;
+			}
+			:-ms-input-placeholder {  
+		        text-transform: none;
+			}
+			textarea[readonly] {
+		        background-color: #ffffff !important;
+		    } 
+			.item-input{
+			    padding:11px 0 5px 16px;
+            }
+        </style>
+        <ion-list>
+            <ion-item ng-hide="card.ID" style="padding:5px 16px 5px 16px; line-height:50px;">
+                <div class="item-input" style="padding: 0px">
+    			    <i class="icon ion-document-text" style="padding-right:10px"></i> 
+                    <span style="padding-right:5px; width:60px;" class="input-label">Work Card:</span>
+                    <input type="text" id="WORK_CARD_NUMBER" ng-model="card.WORK_CARD_NUMBER" ng-blur="onblur()">
+                </div>
+		    </ion-item>
+		    <ion-item ng-show="card.ID" ng-click="toggle('showCard')" style="padding:5px 16px 5px 16px; line-height:50px;border-bottom:0;">
+		        <div class="item-text-center item-text-wrap">
+		            <i class="icon ion-document-text" style="padding-right:10px"></i>
+		            <b>Work Card:</b> {{card.WORK_CARD_NUMBER}}
+		            <i class="icon ion-close-circled assertive" ng-click="clearCard()" style="float: right;padding-right: 10px;font-size: 32px; width:15%;text-align:right;"></i>
+		        </div>                
+		    </ion-item>
+		    <ion-item class="item-accordion" ng-show="showCard" style="padding:0px;margin:0px; border-bottom:0px;"> 
+				<div class="row">
+		            <div class="col">
+		                <h4>
+		                    <span style="font-size:18px"><b>{{card.PROJECT_NUMBER}}</b></span>
+		               	</h4>
+		            </div>
+		        </div>    
+		        <div class="row">
+		            <div class="col">
+		                <h4>
+		                    <i>{{card.DESCRIPTION}}</i>
+		                </h4>
+		            </div>
+		        </div>
+		        <div class="row">
+		            <div class="col">
+		                <h4>
+		                    <b><i class="icon-left ion-clock"></i> Estimated </b> {{card.ESTIMATED_TIME}} - 
+		                    <b><i class="icon-left ion-clock"></i> Applied </b> {{card.APPLIED_TIME}}
+		                </h4>
+		            </div>
+		        </div>
+		    </ion-item>
+        </ion-list>
+        <ion-list ng-show="card.ID">
+            <ion-item style="background-color: #F4F4F4;padding:0;">
+		        <div class="row">
+		            <div class="col">
+		                <ion-item class="item-accordion" style="padding:0px;margin:0px;">
+		                    <div class="row">
+		                        <div class="col col-50">
+		                            <h2 style="text-align:center; " >
+		                                <b>Skill Code</b>
+		                            </h2>
+		                        </div>
+		                        <div class="col col-40">
+		                            <h2 style="text-align:center; " >
+		                                <b>Time</b>
+		                            </h2>
+		                        </div>
+		                    </div>
+		                    <div class="row" on-swipe-right="addNewSkill(object.id+1)"on-swipe-left="activateDelete(object)" ng-repeat="object in skillsTimesArr" style="border-top: 1px solid #efefef;">
+		                        <div class="col col-40" style="position:relative">
+		                            <label class="item item-select" style="position:absolute;margin-top:4px;margin-bottom:4px;top:0;left:0;right:0;bottom:0;">
+		                                <select ng-disabled="bumped" ng-model="object.skillCode" ng-options="i.SKILL_CODE as (i.SKILL_CODE) for i in skillCodes">
+		                                    <option value="" selected hidden></option>
+		                                </select>   
+		                            </label>
+		                        </div>
+		                        <div class="col col-40">
+		                            <ion-input class="item item-input">
+		                                <input ng-readonly="bumped" type="number" ng-model="object.estimatedTime">
+		                            </ion-input>
+		                        </div>
+		                        <div ng-hide="bumped"class="col col-10" style="padding-top:11px;padding-left:1px">
+		                            <i class="icon ion-plus-circled balanced" style="font-size:32px;" ng-show="skillIndex == object.id" ng-click="addNewSkill(object.id+1)"></i>
+		                        </div>
+		                        <div ng-hide="bumped"class="col col-10" style="padding-top:11px;padding-left:1px">
+		                            <i class="icon ion-close-circled assertive" style="font-size:32px;" ng-show="object.showDelete" ng-click="removeSkill(object)"></i>
+		                        </div>
+		                    </div>
+		                </ion-item>
+		            </div>
+		        </div>
+		        <div class="row">
+		            <div class="col">
+		                <ion-item>
+		                    <textarea ng-readonly="bumped" placeholder="Comments ..." style="  text-transform: uppercase ; width: 100%"rows="8" ng-model="card.ESTIMATOR_COMMENT"></textarea>
+		                </ion-item>
+		            </div>
+		        </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button class="button button-large buttonicon icon ion-ios-barcode button-positive" ng-click="scanBarcode(scanObj)">Scan</button>
+            <button ng-disabled="bumped" class="button button-large buttonicon icon ion-clock button-balanced" ng-click="bump()">Bump</button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

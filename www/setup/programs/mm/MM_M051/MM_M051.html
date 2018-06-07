@@ -1,0 +1,136 @@
+<ion-view view-title="Flights">
+    <ion-header-bar  class="bar-light bar-subheader" style="padding: 0;"> 
+        <div class="list" style="padding:0; margin: 0;width:100%;">
+            <label class="item item-input item-select" style="padding-bottom: 4px;padding-top: 4px;">
+                <div class="input-label">
+                    Tail Number
+                </div>
+                <select id="tailNumber"ng-model="selectedTailNumber" ng-change="getFlightList()">
+                    <option  ng-repeat="obj in aircraftsLov ">{{obj.TAIL_NUMBER}}</option>
+                </select>
+            </label>
+        </div>
+    </ion-header-bar> 
+    <ion-header-bar ng-hide="selectedTailNumber == ''"class="bar-light bar-subheader" style="margin-top: 45px;"> 
+        <div class="item-input-inset" style="width:100%;">
+            <i class="icon-left ion-android-search"></i>
+            <input type="text" placeholder=" Search" ng-model="searchCriteria" style="padding-left:15px;"/>
+        </div>
+    </ion-header-bar> 
+    <ion-content  has-header="true" style="margin-top: 43px;">
+        <style>
+            .item.active,
+            .item.activated, 
+            .item-complex.active .item-content,
+            .item-complex.activated .item-content,
+            .item .item-content.active,
+            .item .item-content.activated {
+                border-color: #ccc;
+                background-color: #f8f8f8; }
+        </style>
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="SYNC()">
+        </ion-refresher>
+        <ion-list>
+           <ion-item wings="security" id="flight.list" ng-repeat="object in flights | filter :searchCriteria | limitTo:numberOfFligtsToDisplay" style="height:100px" ng-class="{'stable-bg':object.selected_flag}" item="object" on-hold="selectFlight(object)"   ng-style="object.MOBILE_RECORD_STATUS == 'READY' || object.MOBILE_RECORD_STATUS == 'REJECTED' ? {} : object.STATUS != 'COMPLETED' && object.STATUS != 'CANCELLED'&& object.STATUS != 'LOG' ? {} : object.selected_flag ? {} : {} ">
+               <div wings="security" id="flight.icon" ng-click="selectFlight(object)" ng-hide="object.selected_flag" style="border-radius: 50%; font-size: 9px;  color: #fff; float: left; display: inline;  width: 44px; height: 44px; text-align: center; line-height: 46px; margin-right: 20px;margin-top:10px;
+                         background: {{object.TABLE_NAME=='MM_SCHEDULED_FLIGHTS' ?'#387ef5':object.STATUS == 'SCHEDULED' ? '#33cd5f' : object.STATUS == 'ACCEPTED' ? '#ffc900': object.STATUS == 'CANCELLED' ?'#e20303':'#b5b1b0'}}" >
+                         {{object.STATUS == 'SCHEDULED' ? 'Scheduled' : object.STATUS == 'COMPLETED' ? 'Completed': object.STATUS == 'Cancelled' ? 'CANCELLED':'Accepted'}}
+                     </div>
+               <div wings="security" id="flight.iconContainer" ng-click="selectFlight(object)" ng-hide="!object.selected_flag" style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;margin-top:5px;">
+                   <i wings="security" id="flight.icon2" class="icon ion-ios-checkmark balanced" style="font-size: 54px;vertical-align:-webkit-baseline-middle;"></i>
+               </div>
+               <div ng-click="showFlightDetails(object)" style="margin-left: 65px;">
+	               <h2 style="text-align:left;top: 5px;" >
+	                 <b>
+	                 <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+	                    <span wings="security" id="flight.flightNumber.span" style="color:#848484;font-size:font-size: 4vmin;">{{object.FLIGHT_NUMBER}} </span>
+	                </span>
+	                 </b>
+	                <span wings="security" id="flight.scheduleDate.span" style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+	                    {{object.SCHEDULE_DATE | date : 'd MMM yyyy'}}
+	                </span>
+	             </h2>
+	               <h2 style="text-align: left;padding-top:5px;">
+	                   <b  wings="security" id="flight.scheduledFrom.span" style="font-size: 4vmin;color: #2980b9;"> {{object.SCHEDULED_FROM}} <span wings="security" id="flight.scheduledTakeOff.span" style="color:#848484;font-size:3.1vmin;">{{object.SCHEDULED_TAKE_OFF}}</span>
+	                   <i  wings="security" id="flight.icon3"class="icon ion-plane" style=" margin-left: 10px;margin-right: 10px;transform: rotate(90deg);display: inline-block;font-size:5vmin;"></i>
+	                   <span wings="security" id="flight.scheduledTo.span"> {{object.SCHEDULED_TO}} </span> <span  wings="security" id="flight.scheduledLanding.span" style="color:#848484;font-size:3.1vmin;">{{object.SCHEDULED_LANDING}}</span></b>
+	                  <!--  <span style="float:right; position:absolute;right: 15px;color: #2980b9; font-weight: bold; font-size: 14px; " > 
+	                            {{object.STATUS}}
+	                   </span> -->
+	               </h2>
+	               <h3 style="text-align: left;">
+	                   <b wings="security" id="flight.controlNumber.span1" style="color: #2980b9;"> Log # : </b> <span wings="security" id="flight.controlNumber.span2" style="color:#848484;">{{object.CONTROL_NUMBER}}</span>
+	                   <span wings="security" id="flight.recordStatus.span" ng-show="object.SERVER_FEEDBACK != '' && object.SERVER_FEEDBACK != null && object.MOBILE_RECORD_STATUS != 'READY'"  ng-click="openPopover($event,object.SERVER_FEEDBACK)" style="position:absolute;float:right;border-radius: 10%; right: 5px; top:50px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;" ng-style="object.MOBILE_RECORD_STATUS=='REJECTED'?{'color':'red','border-color':'red'}:{'color':'green','border-color':'green'}"> 
+	                       {{object.MOBILE_RECORD_STATUS}}
+	                   </span>
+	                   <span wings="security" id="flight.ready.span" ng-show="(object.SERVER_FEEDBACK == ''||object.SERVER_FEEDBACK == null) && object.MOBILE_RECORD_STATUS == 'READY'"  style="position:absolute;float:right;border-radius: 4px; right: 5px; top:50px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;color:blue;border-color:blue;"> 
+	                       READY
+	                   </span>
+	               </h3>
+               </div>
+<!--                 <h3 ng-hide="object.SCHEDULED_TAKE_OFF =='' || object.SCHEDULED_TAKE_OFF == undefined" style="text-align: left;margin-left:60px;padding-top:5px;">
+                  <i class="icon-left ion-clock"></i> {{object.SCHEDULED_TAKE_OFF}} - {{object.SCHEDULED_LANDING}}
+               </h3> -->
+           </ion-item>
+           <!-- <ion-item collection-repeat="object in flights | filter :searchCriteria | limitTo:numberOfFligtsToDisplay" collection-item-height="100" ng-class="{'stable-bg':object.selected_flag}"item="object" ng-click="showFlightDetails(object)" on-hold="selectFlight(object)" ng-style="object.MOBILE_RECORD_STATUS == 'READY' || object.MOBILE_RECORD_STATUS == 'REJECTED' ? {} : object.STATUS != 'COMPLETED' && object.STATUS != 'CANCELLED'&& object.STATUS != 'LOG' ? {} : object.selected_flag ? {} : {} ">
+               <div style="border-radius: 50%; font-size: 30px;  color: #fff; float: left; display: inline;  width: 40px; height: 40px; text-align: center; line-height: 42px; margin-right: 20px;margin-top:10px;">
+                   <i class="icon {{flightIcon(object)}}" ng-show="flights != []"  style="font-size: 42px;vertical-align:-webkit-baseline-middle;"></i>
+               </div>
+               <h2 style="text-align:left;top: 5px;" >
+                 <b>
+                 <span style="float:left; position: absolute; top: 5px; color: #2980b9; font-weight: bold; font-size: 16px; " > 
+                    {{object.TAIL_NUMBER}}
+                </span>
+                 </b>
+                <span style="float:right; position: absolute; right: 15px; top: 5px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                    {{object.SCHEDULE_DATE | date : 'd MMM yyyy'}}
+                </span>
+             </h2>
+               <h2 style="text-align: left;padding-top:10px;">
+                   <b> {{object.SCHEDULED_FROM}} <i class="icon ion-plane" style=" margin-left: 10px;transform: rotate(90deg);display: inline-block;"></i>
+                   <span style=" margin-left: 10px;"> {{object.SCHEDULED_TO}} </span></b>
+                   <span style="float:right; position:absolute;right: 15px;color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                            {{object.STATUS}}
+                   </span>
+               </h2>
+               <h3 style="text-align: left;margin-left:60px;padding-top:5px;">
+                   <b>Flight # : </b> {{object.FLIGHT_NUMBER}} - 
+                   <b> Log # : </b> {{object.CONTROL_NUMBER}}
+                   <span ng-show="object.SERVER_FEEDBACK != '' && object.SERVER_FEEDBACK != null"  ng-click="openPopover($event,object.SERVER_FEEDBACK)" style="position:absolute;float:right;border-radius: 10%; right: 5px; top:50px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;" ng-style="object.MOBILE_RECORD_STATUS=='REJECTED'?{'color':'red','border-color':'red'}:{'color':'green','border-color':'green'}"> 
+                       {{object.MOBILE_RECORD_STATUS}}
+                   </span>
+                   <span ng-show="(object.SERVER_FEEDBACK == ''||object.SERVER_FEEDBACK == null) && object.STATUS != 'SCHEDULED' && object.MOBILE_RECORD_STATUS == 'READY'"  style="position:absolute;float:right;border-radius: 10%; right: 5px; top:50px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;color:blue;border-color:blue;"> 
+                       READY
+                   </span>
+               </h3>
+                <h3 ng-hide="object.SCHEDULED_TAKE_OFF =='' || object.SCHEDULED_TAKE_OFF == undefined" style="text-align: left;margin-left:60px;padding-top:5px;">
+                  <i class="icon-left ion-clock"></i> {{object.SCHEDULED_TAKE_OFF}} - {{object.SCHEDULED_LANDING}}
+               </h3>
+           </ion-item> -->
+       </ion-list>
+       <ion-infinite-scroll on-infinite="addMoreFlights()" distance="5%"></ion-infinite-scroll>
+    </ion-content>
+    <script id="tooltip.html" type="text/ng-template">
+        <ion-popover-view>
+            <ion-header-bar>
+                  <h1 class="title">Response Message</h1>
+            </ion-header-bar>
+            <ion-content>
+                <div style="padding:5px;width:100%;height:100%;">
+                    {{responseMessage}}
+                </div>
+            <ion-content>
+        </ion-popover-view>
+    </script>
+
+    <ion-footer-bar wings="security" id="flight.button.buttonContainer" style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button wings="security" id="flight.button.button1" ng-click="openFlight()" class="button button-large buttonicon ion-plus-round button-balanced">
+                New
+            </button>
+            <button wings="security" id="flight.button.button2" ng-click="modifyFlight()" ng-hide="selectedFlight==''" class="button button-large buttonicon ion-compose button-energized">
+                Edit
+            </button>
+        </div>
+    </ion-footer-bar> 
+</ion-view>

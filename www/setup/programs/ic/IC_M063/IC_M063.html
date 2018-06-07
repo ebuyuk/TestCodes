@@ -1,0 +1,68 @@
+<ion-view view-title="Schedule">
+    <ion-content  scroll="false" style="background-color: #F4F4F4">
+    <style>
+    td {
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    </style>
+        <div class="row" >
+           <div class="col">
+               <ion-input class="item item-input"> 
+                   <i class="icon ion-ios-bookmarks" style="padding-right:10px;font-size:22px;"></i> 
+                   <span style="padding-right:9px;width:60px;" class="input-label">Schedule :</span> 
+                   <input type="number" id="scheduleNumber" ng-model="IC_M063.scheduleNumberI" ng-blur="getScheduleId()">
+               </ion-input>
+           </div>
+        </div>
+        <div  ng-show="IC_M063.name != ''" class="item item-divider" style="padding:0px;min-height:10px;">
+            </div>
+            <div class="card" ng-show="IC_M063.name != ''" style="padding:10px;margin:0px;" >
+                <TABLE style="font-family:sans-serif;font-size:16px;color:#444">
+                    <TR>
+                        <TD><b>Schedule</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">&nbsp;{{IC_M063.scheduleNumber}}<br></TD>
+                    </TR>
+                    <TR ng-show="allocation.serial_number != ''">
+                        <TD><b>Name</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">&nbsp;{{IC_M063.name}}<br></TD>
+                    </TR>
+                    <TR ng-show="allocation.lot_number != ''">
+                        <TD><b>Date</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">&nbsp;{{IC_M063.date}}<br></TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Status</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">&nbsp;{{IC_M063.status}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Type</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad">&nbsp;{{IC_M063.type}}</TD>
+                    </TR>
+                    <TR>
+                        <TD><b>Description</TD>
+                        <TD>&nbsp; :</b></TD>
+                        <TD class="tdPad" style="white-space: normal;">&nbsp;{{IC_M063.description}}</TD>
+                    </TR>
+                </TABLE>
+            </div>   
+</ion-content>
+<ion-footer-bar style="background-color:rgb(224,242,251) !important;padding:0px">
+    <div class="button-bar">
+        <button ng-click="reset()" class="button button-large buttonicon ion-trash-b button-assertive">
+            Clear
+        </button>
+        <button ng-click="forwardLocations()" class="button button-large buttonicon ion-checkmark button-balanced">
+            OK
+        </button>
+    </div>
+</ion-footer-bar> 
+</ion-view>

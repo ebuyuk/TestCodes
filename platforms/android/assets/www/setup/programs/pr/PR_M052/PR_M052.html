@@ -1,0 +1,131 @@
+<ion-view view-title="Customer Approval" cache-view="true"> 
+<ion-content  has-header="true">
+<style>
+input[readonly] {
+      background-color: #ccddff;
+}
+.flightinfo {
+    background: #546e7a url('../www/img/cloud.jpg');
+    color: #fff !important;
+    background-size: cover;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.52) !important;
+}
+.fb {
+     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%,rgba(255, 255, 255, 0.35) 50%,
+        rgba(0, 0, 0, 0.1) 100%) !important; */
+}
+
+.flightinfo h1 {
+    color: #fff;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.32) !important;
+}
+.item.active, item.activated {
+    background: #B1D9F7 !important;
+}
+.tab-nav.tabs,tabs {
+    top:0px !important;
+}
+.item-input input{
+padding-right:0 !important;
+}
+</style>
+
+<ion-refresher pulling-text="Sync Approvals..." on-refresh="pullandPushApprovals()">
+</ion-refresher>
+    
+<ion-slides  options="options" slider="data.slider">
+
+<ion-slide-page style="overflow:auto;">
+     <ion-tabs class="tabs-icon-top tabs-background-stable" style="top:0;height:44px;">
+         <ion-tab title="Estimate" icon="ion-plane" ng-click="switchSlider(0)" badge="hasEstimateApproval" badge-style="badge-assertive">
+         </ion-tab>
+         <ion-tab title="Bump" icon="ion-plane" ng-click="switchSlider(0)" badge="hasBumpApproval" badge-style="badge-assertive">
+         </ion-tab>
+         <ion-tab title="Material" icon="ion-document-text" ng-click="switchSlider(1)" badge="hasMaterialApproval" badge-style="badge-assertive">
+         </ion-tab>
+         <ion-tab title="Discrepancy" icon="ion-person-stalker" ng-click="switchSlider(2)" badge="hasDiscrepancyApproval" badge-style="badge-assertive">
+         </ion-tab>
+         <ion-tab title="Quote" icon="ion-funnel" ng-click="switchSlider(3)" badge="hasQuoteApproval" badge-style="badge-assertive">
+         </ion-tab>
+         <ion-tab title="Service" icon="ion-settings" ng-click="switchSlider(4)" badge="hasServiceApproval" badge-style="badge-assertive">
+         </ion-tab>
+     </ion-tabs>
+
+     <div style="padding-top: 45px; position: relative;">
+        <div class="card" style="margin-top:10px;margin-bottom:30px;">
+
+        <ion-list>
+           <ion-item collection-repeat="object in workCards |orderBy: sortBy | filter:searchCriteria " ng-class="{'stable-bg':object.selected_flag}" item="object" on-hold="onHoldWorkCard(object)" style="padding:0;">
+               <div class="list" style="padding-top:10px;padding-bottom:10px;">
+                 <div ng-click="toggleWorkCard(object)" style="border-radius: 50%; padding-left:15px;font-size: 30px; margin-top:15px; float: left; display: inline;  width: 44px; height: 44px; text-align: center; line-height: 46px; margin-right: 20px;">
+                    <i class="icon {{cardIcon(object)}}" style="font-size: 42px;" ng-style="object.selected_flag==false?{'color':'#2980b9'}:object.selected_flag==true?{'color':'#28a54c'}:{'color':'#2980b9'}"></i>
+                 </div>
+                 <h2 style="text-align:left;" >
+                    <span style="color: #2980b9; font-weight: bold; font-size: 28px; " > 
+                    {{object.PROJECT_NUMBER}}  </span>
+                    <span style="color: #848484; font-size: 20px; padding-left: 30px;padding-left: 30px;" > 
+                    {{object.WORK_ORDER_NUMBER}}.{{object.ITEM_NUMBER}}</span>
+                    <span style="float:right; position: absolute; right: 15px; top: 10px; background: #2980b9;color:white; font-weight: bold; font-size: 14px;border: 1px solid #2980b9;padding:2px;font-size: 14px;border-radius: 10%;" > 
+                        {{object.ATA_CODE}}
+                    </span>
+                 </h2>
+                 
+                 <h3 style="text-align:left;margin-right:60px;white-space:normal;word-wrap: break-word;text-overflow: ellipsis;color:#565656;" >
+                     {{object.DESCRIPTION}}             
+                    <span style="float:right; position: absolute; right: 15px; top: 49px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                         {{object.PRIMARY_SKILL_CODE}}
+                    </span>
+                 </h3>
+                     <h3 style="text-align: left;margin-left:60px;padding-top:10px;color:#565656;">
+                      <b><i class="icon-left ion-clock"></i> Estimated </b> {{object.ESTIMATED_TIME}}   
+                      <b><i class="icon-left ion-clock"></i> Applied </b> {{object.APPLIED_TIME}}
+                    <span style="float:right; position: absolute; right: 15px; top: 77px; color: #2980b9; font-weight: bold; font-size: 14px; " > 
+                        {{object.MILESTONE}}
+                    </span>
+                    <span ng-show="object.MOBILE_RECORD_STATUS == 'REJECTED'" style="float:left; position: absolute; left: 15px; bottom: -10px; color: red; font-weight: bold; font-size: 14px; " > 
+                        <i class="icon-left ion-close"></i>
+                    </span>
+                    <span ng-show="object.MOBILE_RECORD_STATUS == 'REJECTED'" style="float:left; position: absolute; left: 45px; bottom: -10px; color: red; font-weight: bold; font-size: 14px; " > 
+                        {{object.SERVER_FEEDBACK}}
+                    </span>
+                    <span ng-show="object.MOBILE_RECORD_STATUS == 'NEW'" style="float:left; position: absolute; left: 15px; bottom: -10px; color: yellow; font-weight: bold; font-size: 14px; " > 
+                        <i class="icon-left ion-flash"></i>
+                    </span>
+                    <span ng-show="object.MOBILE_RECORD_STATUS == 'LOADED' && object.UNSYNC_STEPS < 1 && object.UNSYNC_REQUISITIONS < 1" style="float:left; position: absolute; left: 15px; bottom: -10px; color: green; font-weight: bold; font-size: 14px; " > 
+                        <i class="icon-left ion-checkmark"></i>
+                    </span>
+                   </h3>
+                   <h3 style="text-align: left;margin-left:60px;padding-top:5px;">
+                       <span ng-show="object.MOBILE_RECORD_STATUS != 'LOADED'" style="position:absolute;float:right;border-radius: 10%; right: 5px; top:100px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;" ng-style="object.MOBILE_RECORD_STATUS=='REJECTED'?{'color':'red','border-color':'red'}:{'color':'green','border-color':'green'}"> 
+                           {{object.MOBILE_RECORD_STATUS}}
+                       </span>
+                       <span ng-show="object.MOBILE_RECORD_ACTION != ''"style="position:absolute;float:right;border-radius: 10%; right: 200px; top:100px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;color:blue;border-color:blue;"> 
+                           {{object.MOBILE_RECORD_ACTION}}
+                       </span>
+                       <span ng-show="object.UNSYNC_STEPS > 0" style="position:absolute;float:right;border-radius: 10%; right: 300px; top:100px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;color:blue;border-color:red;"> 
+                           <i style="color:red"class="icon-left ion-steam"></i>
+                       </span>
+                       <span ng-show="object.UNSYNC_REQUISITIONS > 0" style="position:absolute;float:right;border-radius: 10%; right: 350px; top:100px; color: #2980b9;padding:6px;font-weight: bold; border: 1px solid;font-size: 14px;color:blue;border-color:orange;"> 
+                           <i style="color:orange"class="icon-left ion-settings"></i>
+                       </span>
+                   </h3>
+              </div>
+           </ion-item> 
+        </ion-list>
+
+        </div>
+    </div>
+        
+    </ion-slide-page>
+</ion-slides>
+    
+</ion-content>
+    <ion-footer-bar style="background-color:rgba(0,0,0,0.1) !important;padding:0px">
+        <div class="button-bar">
+            <button ng-disabled="evaluated || card.ID == ''" class="button button-large buttonicon icon ion-close button-assertive" ng-click="newPart()">Deny</button>
+            <button class="button button-large buttonicon icon ion-ios-barcode button-positive" ng-click="scanBarcode(scanObj)">Details</button>
+            <button ng-disabled="evaluated || card.ID == ''" class="button button-large buttonicon icon ion-checkmark button-balanced" ng-click="evaluate()">Approve</button>
+        </div>
+    </ion-footer-bar> 
+ </ion-view>
+     
