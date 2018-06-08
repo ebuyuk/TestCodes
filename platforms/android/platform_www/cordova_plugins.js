@@ -353,13 +353,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/ionic-plugin-deploy/www/ionicdeploy.js",
-        "id": "ionic-plugin-deploy.IonicDeploy",
-        "clobbers": [
-            "IonicDeploy"
-        ]
-    },
-    {
         "file": "plugins/ionic-plugin-keyboard/www/android/keyboard.js",
         "id": "ionic-plugin-keyboard.keyboard",
         "clobbers": [
@@ -388,6 +381,13 @@ module.exports = [
             "IonicCordova"
         ],
         "runs": true
+    },
+    {
+        "file": "plugins/ionic-plugin-deploy/www/ionicdeploy.js",
+        "id": "ionic-plugin-deploy.IonicDeploy",
+        "clobbers": [
+            "IonicDeploy"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -417,12 +417,12 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.2.2",
     "cordova-sqlite-storage": "1.4.9",
     "de.appplant.cordova.plugin.local-notification": "0.8.4",
-    "ionic-plugin-deploy": "0.6.7",
     "ionic-plugin-keyboard": "2.2.1",
     "phonegap-plugin-barcodescanner": "4.0.1",
     "uk.co.workingedge.cordova.plugin.sqliteporter": "0.1.7",
     "cordova-plugin-add-swift-support": "1.7.2",
-    "cordova-plugin-ionic": "2.0.3"
+    "cordova-plugin-ionic": "2.0.4",
+    "ionic-plugin-deploy": "0.6.7"
 };
 // BOTTOM OF METADATA
 });

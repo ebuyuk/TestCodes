@@ -73,9 +73,6 @@
         "de.appplant.cordova.plugin.local-notification": {
             "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
         },
-        "ionic-plugin-deploy": {
-            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
-        },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
         },
@@ -86,11 +83,14 @@
             "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
         },
         "cordova-plugin-ionic": {
-            "APP_ID": "3aff36f0",
-            "CHANNEL_NAME": "dev",
+            "APP_ID": "5dc0a6e2",
+            "CHANNEL_NAME": "Production",
             "UPDATE_API": "https://api.ionicjs.com",
-            "UPDATE_METHOD": "background|auto|none",
+            "UPDATE_METHOD": "background",
             "MAX_STORE": "2",
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "ionic-plugin-deploy": {
             "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
         }
     },

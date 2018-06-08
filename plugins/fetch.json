@@ -136,15 +136,9 @@
             "id": "cordova-plugin-image-picker@~1.1.1"
         },
         "is_top_level": true,
-        "variables": {}
-    },
-    "ionic-plugin-deploy": {
-        "source": {
-            "type": "registry",
-            "id": "ionic-plugin-deploy@~0.6.5"
-        },
-        "is_top_level": true,
-        "variables": {}
+        "variables": {
+            "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
+        }
     },
     "cordova-plugin-whitelist": {
         "source": {
@@ -192,7 +186,9 @@
             "id": "cordova-plugin-geolocation@~2.4.3"
         },
         "is_top_level": true,
-        "variables": {}
+        "variables": {
+            "GEOLOCATION_USAGE_DESCRIPTION": " "
+        }
     },
     "cordova-plugin-android-fingerprint-auth": {
         "source": {
@@ -208,7 +204,9 @@
             "id": "cordova-plugin-touch-id@~3.3.1"
         },
         "is_top_level": true,
-        "variables": {}
+        "variables": {
+            "FACEID_USAGE_DESCRIPTION": " "
+        }
     },
     "cordova-plugin-document-viewer": {
         "source": {
@@ -234,20 +232,34 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-ionic": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-ionic@~2.0.3"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-add-swift-support": {
         "source": {
             "type": "registry",
             "id": "cordova-plugin-add-swift-support"
         },
         "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-plugin-ionic": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-ionic@~2.0.3"
+        },
+        "is_top_level": true,
+        "variables": {
+            "APP_ID": "5dc0a6e2",
+            "CHANNEL_NAME": "Production",
+            "UPDATE_METHOD": "background",
+            "MAX_STORE": "2",
+            "UPDATE_API": "https://api.ionicjs.com"
+        }
+    },
+    "ionic-plugin-deploy": {
+        "source": {
+            "type": "registry",
+            "id": "ionic-plugin-deploy@~0.6.5"
+        },
+        "is_top_level": true,
         "variables": {}
     }
 }

@@ -89,15 +89,15 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"IonicDeploy\"><param name=\"android-package\" value=\"io.ionic.deploy.IonicDeploy\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Keyboard\"><param name=\"android-package\" value=\"io.ionic.keyboard.IonicKeyboard\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
                             "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"IonicDeploy\"><param name=\"android-package\" value=\"io.ionic.deploy.IonicDeploy\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -693,11 +693,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<string name=\"ionic_app_id\">3aff36f0</string>",
+                            "xml": "<string name=\"ionic_app_id\">5dc0a6e2</string>",
                             "count": 1
                         },
                         {
-                            "xml": "<string name=\"ionic_channel_name\">dev</string>",
+                            "xml": "<string name=\"ionic_channel_name\">Production</string>",
                             "count": 1
                         },
                         {
@@ -705,7 +705,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<string name=\"ionic_update_method\">background|auto|none</string>",
+                            "xml": "<string name=\"ionic_update_method\">background</string>",
                             "count": 1
                         },
                         {
@@ -804,9 +804,6 @@
         "de.appplant.cordova.plugin.local-notification": {
             "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
         },
-        "ionic-plugin-deploy": {
-            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
-        },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
         },
@@ -820,11 +817,14 @@
             "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
         },
         "cordova-plugin-ionic": {
-            "APP_ID": "3aff36f0",
-            "CHANNEL_NAME": "dev",
+            "APP_ID": "5dc0a6e2",
+            "CHANNEL_NAME": "Production",
             "UPDATE_API": "https://api.ionicjs.com",
-            "UPDATE_METHOD": "background|auto|none",
+            "UPDATE_METHOD": "background",
             "MAX_STORE": "2",
+            "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
+        },
+        "ionic-plugin-deploy": {
             "PACKAGE_NAME": "com.ionicframework.wingsmobile861558"
         }
     },
@@ -1183,13 +1183,6 @@
             ]
         },
         {
-            "file": "plugins/ionic-plugin-deploy/www/ionicdeploy.js",
-            "id": "ionic-plugin-deploy.IonicDeploy",
-            "clobbers": [
-                "IonicDeploy"
-            ]
-        },
-        {
             "file": "plugins/ionic-plugin-keyboard/www/android/keyboard.js",
             "id": "ionic-plugin-keyboard.keyboard",
             "clobbers": [
@@ -1218,6 +1211,13 @@
                 "IonicCordova"
             ],
             "runs": true
+        },
+        {
+            "file": "plugins/ionic-plugin-deploy/www/ionicdeploy.js",
+            "id": "ionic-plugin-deploy.IonicDeploy",
+            "clobbers": [
+                "IonicDeploy"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -1245,11 +1245,11 @@
         "cordova-plugin-whitelist": "1.2.2",
         "cordova-sqlite-storage": "1.4.9",
         "de.appplant.cordova.plugin.local-notification": "0.8.4",
-        "ionic-plugin-deploy": "0.6.7",
         "ionic-plugin-keyboard": "2.2.1",
         "phonegap-plugin-barcodescanner": "4.0.1",
         "uk.co.workingedge.cordova.plugin.sqliteporter": "0.1.7",
         "cordova-plugin-add-swift-support": "1.7.2",
-        "cordova-plugin-ionic": "2.0.3"
+        "cordova-plugin-ionic": "2.0.4",
+        "ionic-plugin-deploy": "0.6.7"
     }
 }

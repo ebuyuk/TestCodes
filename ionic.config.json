@@ -1,7 +1,7 @@
 {
   "name": "Wings Mobile",
   "type": "ionic1",
-  "app_id":"3aff36f0",
+  "app_id": "5dc0a6e2",
   "integrations": {
     "cordova": {}
   },
@@ -10,6 +10,5 @@
     "www/**/*",
     "!www/lib/**/*",
     "!www/**/*.map"
-  ],
-  "app_id": ""
+  ]
 }

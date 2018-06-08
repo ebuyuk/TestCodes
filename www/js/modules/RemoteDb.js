@@ -22,19 +22,16 @@ wingsRemoteDbModule.factory('WingsRemoteDbService', ['Restangular','WINGS_CONFIG
      	return Restangular.all(WINGS_CONFIG.INSERT_LOG).post(JSON.stringify(user)+" : "+logText);
      }
     function executeQuery(sql){
-			console.log("http request");
     	$http({
   		  method: 'GET',
   		  url: WINGS_CONFIG.WINGS_ASSETS_REMOTE_UPDATE_LINK,
   		  timeout:300,
   		  data:"wingsPing"
   		}).then(function successCallback(response) {
-  			console.log("http success");
   		    // this callback will be called asynchronously
   		    // when the response is available
   		  }, function errorCallback(response) {
   			$rootScope.canceler.resolve();
-  			  console.log("http error");
   		    // called asynchronously if an error occurs
   		    // or server returns response with an error status.
   		  });
@@ -47,12 +44,10 @@ wingsRemoteDbModule.factory('WingsRemoteDbService', ['Restangular','WINGS_CONFIG
     		  timeout:300,
     		  data:"wingsPing"
     		}).then(function successCallback(response) {
-    			console.log("http success");
     		    // this callback will be called asynchronously
     		    // when the response is available
     		  }, function errorCallback(response) {
     			$rootScope.canceler.resolve();
-    			  console.log("http error");
     		    // called asynchronously if an error occurs
     		    // or server returns response with an error status.
     		  });

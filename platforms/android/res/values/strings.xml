@@ -122,9 +122,9 @@
     <string name="wifi_changing_network">Requesting connection to network\u2026</string>
     <string name="wifi_ssid_label">Network Name</string>
     <string name="wifi_type_label">Type</string>
-    <string name="ionic_app_id">3aff36f0</string>
-    <string name="ionic_channel_name">dev</string>
+    <string name="ionic_app_id">5dc0a6e2</string>
+    <string name="ionic_channel_name">Production</string>
     <string name="ionic_update_api">https://api.ionicjs.com</string>
-    <string name="ionic_update_method">background|auto|none</string>
+    <string name="ionic_update_method">background</string>
     <string name="ionic_max_versions">2</string>
 </resources>
