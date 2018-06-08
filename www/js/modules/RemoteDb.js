@@ -22,6 +22,7 @@ wingsRemoteDbModule.factory('WingsRemoteDbService', ['Restangular','WINGS_CONFIG
      	return Restangular.all(WINGS_CONFIG.INSERT_LOG).post(JSON.stringify(user)+" : "+logText);
      }
     function executeQuery(sql){
+    	console.log('Test')
     	$http({
   		  method: 'GET',
   		  url: WINGS_CONFIG.WINGS_ASSETS_REMOTE_UPDATE_LINK,
